@@ -1,6 +1,14 @@
 <div align="center">
   <h1>Extenso.js</h1>
   <i> An advanced library for writing numbers in words (in Portuguese).</i>
+  <br />
+  <br />
+
+  [![Node.js CI](https://github.com/lusofonia/extenso.js/actions/workflows/node.js.yml/badge.svg)](https://github.com/lusofonia/extenso.js/actions/workflows/node.js.yml)
+  [![CodeQL](https://github.com/lusofonia/extenso.js/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/lusofonia/extenso.js/actions/workflows/github-code-scanning/codeql)
+  [![Dependabot Updates](https://github.com/lusofonia/extenso.js/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/lusofonia/extenso.js/actions/workflows/dependabot/dependabot-updates)
+  ![Version 2.1.0](https://img.shields.io/badge/Version-2.1.0-green)
+  ![License MIT](https://img.shields.io/badge/License-MIT-blue)
 </div>
 
 ***
