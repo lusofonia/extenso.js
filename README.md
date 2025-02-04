@@ -21,14 +21,14 @@ Nossa ambição com o Extenso.js é tornar esta biblioteca uma referência para 
 
 ## Funcionalidades
 
-- [x] Suporte de até duodecilhões (10³⁹ ou 10⁷²).
-- [x] Números negativos e decimais.
-- [x] Múltiplas moedas (BRL, EUR, USD e mais).
-- [x] Escala curta e longa de números.
-- [x] Suporte a diferentes dialetos (Brasil e Portugal).
-- [x] Personalização de gênero gramatical.
-- [x] Compatível com `BigInt` para números extremamente grandes.
-- [x] Formatação flexível (vírgula ou ponto como separador decimal).
+- [x] Suporte a números de até duodecilhões (10³⁹ ou 10⁷²).
+- [x] Suporte a números negativos e decimais.
+- [x] Suporte a múltiplas moedas (BRL, EUR, USD e mais).
+- [x] Suporte a escala curta e longa de números.
+- [x] Suporte a diferentes dialetos do português (Brasil e Portugal).
+- [x] Suporte à personalização de gênero gramatical.
+- [x] Suporte a BigInt para números extremamente grandes.
+- [x] Suporte à formatação flexível (vírgula ou ponto como separador decimal).
 - [x] Zero dependências.
 
 _**NOTA**: Observe que 10³⁹ é o limite para a escala curta enquanto que 10⁷² é o limite para a escala longa._
