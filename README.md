@@ -130,7 +130,7 @@ extenso('2.000.000.001', { scale: 'long' })
 
 Atualmente no português o separador de inteiro e decimal mais comum utilizado é a vírgula (`comma`), porém em outros países pode ser necessário utilizar o ponto como separador de decimal. Nesse caso você pode utilizar o parâmetro `number.decimalSeparator` para definir outro separador de decimal (`dot`), no entanto, isso só é necessário se o número fornecido esteja encapsulado em *string*.
 
-Observe que caso o separador decimal seja `dot` (.) então o separador de milhar automaticamente será a vírgula (`,`) e vice-versa.
+Observe que caso o separador decimal seja `dot` (.) então o separador de milhar automaticamente será a vírgula (,) e vice-versa.
 
 - `comma` [*default*] - Para usar **vírgula** como separador (ex. `3,14`).
 - `dot` - Para usar **ponto** como separador (ex.: `3.14`)
