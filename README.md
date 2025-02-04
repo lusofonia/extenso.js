@@ -39,7 +39,11 @@ _**NOTA**: Observe que 10³⁹ é o limite para a escala curta enquanto que 10�
 npm install extenso
 ```
 
-Ou se preferir, com Yarn: `yarn add extenso`.
+Ou se preferir, com Yarn:
+
+```bash
+yarn add extenso
+```
 
 ## Uso
 
