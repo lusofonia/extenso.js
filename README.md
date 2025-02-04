@@ -21,15 +21,15 @@ Nossa ambição com o Extenso.js é tornar esta biblioteca uma referência para 
 
 ## Funcionalidades
 
-- [x] Suporte de até duodecilhões (10³⁹ ou 10⁷²)
-- [x] Números negativos e decimais
-- [x] Múltiplas moedas (BRL, EUR, USD e mais)
-- [x] Escala curta e longa de números
-- [x] Suporte a diferentes dialetos (Brasil e Portugal)
-- [x] Personalização de gênero gramatical
-- [x] Compatível com `BigInt` para números extremamente grandes
-- [x] Formatação flexível (vírgula ou ponto como separador decimal)
-- [x] Zero dependências
+- [x] Suporte de até duodecilhões (10³⁹ ou 10⁷²).
+- [x] Números negativos e decimais.
+- [x] Múltiplas moedas (BRL, EUR, USD e mais).
+- [x] Escala curta e longa de números.
+- [x] Suporte a diferentes dialetos (Brasil e Portugal).
+- [x] Personalização de gênero gramatical.
+- [x] Compatível com `BigInt` para números extremamente grandes.
+- [x] Formatação flexível (vírgula ou ponto como separador decimal).
+- [x] Zero dependências.
 
 _**NOTA**: Observe que 10³⁹ é o limite para a escala curta enquanto que 10⁷² é o limite para a escala longa._
 
@@ -128,7 +128,7 @@ extenso('2.000.000.001', { scale: 'long' })
 
 > Define o separador de inteiro e decimal.
 
-Atualmente no português o separador de inteiro e decimal mais comum utilizado é a vírgula (`comma`), porém em outros países pode ser necessário utilizar o ponto como separador de decimal. Nesse caso você pode utilizar o parâmetro `number.decimalSeparator` para definir outro separador de decimal (`dot`), no entanto, isso só é necessário se o número fornecido esteja encapsulado em *string*.
+No português, o separador de inteiro e decimal mais comum é a vírgula (`comma`). No entanto, em outros países, pode ser necessário usar o ponto (`dot`) como separador decimal. Nesse caso você pode utilizar o parâmetro `number.decimalSeparator` para definir outro separador de decimal (`dot`), no entanto, isso só é necessário se o número fornecido esteja encapsulado em *string*.
 
 Observe que caso o separador decimal seja `dot` (.) então o separador de milhar automaticamente será a vírgula (,) e vice-versa.
 
@@ -171,7 +171,7 @@ extenso('16', { locale: 'br' })
 extenso('16', { locale: 'pt' })
 //=> 'dezasseis'
 
-extenso('1.000.000.000', { locale: 'br' )
+extenso('1.000.000.000', { locale: 'br' })
 //=> 'um bilhão'
 
 extenso('1.000.000.000', { locale: 'pt' })
