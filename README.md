@@ -53,8 +53,8 @@ import extenso from 'extenso'
 
 ## Sintaxe
 
-```js
-// extenso(number[, options])
+```
+extenso(number[, options])
 ```
 
 ## `number` [*string*, *number*, *bigint*]
