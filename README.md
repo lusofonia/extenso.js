@@ -39,223 +39,225 @@ _**NOTA**: Observe que 10³⁹ é o limite para a escala curta enquanto que 10�
 npm install extenso
 ```
 
-Ou com Yarn: `yarn add extenso`.
+Ou se preferir, com Yarn: `yarn add extenso`.
 
 ## Uso
 
 ```js
-var extenso = require('extenso')
+import extenso from 'extenso'
 ```
 
 ## Sintaxe
 
+```js
+// extenso(number[, options])
 ```
-extenso(number[, options])
-```
 
-### `number`
+## `number` [*string*, *number*, *bigint*]
 
-**Obs.**: Parâmetro obrigatório.
+_**NOTA**: Parâmetro obrigatório._
 
-- **Tipo**: `string`, `number` ou `bigint`
+> O valor que deverá ser escrito por extenso.
 
-> O número que deverá ser escrito por extenso.
+Se o valor for do tipo `number`, recomenda-se que ele seja um número com parte inteira segura, ou seja, o valor deve ser válido na verificação com `Number.isSafeInteger()`, caso contrário, é recomendado que os números sejam encapsulados em *string* devido ao fato de que, no JavaScript, números (do tipo `number`) maiores que 9 quatrilhões perdem precisão. Alternativamente, pode-se utilizar números `BigInt` (do tipo `bigint`) adicionando `n` no final, por exemplo, `10000000000000001n` ([leia este artigo para mais informações](https://bit.ly/tableless-bigint)), porém você estará limitado a números inteiros apenas, não podendo representar números decimais.
 
-Se o valor for do tipo `number`, ele deve ser um número com parte inteira segura, ou seja, o valor deve ser válido na verificação com `Number.isSafeInteger()`. No entanto, é altamente recomendado que os números sejam encapsulados em *string* devido ao fato de que, no JavaScript, números (do tipo `number`) maiores que 9 quatrilhões perdem precisão. Alternativamente, pode-se utilizar números `BigInt` (do tipo `bigint`) adicionando `n` no final, por exemplo, `10000000000000001n` ([leia este artigo para mais informações](https://bit.ly/tableless-bigint)).
+Números envolvidos em *strings* deverão seguir o formato natural de escrita de números. Você pode usar `-` no início para representar números negativos e vírgula (`,`) ou ponto (`.`) para separação de milhares e decimais, seguindo, por padrão, o formato de escrita do Brasil (ou seja, com vírgula como separador decimal). Esse formato pode ser alterado conforme a preferência, utilizando o parâmetro `number.decimalSeparator` como será visto mais adiante.
 
-Números envolvidos em *strings* deverão seguir o formato natural de escrita de números. Você pode usar `-` no início para representar números negativos e vírgula (`,`) ou ponto (`.`) para separação de milhares e decimais, seguindo, por padrão, o formato de escrita do Brasil. Esse formato pode ser alterado conforme a preferência, utilizando o parâmetro `number.decimalSeparator`.
+## `options` [*object*]
 
-### `options`
+_**NOTA**: Parâmetro opcional._
 
-**Obs.**: Parâmetro opcional.
+> Opções de escrita.
 
-- **Tipo**: `object`
+- `mode` [*string*]
+- `locale` [*string*]
+- `negative` [*string*]
+- `scale` [*string*]
+- `currency` [*object*]
+- `currency.type` [*string*]
+- `number` [*object*]
+- `number.gender` [*string*]
+- `number.decimal` [*string*]
+- `number.decimalSeparator` [*string*]
 
-> Configurações opcionais de escrita.
-
-- `mode` (*string*)
-- `locale` (*string*)
-- `negative` (*string*)
-- `scale` (* string *)
-- `currency` (*object*)
-- `currency.type` (*string*)
-- `number` (*object*)
-- `number.gender` (*string*)
-- `number.decimal` (*string*)
-- `number.decimalSeparator` (*string*)
-
-#### `mode`
+## `options.mode` [*string*]
 
 > Define o modo de escrita do número.
 
-Pode ser:
+Opções disponíveis:
 
-- `number` (*valor padrão*) - Para escrever números simples.
-- `currency` - Para escrever valores monetários.
+- `number` [*default*] - Escrever somente o número por extenso.
+- `currency` - Escrever o número como valor monetário.
+- `digit` - Escrever o número por extenso em dígitos.
 
-##### Exemplo
-
-```js
-extenso('42') // 'quarenta e dois'
-extenso('42', { mode: 'number' }) // 'quarenta e dois'
-extenso('42', { mode: 'currency' }) // 'quarenta e dois reais'
-```
-
-#### `negative`
-
-> Define o modo de escrita do valor negativo.
-
-- `formal` (*valor padrão*) - Para escrever o número no modo formal.
-- `informal` - Para escrever o número no modo informal.
-
-##### Exemplo
+Exemplos:
 
 ```js
-extenso('-42') // 'quarenta e dois negativo'
-extenso('-42', { negative: 'formal' }) // 'quarenta e dois negativo'
-extenso('-42', { negative: 'informal' }) // 'menos quarenta e dois'
+extenso('123')
+//=> 'cento e vinte e três'
+
+extenso('123', { mode: 'number' })
+//=> 'cento e vinte e três'
+
+extenso('123', { mode: 'currency' })
+//=> 'cento e vinte e três reais'
+
+extenso('123', { mode: 'digit' })
+//=> 'um dois três'
 ```
 
-#### `scale`
+## `options.scale` [*string*]
 
 > Define a escala de escrita (curta ou longa).
 
 As escalas curta e longa são dois sistemas de escrita dos números. A escala curta é a utilizado no Brasil, enquanto que a escala longa é a utilizada no restante dos paises de lingua portuguesa.
 
-A escrita diverge somente em números iguais ou superiores a um milhar de milhões (`>= 10e9`), números inferiores a isso seguem com a escrita idêntica em ambas as escalas.
+A escrita diverge somente em números iguais ou superiores a um milhar de milhões (≥10⁹), números inferiores a isso seguem com a escrita idêntica em ambas as escalas.
 
 *Mais informações [aqui](https://pt.wikipedia.org/wiki/Escalas_curta_e_longa) [Wikipédia].*
 
-- `short` (*valor padrão*) - Para escrever o número utilizando a escala curta.
+- `short` [*default*] - Para escrever o número utilizando a escala curta.
 - `long` - Para escrever o número utilizando a escala longa.
 
-##### Exemplo
+Exemplos:
 
 ```js
-extenso('2.000.000.001') // 'dois bilhões e um'
-extenso('2.000.000.001', { scale: 'short' }) // 'dois bilhões e um'
-extenso('2.000.000.001', { scale: 'long' }) // 'dois mil milhões e um'
+extenso('2.000.000.001')
+//=> 'dois bilhões e um'
+
+extenso('2.000.000.001', { scale: 'short' })
+//=> 'dois bilhões e um'
+
+extenso('2.000.000.001', { scale: 'long' })
+//=> 'dois mil milhões e um'
 ```
 
-#### `locale`
+## `options.locale` [*string*]
 
-> Define a localização para o modo de escrita.
+> Define a localização (dialeto) para a escrita.
 
 A escrita de alguns números pode váriar de país para país (e talvez até de região para região), por exemplo, o número 16 é escrito *dezesseis* no Brasil, enquanto que em Portugal é escrito *dezasseis*. A configuração dessas diferenças é feita aqui.
 
-- `br` (*valor padrão*) - Para escrever no dialeto do Brasil.
+Até o momento, são suportados os dialetos `br` e `pt` de acordo as diferenças conhecidas entre o português do Brasil e o português de Portugal. Caso você necessite de um dialeto diferente, abra uma [*issue*](https://github.com/lusofonia/extenso.js/issues) e vamos discutir como adaptar essas caracteristicas ao projeto para deixá-lo o mais completo possível.
+
+- `br` [*default*] - Para escrever no dialeto do Brasil.
 - `pt` - Para escrever no dialeto de Portugal.
 
-##### Exemplo
+Exemplos:
 
 ```js
-extenso('16') // 'dezesseis'
-extenso('16', { locale: 'br' }) // 'dezesseis'
-extenso('16', { locale: 'pt' }) // 'dezasseis'
+extenso('16')
+//=> 'dezesseis'
+
+extenso('16', { locale: 'br' })
+//=> 'dezesseis'
+
+extenso('16', { locale: 'pt' })
+//=> 'dezasseis'
+
+extenso('1.000.000.000', { locale: 'br' )
+//=> 'um bilhão'
+
+extenso('1.000.000.000', { locale: 'pt' })
+//=> 'um bilião'
 ```
 
-#### `currency.type`
+## `options.currency.type` [*string*]
 
 > Define o código [ISO](https://pt.wikipedia.org/wiki/ISO_4217) da moeda em que o número deverá ser escrito.
 
-- `BRL` (*valor padrão*) - Para escrever valores em Real brasileiro.
-- `EUR` - Para escrever valores em Euro.
-- `CVE` - Para escrever valores em Escudo cabo-verdiano.
-- `MZN` - Para escrever valores em Metical moçambicano.
+Até o momento são suportadas apenas 9 moedas escolhidas com base na importância econômica e comercial de cada uma delas e que são as mais utilizadas nos países membros da CPLP (Comunidade dos Países de Língua Portuguesa), os quais são: Brasil, Angola, Cabo Verde, Guiné Bissau, Guiné Equatorial, Moçambique, Portugal, São Tomé e Príncipe e Timor-Leste.
 
-##### Exemplo
+Em breve será suportado a definição de moedas personalizadas. Você pode contribuir enviando um [*pull request*](https://github.com/lusofonia/extenso.js/pulls) com a adição de uma nova moeda ou com a correção de um erro em uma moeda já existente.
 
-```js
-extenso('42', { mode: 'currency' }) // 'quarenta e dois reais'
-extenso('42', { mode: 'currency', currency: { type: 'BRL' } }) // 'quarenta e dois reais'
-extenso('42', { mode: 'currency', currency: { type: 'EUR' } }) // 'quarenta e dois euros'
-extenso('42', { mode: 'currency', currency: { type: 'CVE' } }) // 'quarenta e dois escudos'
-extenso('42', { mode: 'currency', currency: { type: 'MZN' } }) // 'quarenta e dois meticais'
-```
+As moedas suportadas são:
 
-#### `number.gender`
+- `BRL` [*default*] - Real brasileiro
+- `AOA` - Kwanza angolano
+- `CVE` - Escudo cabo-verdiano
+- `XOF` - Franco CFA de África Ocidental
+- `MZN` - Metical moçambicano
+- `EUR` - Euro
+- `STN` - Dobra de São Tomé e Príncipe
+- `USD` - Dólar americano
+- `MOP` - Pataca de Macau
 
-> Define o gênero do número que será escrito.
-
-Alguns números podem ser representados tanto no modo masculino quanto no modo feminino, por exemplo, *42* pode ser escrito como *quarenta e dois* ou *42* ou *quarenta e duas*.
-
-- `m` (*valor padrão*) - Para escrever no modo masculino.
-- `f` - Para escrever no modo feminino.
-
-##### Exemplo
+Exemplos:
 
 ```js
-extenso('42') // 'quarenta e dois'
-extenso('42', { number: { gender: 'm' } }) // 'quarenta e dois'
-extenso('42', { number: { gender: 'f' } }) // 'quarenta e duas'
+extenso('42', { mode: 'currency' })
+//=> 'quarenta e dois reais'
+
+extenso('42', { mode: 'currency', currency: { type: 'BRL' } })
+//=> 'quarenta e dois reais'
+
+extenso('42', { mode: 'currency', currency: { type: 'EUR' } })
+//=> 'quarenta e dois euros'
+
+extenso('42', { mode: 'currency', currency: { type: 'CVE' } })
+//=> 'quarenta e dois escudos'
+
+extenso('42', { mode: 'currency', currency: { type: 'MZN' } })
+//=> 'quarenta e dois meticais'
 ```
 
-#### `number.decimal`
+## `options.number.gender` [*string*]
 
-> Define o modo de escrita do valor decimal.
+> Define a flexão de gênero do número que será escrito.
 
-- `formal` (*valor padrão*) - Para escrever no modo formal.
-- `informal` - Para escrever no modo informal.
+Atualmente na língua portuguesa [somente os números 1 e 2 podem ser escritos tanto no modo masculino quanto no modo feminino](https://pt.wikipedia.org/wiki/Dual), por exemplo, *1* pode ser escrito como *um* ou *uma* e *2* pode ser escrito como *dois* ou *duas*. Caso você precisque que o número esteja escrito no gênero feminino então pode usar `female` para defini-lo.
 
-##### Exemplo
+- `male` [*default*] - Para escrever no modo masculino.
+- `female` - Para escrever no modo feminino.
+
+Exemplos:
 
 ```js
-extenso('3,14') // 'três inteiros e quatorze centésimos'
-extenso('3,14', { number: { decimal: 'formal' } }) // 'três inteiros e quatorze centésimos'
-extenso('3,14', { number: { decimal: 'informal' } }) // 'três vírgula quatorze'
+extenso('42')
+//=> 'quarenta e dois'
+
+extenso('42', { number: { gender: 'male' } })
+//=> 'quarenta e dois'
+
+extenso('42', { number: { gender: 'female' } })
+//=> 'quarenta e duas'
 ```
 
-#### `number.decimalSeparator`
+## `options.number.decimalSeparator` [*string*]
 
 > Define o separador de inteiro e decimal.
 
-- `comma` (*valor padrão*) - Para usar **vírgula** como separador (ex. `3,14`).
+Atualmente no português o separador de inteiro e decimal mais comum utilizado é a vírgula (`comma`), porém em outros países pode ser necessário utilizar o ponto como separador de decimal. Nesse caso você pode utilizar o parâmetro `number.decimalSeparator` para definir outro separador de decimal (`dot`), no entanto, isso só é necessário se o número fornecido esteja encapsulado em *string*.
+
+Observe que caso o separador decimal seja `dot` (.) então o separador de milhar automaticamente será a vírgula (`,`) e vice-versa.
+
+- `comma` [*default*] - Para usar **vírgula** como separador (ex. `3,14`).
 - `dot` - Para usar **ponto** como separador (ex.: `3.14`)
 
-##### Observação
-
-Quando o separador de decimal é o `.` (ponto) automaticamente o separador de
-milhar será o `,` (vírgula) e vice-versa.
-
-##### Exemplo
+Exemplos:
 
 ```js
 extenso('3,14')
-extenso('3,14', { number: { decimalSeparator: 'comma' } })
-extenso('3.14', { number: { decimalSeparator: 'dot' } })
+//=> 'três inteiros e quatorze centésimos'
 
-// 'três inteiros e quatorze centésimos'
+extenso('3,14', { number: { decimalSeparator: 'comma' } })
+//=> 'três inteiros e quatorze centésimos'
+
+extenso('3.14', { number: { decimalSeparator: 'dot' } })
+//=> 'três inteiros e quatorze centésimos'
 ```
 
-## Contribuição
+## Contribuições
 
-Oi, você é de Portugal, Angola, Moçambique ou qualquer outro país que usa fala português? Viu alguma escrita de números que é diferente no seu país? Então abra uma *issue* e vamos discutir como adaptar essas caracteristicas ao projeto para deixá-lo o mais completo possível.
+Você é de Portugal, Angola, Moçambique ou de qualquer outro país onde se fala português? Percebeu alguma diferença na forma como os números são escritos no seu país? Caso tenha identificado variações, abra uma issue para discutirmos como adaptar essas características ao projeto e torná-lo mais completo.
 
-Viu algum erro ou qualquer coisa que pode ser melhorada?
+Se encontrou algum erro ou algo que possa ser aprimorado, há diferentes formas de contribuir:
 
-Você pode, portanto:
+- Abrindo uma issue para relatar sugestões ou problemas.
+- Enviando um pull request com melhorias.
+- Comentando diretamente no trecho do código que pode ser aprimorado.
 
-- Abrir uma *issue*.
-- Enviar um *pull request*.
-- Comentar no trecho do código que você acredita que pode ser melhorado.
-
-### Regras
-
-Tendo em vista a participação de falantes da língua portuguesa, escreva:
-
-- Nome de váriaveis, funções e outras coisas do tipo em **inglês**.
-- Nome dos arquivos e diretórios em **inglês**.
-- *Issues*, *pull requests* e comentários em **português**.
-- Descrição dos testes em **português**.
-  - **Regra 1**: Deve ter o formato: *Deve(m) + verbo + descrição*.
-  - **Regra 2**: Nunca use ponto final na descrição.
-- Mensagem de *commits* em **português**.
-  - **Regra 1**: Inicie-os sempre em caixa alta.
-  - **Regra 2**: Nunca use ponto final na descrição.
-
-## *TODO*
-
-- [ ] Traduzir o `README.md` em inglês (`README-en.md`).
+Toda contribuição é bem-vinda.
 
 ## Licença
 
