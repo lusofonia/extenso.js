@@ -70,11 +70,9 @@ _**NOTA**: Parâmetro opcional._
 > Opções de escrita.
 
 - [`mode`](#optionsmode-string) [*string*]
-- [`locale`](#optionslocale-string) [*string*]
 - [`scale`](#optionsscale-string) [*string*]
-- [`currency`](#optionscurrency-object) [*object*]
+- [`locale`](#optionslocale-string) [*string*]
 - [`currency.type`](#optionscurrencytype-string) [*string*]
-- [`number`](#optionsnumber-object) [*object*]
 - [`number.gender`](#optionsnumbergender-string) [*string*]
 - [`number.decimalSeparator`](#optionsnumberdecimalsseparator-string) [*string*]
 
