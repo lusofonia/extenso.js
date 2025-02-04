@@ -55,9 +55,7 @@ import extenso from 'extenso'
 
 ## `number` [*string*, *number*, *bigint*]
 
-_**NOTA**: Parâmetro obrigatório._
-
-> O valor que deverá ser escrito por extenso.
+> O valor que deverá ser escrito por extenso (obrigatório).
 
 Se o valor for do tipo `number`, recomenda-se que ele seja um número com parte inteira segura, ou seja, o valor deve ser válido na verificação com `Number.isSafeInteger()`, caso contrário, é recomendado que os números sejam encapsulados em *string* devido ao fato de que, no JavaScript, números (do tipo `number`) maiores que 9 quatrilhões perdem precisão. Alternativamente, pode-se utilizar números `BigInt` (do tipo `bigint`) adicionando `n` no final, por exemplo, `10000000000000001n` ([leia este artigo para mais informações](https://bit.ly/tableless-bigint)), porém você estará limitado a números inteiros apenas, não podendo representar números decimais.
 
@@ -65,9 +63,7 @@ Números envolvidos em *strings* deverão seguir o formato natural de escrita de
 
 ## `options` [*object*]
 
-_**NOTA**: Parâmetro opcional._
-
-> Opções de escrita.
+> Opções de escrita (opcional).
 
 - [`mode`](#optionsmode-string) [*string*]
 - [`scale`](#optionsscale-string) [*string*]
