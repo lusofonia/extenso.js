@@ -124,6 +124,30 @@ extenso('2.000.000.001', { scale: 'long' })
 //=> 'dois mil milhões e um'
 ```
 
+## `options.decimalSeparator` [*string*]
+
+> Define o separador de inteiro e decimal.
+
+Atualmente no português o separador de inteiro e decimal mais comum utilizado é a vírgula (`comma`), porém em outros países pode ser necessário utilizar o ponto como separador de decimal. Nesse caso você pode utilizar o parâmetro `number.decimalSeparator` para definir outro separador de decimal (`dot`), no entanto, isso só é necessário se o número fornecido esteja encapsulado em *string*.
+
+Observe que caso o separador decimal seja `dot` (.) então o separador de milhar automaticamente será a vírgula (`,`) e vice-versa.
+
+- `comma` [*default*] - Para usar **vírgula** como separador (ex. `3,14`).
+- `dot` - Para usar **ponto** como separador (ex.: `3.14`)
+
+Exemplos:
+
+```js
+extenso('3,14')
+//=> 'três inteiros e quatorze centésimos'
+
+extenso('3,14', { number: { decimalSeparator: 'comma' } })
+//=> 'três inteiros e quatorze centésimos'
+
+extenso('3.14', { number: { decimalSeparator: 'dot' } })
+//=> 'três inteiros e quatorze centésimos'
+```
+
 ## `options.locale` [*string*]
 
 > Define a localização (dialeto) para a escrita.
@@ -213,30 +237,6 @@ extenso('42', { number: { gender: 'male' } })
 
 extenso('42', { number: { gender: 'female' } })
 //=> 'quarenta e duas'
-```
-
-## `options.number.decimalSeparator` [*string*]
-
-> Define o separador de inteiro e decimal.
-
-Atualmente no português o separador de inteiro e decimal mais comum utilizado é a vírgula (`comma`), porém em outros países pode ser necessário utilizar o ponto como separador de decimal. Nesse caso você pode utilizar o parâmetro `number.decimalSeparator` para definir outro separador de decimal (`dot`), no entanto, isso só é necessário se o número fornecido esteja encapsulado em *string*.
-
-Observe que caso o separador decimal seja `dot` (.) então o separador de milhar automaticamente será a vírgula (`,`) e vice-versa.
-
-- `comma` [*default*] - Para usar **vírgula** como separador (ex. `3,14`).
-- `dot` - Para usar **ponto** como separador (ex.: `3.14`)
-
-Exemplos:
-
-```js
-extenso('3,14')
-//=> 'três inteiros e quatorze centésimos'
-
-extenso('3,14', { number: { decimalSeparator: 'comma' } })
-//=> 'três inteiros e quatorze centésimos'
-
-extenso('3.14', { number: { decimalSeparator: 'dot' } })
-//=> 'três inteiros e quatorze centésimos'
 ```
 
 ## Contribuições
