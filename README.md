@@ -69,16 +69,14 @@ _**NOTA**: Parâmetro opcional._
 
 > Opções de escrita.
 
-- `mode` [*string*]
-- `locale` [*string*]
-- `negative` [*string*]
-- `scale` [*string*]
-- `currency` [*object*]
-- `currency.type` [*string*]
-- `number` [*object*]
-- `number.gender` [*string*]
-- `number.decimal` [*string*]
-- `number.decimalSeparator` [*string*]
+- [`mode`](#optionsmode-string) [*string*]
+- [`locale`](#optionslocale-string) [*string*]
+- [`scale`](#optionsscale-string) [*string*]
+- [`currency`](#optionscurrency-object) [*object*]
+- [`currency.type`](#optionscurrencytype-string) [*string*]
+- [`number`](#optionsnumber-object) [*object*]
+- [`number.gender`](#optionsnumbergender-string) [*string*]
+- [`number.decimalSeparator`](#optionsnumberdecimalsseparator-string) [*string*]
 
 ## `options.mode` [*string*]
 
