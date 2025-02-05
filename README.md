@@ -22,7 +22,7 @@
 
 <div align="center">
 
-*Caso precise de apoio no desenvolvimento de software ou manutenção de infraestrutura em nuvem, considere entrar em contato comigo enviando um e-mail para matheus@fidalgoitsolutions.com.br ou [preenchendo esse formulário](#).*
+*Caso precise de apoio no desenvolvimento de software ou manutenção de infraestrutura em nuvem, considere entrar em contato comigo [preenchendo esse formulário online](#).*
 
 </div>
 
