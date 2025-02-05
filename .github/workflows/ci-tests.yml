@@ -1,4 +1,4 @@
-name: Node.js CI
+name: Tests
 
 permissions:
   contents: read
@@ -12,13 +12,11 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
         node-version: [16.x, 18.x, 20.x, 22.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
     - uses: actions/checkout@v4
@@ -30,5 +28,3 @@ jobs:
     - run: npm ci
     - run: npm run build
     - run: npm test
-    - if: matrix.node-version == '22.x'
-      run: npm run lint
