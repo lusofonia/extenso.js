@@ -8,7 +8,7 @@
 
 <div align="center">
   <h1>Extenso.js</h1>
-  <i>Uma biblioteca avançada para escrever números por extenso (em português).</i>
+  Uma biblioteca avançada para escrever números por extenso (em português).
   <br />
   <br />
 
@@ -20,11 +20,17 @@
 
 ***
 
+<div align="center">
+
+*Caso precise de apoio no desenvolvimento e manutenção do seu software ou da sua infraestrutura em nuvem, considere entrar em contato comigo enviando um e-mail para matheus@fidalgoitsolutions.com.br ou [preenchendo esse formulário](#).*
+
+</div>
+
+***
+
 O projeto Extenso.js foi criado com o objetivo de fornecer uma solução simples e eficiente para a conversão de números para texto em português. 
 
 A motivação por trás deste projeto é atender a uma necessidade comum em diversas aplicações financeiras, educativas e administrativas, onde é frequentemente necessário converter valores numéricos em palavras para fins de documentação, cheques, faturas e outros documentos formais.
-
-Nossa ambição com o Extenso.js é tornar esta biblioteca uma referência para desenvolvedores que precisam dessa funcionalidade em suas aplicações, promovendo a padronização e simplificação do processo de conversão de números para texto.
 
 ## Funcionalidades
 
