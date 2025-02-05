@@ -4,11 +4,10 @@
   <br />
   <br />
 
-  [![Node.js CI](https://github.com/lusofonia/extenso.js/actions/workflows/node.js.yml/badge.svg)](https://github.com/lusofonia/extenso.js/actions/workflows/node.js.yml)
+  [![Tests](https://github.com/lusofonia/extenso.js/actions/workflows/ci-tests.yml/badge.svg)](https://github.com/lusofonia/extenso.js/actions/workflows/ci-tests.yml)
+  [![Lint](https://github.com/lusofonia/extenso.js/actions/workflows/ci-lint.yml/badge.svg)](https://github.com/lusofonia/extenso.js/actions/workflows/ci-lint.yml)
   [![CodeQL](https://github.com/lusofonia/extenso.js/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/lusofonia/extenso.js/actions/workflows/github-code-scanning/codeql)
   [![Dependabot Updates](https://github.com/lusofonia/extenso.js/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/lusofonia/extenso.js/actions/workflows/dependabot/dependabot-updates)
-  ![Version 2.1.0](https://img.shields.io/badge/Version-2.1.0-green)
-  ![License MIT](https://img.shields.io/badge/License-MIT-blue)
 </div>
 
 ***
