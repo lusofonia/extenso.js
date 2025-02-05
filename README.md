@@ -72,7 +72,7 @@ Números envolvidos em *strings* deverão seguir o formato natural de escrita de
 - [`mode`](#optionsmode-string) [*string*]
 - [`scale`](#optionsscale-string) [*string*]
 - [`locale`](#optionslocale-string) [*string*]
-- [`currency.type`](#optionscurrencytype-string) [*string*]
+- [`currency.code`](#optionscurrencycode-string) [*string*]
 - [`number.gender`](#optionsnumbergender-string) [*string*]
 - [`number.decimalSeparator`](#optionsnumberdecimalsseparator-string) [*string*]
 
@@ -182,7 +182,7 @@ extenso('1.000.000.000', { locale: 'pt' })
 //=> 'um bilião'
 ```
 
-## `options.currency.type` [*string*]
+## `options.currency.code` [*string*]
 
 > Define o código [ISO](https://pt.wikipedia.org/wiki/ISO_4217) da moeda em que o número deverá ser escrito.
 
@@ -208,16 +208,16 @@ Exemplos:
 extenso('42', { mode: 'currency' })
 //=> 'quarenta e dois reais'
 
-extenso('42', { mode: 'currency', currency: { type: 'BRL' } })
+extenso('42', { mode: 'currency', currency: { code: 'BRL' } })
 //=> 'quarenta e dois reais'
 
-extenso('42', { mode: 'currency', currency: { type: 'EUR' } })
+extenso('42', { mode: 'currency', currency: { code: 'EUR' } })
 //=> 'quarenta e dois euros'
 
-extenso('42', { mode: 'currency', currency: { type: 'CVE' } })
+extenso('42', { mode: 'currency', currency: { code: 'CVE' } })
 //=> 'quarenta e dois escudos'
 
-extenso('42', { mode: 'currency', currency: { type: 'MZN' } })
+extenso('42', { mode: 'currency', currency: { code: 'MZN' } })
 //=> 'quarenta e dois meticais'
 ```
 
