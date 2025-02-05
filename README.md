@@ -22,7 +22,7 @@
 
 <div align="center">
 
-*Caso precise de apoio no desenvolvimento de software ou manutenção de infraestrutura em nuvem, considere entrar em contato comigo [preenchendo esse formulário online](#).*
+*Caso precise de apoio em desenvolvimento de software ou manutenção de infraestrutura em nuvem, considere entrar em contato comigo [preenchendo esse formulário online](#).*
 
 </div>
 
