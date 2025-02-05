@@ -2,6 +2,8 @@
 
 [_If you don't speak Portuguese, check out the English version of this README here._](#README-english.md)
 
+[_Caso queira uma consultoria particular preencha esse formulário, por favor._](#)
+
 </div>
 
 ***
@@ -16,14 +18,6 @@
   [![Lint](https://github.com/lusofonia/extenso.js/actions/workflows/ci-lint.yml/badge.svg)](https://github.com/lusofonia/extenso.js/actions/workflows/ci-lint.yml)
   [![CodeQL](https://github.com/lusofonia/extenso.js/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/lusofonia/extenso.js/actions/workflows/github-code-scanning/codeql)
   [![Dependabot Updates](https://github.com/lusofonia/extenso.js/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/lusofonia/extenso.js/actions/workflows/dependabot/dependabot-updates)
-</div>
-
-***
-
-<div align="center">
-
-*Caso precise de apoio em desenvolvimento de software ou manutenção de infraestrutura em nuvem, considere entrar em contato comigo [preenchendo esse formulário online](#).*
-
 </div>
 
 ***
