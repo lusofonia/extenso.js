@@ -1,4 +1,12 @@
 <div align="center">
+
+[_If you don't speak Portuguese, check out the English version of this README here._](#README-english.md)
+
+</div>
+
+***
+
+<div align="center">
   <h1>Extenso.js</h1>
   <i>Uma biblioteca avançada para escrever números por extenso (em português).</i>
   <br />
