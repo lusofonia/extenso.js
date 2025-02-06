@@ -18,6 +18,10 @@
   [![Lint](https://github.com/lusofonia/extenso.js/actions/workflows/ci-lint.yml/badge.svg)](https://github.com/lusofonia/extenso.js/actions/workflows/ci-lint.yml)
   [![CodeQL](https://github.com/lusofonia/extenso.js/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/lusofonia/extenso.js/actions/workflows/github-code-scanning/codeql)
   [![Dependabot Updates](https://github.com/lusofonia/extenso.js/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/lusofonia/extenso.js/actions/workflows/dependabot/dependabot-updates)
+
+  ![](https://img.shields.io/badge/Donate-Pix%20(Brasil)-blue.svg)
+  ![](https://img.shields.io/badge/Donate-GitHub%20Sponsors-blue.svg)
+  ![](https://img.shields.io/badge/Donate-PayPal-blue.svg)
 </div>
 
 ***
