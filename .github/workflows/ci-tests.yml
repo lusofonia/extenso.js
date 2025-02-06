@@ -28,3 +28,5 @@ jobs:
     - run: npm ci
     - run: npm run build
     - run: npm test
+    - if: matrix.node-version == '22.x'
+      run: npm run lint
