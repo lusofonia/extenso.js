@@ -2,7 +2,7 @@
 
 [_If you don't speak Portuguese, check out the English version of this README here._](#README-english.md)
 
-[_Caso queira uma consultoria particular preencha esse formulário, por favor._](#)
+[_Caso queira de uma consultoria particular entre em contato comigo aqui._](#)
 
 </div>
 
