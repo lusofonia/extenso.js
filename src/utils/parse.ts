@@ -1,14 +1,14 @@
 import DecimalSeparators from '../ts/enum/decimal-separators.enum'
 
-const parse = (input: string, decimalSeparator: DecimalSeparators = DecimalSeparators.DOT): {
+const parse = (input: string, decimalSeparator: DecimalSeparators = DecimalSeparators.POINT): {
     integer: string
     decimal: string
 } => {
     input = input.trim()
 
     const separatorFor = {
-        decimal: decimalSeparator === DecimalSeparators.DOT ? '.' : ',',
-        thousands: decimalSeparator === DecimalSeparators.DOT ? ',' : '.',
+        decimal: decimalSeparator === DecimalSeparators.POINT ? '.' : ',',
+        thousands: decimalSeparator === DecimalSeparators.POINT ? ',' : '.',
     }
 
     if (input === '' || input.split(separatorFor.decimal)?.length > 2) {

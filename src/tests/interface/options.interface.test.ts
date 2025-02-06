@@ -12,7 +12,7 @@ test('Options interface structure', t => {
         mode: Modes.CURRENCY,
         locale: Locales.BR,
         scale: Scales.LONG,
-        decimalSeparator: DecimalSeparators.DOT,
+        decimalSeparator: DecimalSeparators.POINT,
         currency: {
             code: Currencies.USD,
         },
@@ -24,7 +24,7 @@ test('Options interface structure', t => {
     t.is(options.mode, Modes.CURRENCY)
     t.is(options.locale, Locales.BR)
     t.is(options.scale, Scales.LONG)
-    t.is(options.decimalSeparator, DecimalSeparators.DOT)
+    t.is(options.decimalSeparator, DecimalSeparators.POINT)
     t.is(options.currency?.code, Currencies.USD)
     t.is(options.number?.gender, Genders.MALE)
 })

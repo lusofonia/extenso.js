@@ -132,12 +132,12 @@ extenso('2.000.000.001', { scale: 'long' })
 
 > Define o separador de inteiro e decimal.
 
-No português, o separador de inteiro e decimal mais comum é a vírgula (`comma`). No entanto, em outros países, pode ser necessário usar o ponto (`dot`) como separador decimal. Nesse caso você pode utilizar o parâmetro `number.decimalSeparator` para definir outro separador de decimal (`dot`), no entanto, isso só é necessário se o número fornecido esteja encapsulado em *string*.
+No português, o separador de inteiro e decimal mais comum é a vírgula (`comma`). No entanto, em outros países, pode ser necessário usar o ponto (`point`) como separador decimal. Nesse caso você pode utilizar o parâmetro `number.decimalSeparator` para definir outro separador de decimal (`point`), no entanto, isso só é necessário se o número fornecido esteja encapsulado em *string*.
 
-Observe que caso o separador decimal seja `dot` (.) então o separador de milhar automaticamente será a vírgula (,) e vice-versa.
+Observe que caso o separador decimal seja `point` (.) então o separador de milhar automaticamente será a vírgula (,) e vice-versa.
 
 - `comma` [*default*] - Para usar **vírgula** como separador (ex. `3,14`).
-- `dot` - Para usar **ponto** como separador (ex.: `3.14`)
+- `point` - Para usar **ponto** como separador (ex.: `3.14`)
 
 Exemplos:
 
@@ -148,7 +148,7 @@ extenso('3,14')
 extenso('3,14', { number: { decimalSeparator: 'comma' } })
 //=> 'três inteiros e quatorze centésimos'
 
-extenso('3.14', { number: { decimalSeparator: 'dot' } })
+extenso('3.14', { number: { decimalSeparator: 'point' } })
 //=> 'três inteiros e quatorze centésimos'
 ```
 

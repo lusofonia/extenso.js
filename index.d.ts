@@ -10,7 +10,7 @@ declare module 'extenso' {
       mode?: 'number' | 'currency' | 'digit'
       locale?: 'pt' | 'br'
       scale?: 'short' | 'long'
-      decimalSeparator?: 'comma' | 'dot'
+      decimalSeparator?: 'comma' | 'point'
       currency?: {
         code?: 'AOA' | 'CVE' | 'BRL' | 'XOF' | 'MZN' | 'EUR' | 'STN' | 'USD' | 'MOP'
       }

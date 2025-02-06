@@ -1,6 +1,6 @@
 enum DecimalSeparators {
     COMMA = 'comma',
-    DOT = 'dot',
+    POINT = 'point',
 }
 
 export default DecimalSeparators
