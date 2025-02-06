@@ -1,14 +1,23 @@
 <div align="center">
+
+[_If you don't speak Portuguese, check out the English version of this README here._](#README-english.md)
+
+[_Caso queira uma consultoria particular preencha esse formulário, por favor._](#)
+
+</div>
+
+***
+
+<div align="center">
   <h1>Extenso.js</h1>
-  <i> An advanced library for writing numbers in words (in Portuguese).</i>
+  Uma biblioteca avançada para escrever números por extenso (em português).
   <br />
   <br />
 
-  [![Node.js CI](https://github.com/lusofonia/extenso.js/actions/workflows/node.js.yml/badge.svg)](https://github.com/lusofonia/extenso.js/actions/workflows/node.js.yml)
+  [![Tests](https://github.com/lusofonia/extenso.js/actions/workflows/ci-tests.yml/badge.svg)](https://github.com/lusofonia/extenso.js/actions/workflows/ci-tests.yml)
+  [![Lint](https://github.com/lusofonia/extenso.js/actions/workflows/ci-lint.yml/badge.svg)](https://github.com/lusofonia/extenso.js/actions/workflows/ci-lint.yml)
   [![CodeQL](https://github.com/lusofonia/extenso.js/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/lusofonia/extenso.js/actions/workflows/github-code-scanning/codeql)
   [![Dependabot Updates](https://github.com/lusofonia/extenso.js/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/lusofonia/extenso.js/actions/workflows/dependabot/dependabot-updates)
-  ![Version 2.1.0](https://img.shields.io/badge/Version-2.1.0-green)
-  ![License MIT](https://img.shields.io/badge/License-MIT-blue)
 </div>
 
 ***
@@ -186,7 +195,7 @@ extenso('1.000.000.000', { locale: 'pt' })
 
 > Define o código [ISO](https://pt.wikipedia.org/wiki/ISO_4217) da moeda em que o número deverá ser escrito.
 
-Até o momento são suportadas apenas 9 moedas escolhidas com base na importância econômica e comercial de cada uma delas e que são as mais utilizadas nos países membros da CPLP (Comunidade dos Países de Língua Portuguesa), os quais são: Brasil, Angola, Cabo Verde, Guiné Bissau, Guiné Equatorial, Moçambique, Portugal, São Tomé e Príncipe e Timor-Leste.
+Até o momento são suportadas apenas 9 moedas escolhidas com base na importância econômica e comercial de cada uma delas e que são as mais utilizadas nos países membros da [CPLP (Comunidade dos Países de Língua Portuguesa)](https://www.cplp.org/), os quais são: Brasil, Angola, Cabo Verde, Guiné Bissau, Guiné Equatorial, Moçambique, Portugal, São Tomé e Príncipe e Timor-Leste.
 
 Em breve será suportado a definição de moedas personalizadas. Você pode contribuir enviando um [*pull request*](https://github.com/lusofonia/extenso.js/pulls) com a adição de uma nova moeda ou com a correção de um erro em uma moeda já existente.
 
