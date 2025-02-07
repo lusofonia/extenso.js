@@ -253,6 +253,17 @@ extenso('42', { number: { gender: 'female' } })
 //=> 'quarenta e duas'
 ```
 
+## Idioma Padrão
+
+O idioma padrão do Extenso.js é o Português Brasileiro. Esta escolha se deve a vários fatores:
+
+1. **Origem do Projeto**: O Extenso.js foi criado no Brasil, onde a necessidade de converter números para texto em português é bastante comum em diversas aplicações.
+2. **População Falante**: O Brasil possui a maior população de falantes de português no mundo, o que torna o Português Brasileiro a variante mais amplamente utilizada do idioma.
+3. **Moeda Utilizada**: Embora o Euro seja uma moeda importante globalmente, o Real (BRL) é a moeda mais utilizada pelos falantes de português, especialmente no Brasil.
+4. **Separador Decimal**: A vírgula é usada como separador decimal na maioria dos países de língua portuguesa, incluindo o Brasil, o que justifica sua adoção como padrão no Extenso.js.
+
+Esses fatores contribuem para que o Português Brasileiro seja o idioma padrão do Extenso.js, garantindo que a biblioteca atenda às necessidades da maioria dos seus usuários.
+
 ## Contribuições
 
 Você é de Portugal, Angola, Moçambique ou de qualquer outro país onde se fala português? Percebeu alguma diferença na forma como os números são escritos no seu país? Caso tenha identificado variações, abra uma issue para discutirmos como adaptar essas características ao projeto e torná-lo mais completo.
