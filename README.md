@@ -2,7 +2,7 @@
 
 [_If you don't speak Portuguese, check out the English version of this README here._](#README-english.md)
 
-[_Caso queira uma consultoria particular preencha esse formulário, por favor._](#)
+[_Caso queira de uma consultoria particular entre em contato comigo aqui._](#)
 
 </div>
 
@@ -15,9 +15,13 @@
   <br />
 
   [![Tests](https://github.com/lusofonia/extenso.js/actions/workflows/ci-tests.yml/badge.svg)](https://github.com/lusofonia/extenso.js/actions/workflows/ci-tests.yml)
-  [![Lint](https://github.com/lusofonia/extenso.js/actions/workflows/ci-lint.yml/badge.svg)](https://github.com/lusofonia/extenso.js/actions/workflows/ci-lint.yml)
   [![CodeQL](https://github.com/lusofonia/extenso.js/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/lusofonia/extenso.js/actions/workflows/github-code-scanning/codeql)
   [![Dependabot Updates](https://github.com/lusofonia/extenso.js/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/lusofonia/extenso.js/actions/workflows/dependabot/dependabot-updates)
+  [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=lusofonia_extenso.js&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=lusofonia_extenso.js)
+
+  ![](https://img.shields.io/badge/Donate-Pix%20(Brasil)-blue.svg)
+  ![](https://img.shields.io/badge/Donate-GitHub%20Sponsors-blue.svg)
+  ![](https://img.shields.io/badge/Donate-PayPal-blue.svg)
 </div>
 
 ***
@@ -197,7 +201,7 @@ extenso('1.000.000.000', { locale: 'pt' })
 
 Até o momento são suportadas apenas 9 moedas escolhidas com base na importância econômica e comercial de cada uma delas e que são as mais utilizadas nos países membros da [CPLP (Comunidade dos Países de Língua Portuguesa)](https://www.cplp.org/), os quais são: Brasil, Angola, Cabo Verde, Guiné Bissau, Guiné Equatorial, Moçambique, Portugal, São Tomé e Príncipe e Timor-Leste.
 
-Em breve será suportado a definição de moedas personalizadas. Você pode contribuir enviando um [*pull request*](https://github.com/lusofonia/extenso.js/pulls) com a adição de uma nova moeda ou com a correção de um erro em uma moeda já existente.
+_Em breve será suportado a definição de moedas personalizadas. Você pode contribuir enviando um [*pull request*](https://github.com/lusofonia/extenso.js/pulls) com a adição de uma nova moeda ou com a correção de um erro em uma moeda já existente._
 
 As moedas suportadas são:
 
@@ -225,9 +229,6 @@ extenso('42', { mode: 'currency', currency: { code: 'EUR' } })
 
 extenso('42', { mode: 'currency', currency: { code: 'CVE' } })
 //=> 'quarenta e dois escudos'
-
-extenso('42', { mode: 'currency', currency: { code: 'MZN' } })
-//=> 'quarenta e dois meticais'
 ```
 
 ## `options.number.gender` [*string*]
