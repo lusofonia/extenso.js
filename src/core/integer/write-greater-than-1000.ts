@@ -26,6 +26,9 @@ const writeGreaterThan1000 = (input: string, scale: Scales = Scales.SHORT): stri
             } else {
                 name = name.replace('ão', 'ões')
             }
+            if (name === undefined) {
+                throw new Error(`Number exceeds ${scale} scale limit`)
+            }
             return `${text} ${name}`
         })
         .reverse()

@@ -15,6 +15,10 @@ const writeDecimal = (input: string): string => {
 
     const name = listDecimals[Math.floor(input.length / 3) - 1]
 
+    if (name === undefined) {
+        throw new Error(`Number exceeds limit`)
+    }
+
     switch (input.length % 3) {
     case 1:
         return `${text} ${pluralize('décimo', count)} de ${name}`

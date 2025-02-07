@@ -18,3 +18,8 @@ test('writeDecimal(): plural', (t) => {
     t.is(writeDecimal('00005'), 'cinco centésimos de milésimo')
     t.is(writeDecimal('000005'), 'cinco milionésimos')
 })
+
+test('writeDecimal(): big numbers', (t) => {
+    const error = t.throws(() => writeDecimal('0.000000000000000000000000000000000000000001'))
+    t.is(error?.message, 'Number exceeds limit')
+})

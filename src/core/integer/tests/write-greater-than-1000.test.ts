@@ -37,3 +37,8 @@ test('writeGreaterThan1000(): long scale 1', (t) => {
     t.is(writeGreaterThan1000('1000000000001', Scales.LONG), 'um bilhão e um')
     t.is(writeGreaterThan1000('2000000000002', Scales.LONG), 'dois bilhões e dois')
 })
+
+test('writeGreaterThan1000(): big numbers', (t) => {
+    const error = t.throws(() => writeGreaterThan1000('1000000000000000000000000000000000000000000'))
+    t.is(error?.message, `Number exceeds ${Scales.SHORT} scale limit`)
+})
