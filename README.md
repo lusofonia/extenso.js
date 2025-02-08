@@ -20,8 +20,8 @@
   [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=lusofonia_extenso.js&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=lusofonia_extenso.js)
 
   ![](https://img.shields.io/badge/Donate-Pix%20(Brasil)-blue.svg)
-  ![](https://img.shields.io/badge/Donate-GitHub%20Sponsors-blue.svg)
-  ![](https://img.shields.io/badge/Donate-PayPal-blue.svg)
+  [![](https://img.shields.io/badge/Donate-GitHub%20Sponsors-blue.svg)](https://github.com/sponsors/theuves)
+  [![](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.com/donate/?hosted_button_id=3TPLED2TF5874)
 </div>
 
 ***
