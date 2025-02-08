@@ -1,2 +1,5 @@
-github: [ "theuves" ]
-custom: [ "https://www.paypal.com/donate/?hosted_button_id=3TPLED2TF5874" ]
+github:
+  - theuves
+custom:
+  - https://www.paypal.com/donate/?hosted_button_id=3TPLED2TF5874
+  - https://nubank.com.br/cobrar/193y02/67a7cf95-b24c-4a98-95b2-9ce5daf03e2c
