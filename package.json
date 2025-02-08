@@ -27,6 +27,10 @@
     "type": "git",
     "url": "git+https://github.com/theuves/extenso.js.git"
   },
+  "homepage": "https://github.com/theuves/extenso.js#readme",
+  "bugs": {
+    "url": "https://github.com/theuves/extenso.js/issues"
+  },
   "devDependencies": {
     "@ava/typescript": "^5.0.0",
     "ava": "^6.2.0",
@@ -36,5 +40,25 @@
     "typescript-eslint": "^8.22.0"
   },
   "author": "Matheus Alves",
-  "license": "MIT"
+  "license": "MIT",
+  "keywords": [
+    "javascript",
+    "i18n",
+    "number-to-words",
+    "portuguese",
+    "biblioteca",
+    "extenso",
+    "text-conversion",
+    "por-extenso",
+    "numero",
+    "brazilian-portuguese",
+    "number-to-text",
+    "human-readable-numbers",
+    "porextenso",
+    "number-formatting",
+    "numero-por-extenso",
+    "numeros-por-extenso",
+    "word-conversion",
+    "numero-em-palavras"
+  ]
 }
