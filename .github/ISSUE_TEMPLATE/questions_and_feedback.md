@@ -1,6 +1,6 @@
 ---
 name: Questions & Feedback
-about: Faça uma pergunta ou forneça feedback sobre o projeto
+about: Tire uma dúvida ou forneça feedback sobre o projeto
 title: ''
 labels: 'questions & feedback'
 assignees: ''
