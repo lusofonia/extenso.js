@@ -24,6 +24,7 @@ Se aplicável, adicione capturas de tela para ajudar a explicar seu problema.
  - Versão do Node.js: [por exemplo, 14.17.0]
  - Navegador (se aplicável): [por exemplo, Chrome, Firefox]
  - Versão do navegador (se aplicável): [por exemplo, 89.0.4389.82]
+ - Versão do pacote: [ex: 1.0.0]
 
 **Contexto adicional**
 Adicione qualquer outro contexto sobre o problema aqui.
