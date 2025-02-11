@@ -278,10 +278,10 @@ Toda contribuição é bem-vinda.
 
 ### Implementações futuras:
 
-- [ ] Suporte para adicionar de moeda customizada (https://github.com/lusofonia/extenso.js/issues/#86)
-- [ ] Suporte para identificar moeda automaticamente por código/símbolo (https://github.com/lusofonia/extenso.js/issues/#82)
-- [ ] Suporte para escrever números ordinais (https://github.com/lusofonia/extenso.js/issues/#18)
-- [ ] Suporte para escrever números sem acentos (https://github.com/lusofonia/extenso.js/issues/#10)
+- [ ] Suporte para adicionar de moeda customizada ([#86](https://github.com/lusofonia/extenso.js/issues/86))
+- [ ] Suporte para identificar moeda automaticamente por código/símbolo ([#82](https://github.com/lusofonia/extenso.js/issues/82))
+- [ ] Suporte para escrever números ordinais ([#18](https://github.com/lusofonia/extenso.js/issues/18))
+- [ ] Suporte para escrever números sem acentos ([#10](https://github.com/lusofonia/extenso.js/issues/10))
 
 ## Licença
 
