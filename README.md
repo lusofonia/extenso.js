@@ -1,6 +1,6 @@
 <div align="center">
 
-[_If you don't speak Portuguese, check out the English version of this README here._](#README-english.md)
+[_If you don't speak Portuguese, check out the English version of this README here._](https://github.com/lusofonia/extenso.js/blob/master/README-english.md)
 
 [_Caso queira de uma consultoria particular entre em contato comigo aqui._](https://esyyuh0nxyf.typeform.com/to/AbbttY1R)
 
