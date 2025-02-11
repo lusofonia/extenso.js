@@ -119,7 +119,7 @@ extenso('123', { mode: 'digit' })
 
 > Define a escala de escrita (curta ou longa).
 
-As escalas curta e longa são dois sistemas de escrita dos números. A escala curta é a utilizado no Brasil, enquanto que a escala longa é a utilizada no restante dos paises de lingua portuguesa.
+As escalas curta e longa são dois sistemas de escrita dos números. A escala curta é a utilizada no Brasil, enquanto a escala longa é utilizada no restante dos países de língua portuguesa.
 
 A escrita diverge somente em números iguais ou superiores a um milhar de milhões (≥10⁹), números inferiores a isso seguem com a escrita idêntica em ambas as escalas.
 
@@ -169,7 +169,7 @@ extenso('3.14', { number: { decimalSeparator: 'point' } })
 
 > Define a localização (dialeto) para a escrita.
 
-A escrita de alguns números pode váriar de país para país (e talvez até de região para região), por exemplo, o número 16 é escrito *dezesseis* no Brasil, enquanto que em Portugal é escrito *dezasseis*. A configuração dessas diferenças é feita aqui.
+A escrita de alguns números pode variar de país para país (e talvez até de região para região); por exemplo, o número 16 é escrito *dezesseis* no Brasil, enquanto em Portugal é escrito *dezasseis*. A configuração dessas diferenças é feita aqui.
 
 Até o momento, são suportados os dialetos `br` e `pt` de acordo as diferenças conhecidas entre o português do Brasil e o português de Portugal. Caso você necessite de um dialeto diferente, abra uma [*issue*](https://github.com/lusofonia/extenso.js/issues) e vamos discutir como adaptar essas caracteristicas ao projeto para deixá-lo o mais completo possível.
 
@@ -235,7 +235,7 @@ extenso('42', { mode: 'currency', currency: { code: 'CVE' } })
 
 > Define a flexão de gênero do número que será escrito.
 
-Atualmente na língua portuguesa [somente os números 1 e 2 podem ser escritos tanto no modo masculino quanto no modo feminino](https://pt.wikipedia.org/wiki/Dual), por exemplo, *1* pode ser escrito como *um* ou *uma* e *2* pode ser escrito como *dois* ou *duas*. Caso você precisque que o número esteja escrito no gênero feminino então pode usar `female` para defini-lo.
+Atualmente na língua portuguesa [somente os números 1 e 2 podem ser escritos tanto no modo masculino quanto no modo feminino](https://pt.wikipedia.org/wiki/Dual), por exemplo, *1* pode ser escrito como *um* ou *uma* e *2* pode ser escrito como *dois* ou *duas*. Caso você precise que o número esteja escrito no gênero feminino, pode usar `female` para defini-lo.
 
 - `male` [*default*] - Para escrever no modo masculino.
 - `female` - Para escrever no modo feminino.
