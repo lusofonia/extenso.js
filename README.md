@@ -285,4 +285,6 @@ Toda contribuição é bem-vinda.
 
 ## Licença
 
-MIT &copy; Matheus Alves
+Criado e mantido por [Matheus Alves](https://github.com/theuves).
+
+Licenciado sob a licença [MIT](https://github.com/lusofonia/extenso.js/blob/master/LICENSE) (c) 2015-2025
