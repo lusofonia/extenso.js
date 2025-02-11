@@ -276,6 +276,13 @@ Se encontrou algum erro ou algo que possa ser aprimorado, há diferentes formas 
 
 Toda contribuição é bem-vinda.
 
+### Implementações futuras:
+
+- [ ] Suporte para adicionar de moeda customizada (https://github.com/lusofonia/extenso.js/issues/#86)
+- [ ] Suporte para identificar moeda automaticamente por código/símbolo (https://github.com/lusofonia/extenso.js/issues/#82)
+- [ ] Suporte para escrever números ordinais (https://github.com/lusofonia/extenso.js/issues/#18)
+- [ ] Suporte para escrever números sem acentos (https://github.com/lusofonia/extenso.js/issues/#10)
+
 ## Licença
 
 MIT &copy; Matheus Alves
