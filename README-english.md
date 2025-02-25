@@ -1,8 +1,8 @@
 <div align="center">
 
-[_If you don't speak English, check out the Portuguese version of this README here._](#README.md)
+[_If you don't speak English, check out the Portuguese version of this README here._](https://github.com/lusofonia/extenso.js/blob/master/README-english.md)
 
-[_If you want a private consultation, contact me here._](#)
+[_If you want a private consultation, contact me here._](https://esyyuh0nxyf.typeform.com/to/fG1XDrpT)
 
 </div>
 
@@ -275,13 +275,6 @@ If you found any errors or something that can be improved, there are different w
 - Commenting directly on the code snippet that can be improved.
 
 Every contribution is welcome.
-
-### Future Implementations:
-
-- [ ] Support for adding custom currency ([#86](https://github.com/lusofonia/extenso.js/issues/86))
-- [ ] Support for automatically identifying currency by code/symbol ([#82](https://github.com/lusofonia/extenso.js/issues/82))
-- [ ] Support for writing ordinal numbers ([#18](https://github.com/lusofonia/extenso.js/issues/18))
-- [ ] Support for writing numbers without accents ([#10](https://github.com/lusofonia/extenso.js/issues/10))
 
 ## License
 
