@@ -6,10 +6,22 @@ import { writeLowerThan10 } from '../core/integer/write-lower-than-1000'
  * @returns Each digit written in words, separated by spaces
  */
 const writeDigit = (input: string): string => {
-    return input
-        .split(/[.,]/)
-        .map((part: string) => part.split('').map((digit: string) => writeLowerThan10(Number(digit))).join(' '))
-        .join(' vírgula ')
+    const parts = input.split(/[.,]/)
+    const integerPart = parts[0]
+        .split('')
+        .map((digit: string) => writeLowerThan10(Number(digit)))
+        .join(' ')
+
+    if (parts.length === 1 || !parts[1]) {
+        return integerPart
+    }
+
+    const decimalPart = parts[1]
+        .split('')
+        .map((digit: string) => writeLowerThan10(Number(digit)))
+        .join(' ')
+
+    return `${integerPart} vírgula ${decimalPart}`
 }
 
 export default writeDigit

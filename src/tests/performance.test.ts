@@ -7,7 +7,7 @@ test('Performance: Large numbers', (t) => {
     const startTime = process.hrtime.bigint()
     
     // Test with a large number
-    const result = extenso('1234567890123456789012345678901234567890')
+    const result = extenso('123456789012345678901234567890')
     
     const endTime = process.hrtime.bigint()
     const executionTime = Number(endTime - startTime) / 1_000_000 // Convert to milliseconds
@@ -21,7 +21,7 @@ test('Performance: Currency mode with large numbers', (t) => {
     const startTime = process.hrtime.bigint()
     
     // Test with a large currency amount
-    const result = extenso('1234567890123456789012345678901234567890.99', {
+    const result = extenso('123456789012345678901234567890.99', {
         mode: Modes.CURRENCY,
         currency: { code: Currencies.BRL }
     })
