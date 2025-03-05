@@ -6,6 +6,13 @@ import writeInteger from '../core/write-integer'
 
 const ONE_MILION = 1000000
 
+/**
+ * Writes the unit part of a currency amount
+ * @param unit - The unit part of the amount
+ * @param currency - The currency configuration
+ * @param scale - The scale to use (SHORT or LONG)
+ * @returns The unit part written in words with currency name
+ */
 export const writeUnit = (unit: string, currency: Currency, scale: Scales = Scales.SHORT) => {
     const text = writeInteger(unit, scale)
 
@@ -18,6 +25,12 @@ export const writeUnit = (unit: string, currency: Currency, scale: Scales = Scal
     return `${text} ${currency.plural}`
 }
 
+/**
+ * Writes the subunit part of a currency amount
+ * @param subunit - The subunit part of the amount
+ * @param currency - The currency configuration
+ * @returns The subunit part written in words with currency name
+ */
 export const writeSubunit = (subunit: string, currency: Currency) => {
     const text = writeInteger(subunit.slice(0, 2))
 
@@ -27,6 +40,15 @@ export const writeSubunit = (subunit: string, currency: Currency) => {
     return `${text} ${currency.subunit.plural}`
 }
 
+/**
+ * Writes a complete currency amount in words
+ * @param unit - The unit part of the amount
+ * @param subunit - The subunit part of the amount
+ * @param code - The currency code
+ * @param scale - The scale to use (SHORT or LONG)
+ * @returns The complete amount written in words with currency name
+ * @throws {Error} If an invalid currency code is provided
+ */
 const writeCurrency = (
     unit: string,
     subunit = '0',
