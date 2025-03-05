@@ -7,9 +7,9 @@ import { writeLowerThan10 } from '../core/integer/write-lower-than-1000'
  */
 const writeDigit = (input: string): string => {
     return input
-        .split('')
-        .map((part: string) => writeLowerThan10(Number(part)))
-        .join(' ')
+        .split(/[.,]/)
+        .map((part: string) => part.split('').map((digit: string) => writeLowerThan10(Number(digit))).join(' '))
+        .join(' vírgula ')
 }
 
 export default writeDigit

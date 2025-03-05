@@ -8,6 +8,7 @@ import writeDigit from './mode/write-digit'
 import writeNumber from './mode/write-number'
 import detectCurrency from './utils/detect-currency'
 import Currencies from './ts/enum/currencies.enum'
+import DecimalSeparators from './ts/enum/decimal-separators.enum'
 
 const NEGATIVE_SIGN = '-'
 
@@ -41,12 +42,15 @@ const extenso = (input: number | string | bigint, options: Options = {}): string
     const { integer, decimal } = parse(input, options?.decimalSeparator)
     let text: string
 
-    switch (options?.mode) {
+    // Use explicit mode if provided, otherwise auto-detect based on currency
+    const mode = options?.mode || (detectedCurrency || options?.currency?.code ? Modes.CURRENCY : Modes.NUMBER)
+
+    switch (mode) {
     case Modes.CURRENCY:
         text = writeCurrency(integer, decimal, currencyCode, options?.scale)
         break
     case Modes.DIGIT:
-        text = writeDigit(integer)
+        text = writeDigit(decimal ? `${integer}${options?.decimalSeparator === DecimalSeparators.COMMA ? ',' : '.'}${decimal}` : integer)
         break
     case Modes.NUMBER:
     default:
