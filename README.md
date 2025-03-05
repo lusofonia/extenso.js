@@ -66,7 +66,7 @@ import extenso from 'extenso'
 
 ## Sintaxe
 
-```
+```js
 extenso(number[, options])
 ```
 
@@ -76,7 +76,7 @@ extenso(number[, options])
 
 Se o valor for do tipo `number`, recomenda-se que ele seja um número com parte inteira segura, ou seja, o valor deve ser válido na verificação com `Number.isSafeInteger()`, caso contrário, é recomendado que os números sejam encapsulados em *string* devido ao fato de que, no JavaScript, números (do tipo `number`) maiores que 9 quatrilhões perdem precisão. Alternativamente, pode-se utilizar números `BigInt` (do tipo `bigint`) adicionando `n` no final, por exemplo, `10000000000000001n` ([leia este artigo para mais informações](https://bit.ly/tableless-bigint)), porém você estará limitado a números inteiros apenas, não podendo representar números decimais.
 
-Números envolvidos em *strings* deverão seguir o formato natural de escrita de números. Você pode usar `-` no início para representar números negativos e vírgula (`,`) ou ponto (`.`) para separação de milhares e decimais, seguindo, por padrão, o formato de escrita do Brasil (ou seja, com vírgula como separador decimal). Esse formato pode ser alterado conforme a preferência, utilizando o parâmetro `number.decimalSeparator` como será visto mais adiante.
+Números envolvidos em *strings* deverão seguir o formato natural de escrita de números. Você pode usar `-` no início para representar números negativos e vírgula (`,`) ou ponto (`.`) para separação de milhares e decimais, seguindo, por padrão, o formato de escrita do Brasil (ou seja, com vírgula como separador decimal). Esse formato pode ser alterado conforme a preferência, utilizando o parâmetro `decimalSeparator` como será visto mais adiante.
 
 ## `options` [*object*]
 
@@ -87,7 +87,7 @@ Números envolvidos em *strings* deverão seguir o formato natural de escrita de
 - [`locale`](#optionslocale-string) [*string*]
 - [`currency.code`](#optionscurrencycode-string) [*string*]
 - [`number.gender`](#optionsnumbergender-string) [*string*]
-- [`number.decimalSeparator`](#optionsnumberdecimalsseparator-string) [*string*]
+- [`decimalSeparator`](#optionsdecimalseparator-string) [*string*]
 
 ## `options.mode` [*string*]
 
@@ -145,7 +145,7 @@ extenso('2.000.000.001', { scale: 'long' })
 
 > Define o separador de inteiro e decimal.
 
-No português, o separador de inteiro e decimal mais comum é a vírgula (`comma`). No entanto, em outros países, pode ser necessário usar o ponto (`point`) como separador decimal. Nesse caso você pode utilizar o parâmetro `number.decimalSeparator` para definir outro separador de decimal (`point`), no entanto, isso só é necessário se o número fornecido esteja encapsulado em *string*.
+No português, o separador de inteiro e decimal mais comum é a vírgula (`comma`). No entanto, em outros países, pode ser necessário usar o ponto (`point`) como separador decimal. Nesse caso você pode utilizar o parâmetro `decimalSeparator` para definir outro separador de decimal (`point`), no entanto, isso só é necessário se o número fornecido esteja encapsulado em *string*.
 
 Observe que caso o separador decimal seja `point` (.) então o separador de milhar automaticamente será `comma` (,) e vice-versa.
 
@@ -158,10 +158,10 @@ Exemplos:
 extenso('3,14')
 //=> 'três inteiros e quatorze centésimos'
 
-extenso('3,14', { number: { decimalSeparator: 'comma' } })
+extenso('3,14', { decimalSeparator: 'comma' })
 //=> 'três inteiros e quatorze centésimos'
 
-extenso('3.14', { number: { decimalSeparator: 'point' } })
+extenso('3.14', { decimalSeparator: 'point' })
 //=> 'três inteiros e quatorze centésimos'
 ```
 
@@ -199,9 +199,9 @@ extenso('1.000.000.000', { locale: 'pt' })
 
 > Define o código [ISO](https://pt.wikipedia.org/wiki/ISO_4217) da moeda em que o número deverá ser escrito.
 
-Até o momento são suportadas apenas 9 moedas escolhidas com base na importância econômica e comercial de cada uma delas e que são as mais utilizadas nos países membros da [CPLP (Comunidade dos Países de Língua Portuguesa)](https://www.cplp.org/), os quais são: Brasil, Angola, Cabo Verde, Guiné Bissau, Guiné Equatorial, Moçambique, Portugal, São Tomé e Príncipe e Timor-Leste.
+Até o momento são suportadas apenas 9 moedas escolhidas com base na importância econômica e comercial de cada uma delas e que são as mais utilizadas nos países membros da [CPLP (Comunidade dos Países de Língua Portuguesa)](https://www.cplp.org/), os quais são: Brasil, Angola, Cabo Verde, Guiné-Bissau, Guiné Equatorial, Moçambique, Portugal, São Tomé e Príncipe e Timor-Leste.
 
-_Em breve será suportado a definição de moedas personalizadas. Você pode contribuir enviando um [*pull request*](https://github.com/lusofonia/extenso.js/pulls) com a adição de uma nova moeda ou com a correção de um erro em uma moeda já existente._
+_Em breve será suportada a definição de moedas personalizadas. Você pode contribuir enviando um [*pull request*](https://github.com/lusofonia/extenso.js/pulls) com a adição de uma nova moeda ou com a correção de um erro em uma moeda já existente._
 
 As moedas suportadas são:
 
