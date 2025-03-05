@@ -37,3 +37,8 @@ test('normalize(): should throw on invalid type', (t) => {
     // @ts-expect-error - this is expected to throw
     t.throws(() => normalize([]))
 })
+
+test('normalize(): should throw when input exceeds maximum length', (t) => {
+    const longString = '1'.repeat(1001)
+    t.throws(() => normalize(longString), { message: 'Input exceeds maximum length of 1000 characters' })
+})
