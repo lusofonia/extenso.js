@@ -1,6 +1,6 @@
 <div align="center">
 
-[_If you don't speak English, check out the Portuguese version of this README here._](https://github.com/lusofonia/extenso.js/blob/master/README-english.md)
+[_If you don't speak English, check out the Portuguese version of this README here._](https://github.com/lusofonia/extenso.js/blob/master/README.md)
 
 [_If you want a private consultation, contact me here._](https://esyyuh0nxyf.typeform.com/to/fG1XDrpT)
 
@@ -199,7 +199,7 @@ extenso('1.000.000.000', { locale: 'pt' })
 
 > Defines the [ISO](https://pt.wikipedia.org/wiki/ISO_4217) currency code in which the number should be written.
 
-So far, only 9 currencies are supported, chosen based on the economic and commercial importance of each and which are the most used in the member countries of the [CPLP (Community of Portuguese Language Countries)](https://www.cplp.org/), which are: Brazil, Angola, Cape Verde, Guinea-Bissau, Equatorial Guinea, Mozambique, Portugal, São Tomé and Príncipe, and Timor-Leste.
+So far, only 10 currencies are supported, chosen based on the economic and commercial importance of each and which are the most used in the member countries of the [CPLP (Community of Portuguese Language Countries)](https://www.cplp.org/), which are: Brazil, Angola, Cape Verde, Guinea-Bissau, Equatorial Guinea, Mozambique, Portugal, São Tomé and Príncipe, and Timor-Leste.
 
 _Custom currency definition will be supported soon. You can contribute by sending a [*pull request*](https://github.com/lusofonia/extenso.js/pulls) with the addition of a new currency or with the correction of an error in an existing currency._
 
