@@ -4,6 +4,14 @@ import pluralize from '../utils/pluralize'
 import writeInteger from '../core/write-integer'
 import writeDecimal from '../core/write-decimal'
 
+/**
+ * Writes a number in words with optional decimal part and gender
+ * @param integer - The integer part of the number
+ * @param decimal - The decimal part of the number
+ * @param scale - The scale to use (SHORT or LONG)
+ * @param gender - The gender to use for the number (MALE or FEMALE)
+ * @returns The complete number written in words
+ */
 const writeNumber = (
     integer: string,
     decimal = '0',

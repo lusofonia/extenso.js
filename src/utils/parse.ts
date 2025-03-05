@@ -15,6 +15,16 @@ export class ParseError extends Error {
     }
 }
 
+/**
+ * Parses a string input into integer and decimal parts
+ * @param input - The string to parse
+ * @param decimalSeparator - The decimal separator to use (POINT or COMMA)
+ * @returns Object containing integer and decimal parts as strings
+ * @throws {ParseError} If input is empty
+ * @throws {ParseError} If multiple decimal separators are found
+ * @throws {ParseError} If integer part contains non-digit characters
+ * @throws {ParseError} If decimal part contains non-digit characters
+ */
 const parse = (input: string, decimalSeparator: DecimalSeparators = DecimalSeparators.POINT): {
     integer: string
     decimal: string

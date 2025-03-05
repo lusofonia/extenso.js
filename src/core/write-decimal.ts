@@ -2,6 +2,12 @@ import pluralize from '../utils/pluralize'
 import writeInteger from './write-integer'
 import listDecimals from '../lists/list-decimals'
 
+/**
+ * Writes a decimal number in words
+ * @param input - The decimal part to write
+ * @returns The decimal part written in words
+ * @throws {Error} If the number exceeds the limit
+ */
 const writeDecimal = (input: string): string => {
     const text = writeInteger(input)
     const count = Number(input)
