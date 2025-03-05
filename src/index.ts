@@ -6,6 +6,8 @@ import translate from './utils/translate'
 import writeCurrency from './mode/write-currency'
 import writeDigit from './mode/write-digit'
 import writeNumber from './mode/write-number'
+import detectCurrency from './utils/detect-currency'
+import Currencies from './ts/enum/currencies.enum'
 
 const NEGATIVE_SIGN = '-'
 
@@ -27,15 +29,21 @@ const NEGATIVE_SIGN = '-'
  * @example
  * extenso(1234.56) // "mil duzentos e trinta e quatro vírgula cinquenta e seis"
  * extenso(1234.56, { mode: Modes.CURRENCY, currency: { code: Currencies.BRL } }) // "mil duzentos e trinta e quatro reais e cinquenta e seis centavos"
+ * extenso("R$ 1234.56", { mode: Modes.CURRENCY }) // "mil duzentos e trinta e quatro reais e cinquenta e seis centavos"
  */
 const extenso = (input: number | string | bigint, options: Options = {}): string => {
+    // Detect currency before normalizing input
+    const detectedCurrency = typeof input === 'string' ? detectCurrency(input) : undefined
+    const currencyCode = options?.currency?.code || detectedCurrency || Currencies.BRL
+
+    // Now normalize and parse the input
     input = normalize(input)
     const { integer, decimal } = parse(input, options?.decimalSeparator)
     let text: string
 
     switch (options?.mode) {
     case Modes.CURRENCY:
-        text = writeCurrency(integer, decimal, options?.currency?.code, options?.scale)
+        text = writeCurrency(integer, decimal, currencyCode, options?.scale)
         break
     case Modes.DIGIT:
         text = writeDigit(integer)
