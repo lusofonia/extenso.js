@@ -1,12 +1,18 @@
 import test from 'ava'
-import parse from '../parse'
+import parse, { ParseError, ParseErrorCode } from '../parse'
 import DecimalSeparators from '../../ts/enum/decimal-separators.enum'
 
 test('parse(): integer', (t) => {
+    t.deepEqual(parse('0'), { integer: '0', decimal: '0' })
     t.deepEqual(parse('1'), { integer: '1', decimal: '0' })
     t.deepEqual(parse('10'), { integer: '10', decimal: '0' })
     t.deepEqual(parse('100'), { integer: '100', decimal: '0' })
-    t.deepEqual(parse('1000'), { integer: '1000', decimal: '0' })
+    t.deepEqual(parse('-1'), { integer: '1', decimal: '0' })
+    t.deepEqual(parse('-10'), { integer: '10', decimal: '0' })
+    t.deepEqual(parse('-100'), { integer: '100', decimal: '0' })
+    t.deepEqual(parse('  -1'), { integer: '1', decimal: '0' })
+    t.deepEqual(parse('-  10'), { integer: '10', decimal: '0' })
+    t.deepEqual(parse('   -100'), { integer: '100', decimal: '0' })
 })
 
 test('parse(): decimal', (t) => {
@@ -36,12 +42,19 @@ test('parse(): string', (t) => {
 })
 
 test('parse(): invalid input', (t) => {
-    t.throws(() => parse('invalid'), { message: 'Invalid integer number' })
-    t.throws(() => parse('abc'), { message: 'Invalid integer number' })
-    t.throws(() => parse('12.34.56'), { message: 'Invalid number' })
-    t.throws(() => parse('12.34.56.78'), { message: 'Invalid number' }) // NOSONAR
-    t.throws(() => parse('12,34-56'), { message: 'Invalid integer number' })
-    t.throws(() => parse('12.34-56'), { message: 'Invalid decimal number' })
-    t.throws(() => parse(''), { message: 'Invalid number' })
-    t.throws(() => parse('  '), { message: 'Invalid number' })
+    const invalidInteger = t.throws(() => parse('invalid')) as ParseError
+    t.is(invalidInteger.message, 'Invalid integer part: "invalid". Only digits are allowed.')
+    t.is(invalidInteger.code, ParseErrorCode.INVALID_INTEGER)
+
+    const invalidDecimal = t.throws(() => parse('12.34-56')) as ParseError
+    t.is(invalidDecimal.message, 'Invalid decimal part: "34-56". Only digits are allowed.')
+    t.is(invalidDecimal.code, ParseErrorCode.INVALID_DECIMAL)
+
+    const multipleDecimals = t.throws(() => parse('12.34.56')) as ParseError
+    t.is(multipleDecimals.message, 'Invalid number format: multiple decimal separators found. Use only one \'.\' as decimal separator.')
+    t.is(multipleDecimals.code, ParseErrorCode.MULTIPLE_DECIMALS)
+
+    const emptyInput = t.throws(() => parse('')) as ParseError
+    t.is(emptyInput.message, 'Input cannot be empty')
+    t.is(emptyInput.code, ParseErrorCode.EMPTY_INPUT)
 })
