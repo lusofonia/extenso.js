@@ -48,3 +48,11 @@ test('writeGreaterThan1000(): should handle big numbers', (t) => {
     t.is(writeGreaterThan1000('1000000000000000001'), 'um quintilhão e um')
     t.is(writeGreaterThan1000('2000000000000000002'), 'dois quintilhões e dois')
 })
+
+test('writeGreaterThan1000(): should throw error when number exceeds scale limit', (t) => {
+    const error = t.throws(() => {
+        writeGreaterThan1000('1000000000000000000000000000000000000000000')
+    }, { instanceOf: Error })
+    
+    t.is(error.message, 'Number exceeds short scale limit')
+})
