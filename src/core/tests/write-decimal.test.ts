@@ -1,7 +1,7 @@
 import test from 'ava'
 import writeDecimal from '../write-decimal'
 
-test('writeDecimal(): singular', (t) => {
+test('writeDecimal(): should handle singular decimal values', (t) => {
     t.is(writeDecimal('1'), 'um décimo')
     t.is(writeDecimal('01'), 'um centésimo')
     t.is(writeDecimal('001'), 'um milésimo')
@@ -10,7 +10,7 @@ test('writeDecimal(): singular', (t) => {
     t.is(writeDecimal('000001'), 'um milionésimo')
 })
 
-test('writeDecimal(): plural', (t) => {
+test('writeDecimal(): should handle plural decimal values', (t) => {
     t.is(writeDecimal('5'), 'cinco décimos')
     t.is(writeDecimal('05'), 'cinco centésimos')
     t.is(writeDecimal('005'), 'cinco milésimos')
