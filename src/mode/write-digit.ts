@@ -12,7 +12,8 @@ const writeDigit = (input: string): string => {
         .map((digit: string) => writeLowerThan10(Number(digit)))
         .join(' ')
 
-    if (parts.length === 1 || !parts[1]) {
+    // Return only integer part if there's no decimal or decimal part is empty
+    if (parts.length === 1 || !parts[1] || parts[1].trim() === '') {
         return integerPart
     }
 

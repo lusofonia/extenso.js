@@ -50,7 +50,10 @@ const extenso = (input: number | string | bigint, options: Options = {}): string
         text = writeCurrency(integer, decimal, currencyCode, options?.scale)
         break
     case Modes.DIGIT:
-        text = writeDigit(decimal ? `${integer}${options?.decimalSeparator === DecimalSeparators.COMMA ? ',' : '.'}${decimal}` : integer)
+        // Only include decimal part if it exists
+        text = decimal && decimal !== '0' 
+            ? writeDigit(`${integer}${options?.decimalSeparator === DecimalSeparators.COMMA ? ',' : '.'}${decimal}`)
+            : writeDigit(integer)
         break
     case Modes.NUMBER:
     default:
