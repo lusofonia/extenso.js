@@ -35,4 +35,4 @@ const detectCurrency = (input: string): Currencies | undefined => {
     return undefined
 }
 
-export default detectCurrency 
+export default detectCurrency

@@ -51,7 +51,7 @@ const extenso = (input: number | string | bigint, options: Options = {}): string
         break
     case Modes.DIGIT:
         // Only include decimal part if it exists
-        text = decimal && decimal !== '0' 
+        text = decimal && decimal !== '0'
             ? writeDigit(`${integer}${options?.decimalSeparator === DecimalSeparators.COMMA ? ',' : '.'}${decimal}`)
             : writeDigit(integer)
         break

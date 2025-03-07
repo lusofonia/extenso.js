@@ -107,7 +107,7 @@ test('extenso(): should prioritize explicit mode over auto-detection', (t) => {
 test('extenso(): should handle decimal separator in DIGIT mode', (t) => {
     // Test with point separator
     t.is(extenso('1234.56', { mode: Modes.DIGIT }), 'um dois três quatro vírgula cinco seis')
-    
+
     // Test with comma separator
     t.is(extenso('1234,56', { mode: Modes.DIGIT, decimalSeparator: DecimalSeparators.COMMA }), 'um dois três quatro vírgula cinco seis')
 })
@@ -115,10 +115,10 @@ test('extenso(): should handle decimal separator in DIGIT mode', (t) => {
 test('extenso(): should handle mode detection edge cases', (t) => {
     // Test with explicit mode and no currency
     t.is(extenso('1234.56', { mode: Modes.NUMBER }), 'mil duzentos e trinta e quatro inteiros e cinquenta e seis centésimos')
-    
+
     // Test with explicit mode and detected currency
     t.is(extenso('R$ 1234.56', { mode: Modes.NUMBER }), 'mil duzentos e trinta e quatro inteiros e cinquenta e seis centésimos')
-    
+
     // Test with explicit mode and currency code
     t.is(extenso('1234.56', { mode: Modes.NUMBER, currency: { code: Currencies.BRL } }), 'mil duzentos e trinta e quatro inteiros e cinquenta e seis centésimos')
 })
@@ -126,13 +126,13 @@ test('extenso(): should handle mode detection edge cases', (t) => {
 test('extenso(): should handle all mode detection combinations', (t) => {
     // Test with no mode and no currency
     t.is(extenso('1234.56'), 'mil duzentos e trinta e quatro inteiros e cinquenta e seis centésimos')
-    
+
     // Test with no mode and detected currency
     t.is(extenso('R$ 1234.56'), 'mil duzentos e trinta e quatro reais e cinquenta e seis centavos')
-    
+
     // Test with no mode and currency code
     t.is(extenso('1234.56', { currency: { code: Currencies.BRL } }), 'mil duzentos e trinta e quatro reais e cinquenta e seis centavos')
-    
+
     // Test with no mode and both detected currency and currency code
     t.is(extenso('R$ 1234.56', { currency: { code: Currencies.EUR } }), 'mil duzentos e trinta e quatro euros e cinquenta e seis cêntimos')
 })
@@ -140,18 +140,18 @@ test('extenso(): should handle all mode detection combinations', (t) => {
 test('extenso(): should handle all decimal separator combinations in DIGIT mode', (t) => {
     // Test with point separator and no decimal
     t.is(extenso('1234', { mode: Modes.DIGIT }), 'um dois três quatro')
-    
+
     // Test with comma separator and no decimal
     t.is(extenso('1234', { mode: Modes.DIGIT, decimalSeparator: DecimalSeparators.COMMA }), 'um dois três quatro')
-    
+
     // Test with point separator and decimal
     t.is(extenso('1234.56', { mode: Modes.DIGIT }), 'um dois três quatro vírgula cinco seis')
-    
+
     // Test with comma separator and decimal
     t.is(extenso('1234,56', { mode: Modes.DIGIT, decimalSeparator: DecimalSeparators.COMMA }), 'um dois três quatro vírgula cinco seis')
 })
 
 test('extenso(): should handle invalid mode', (t) => {
-    // @ts-ignore - Testing invalid mode
+    // @ts-expect-error - Testing invalid mode
     t.is(extenso('1234.56', { mode: 'INVALID' }), 'mil duzentos e trinta e quatro inteiros e cinquenta e seis centésimos')
-}) 
+})

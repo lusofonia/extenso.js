@@ -30,7 +30,7 @@ const normalize = (input: string | number | bigint): string => {
     }
 
     let normalized = input.toString().trim().replace(/\s/g, '')
-    
+
     // Remove currency symbols and codes
     for (const [symbol] of Object.entries(currencySymbols)) {
         normalized = normalized.replace(symbol, '')
@@ -38,7 +38,7 @@ const normalize = (input: string | number | bigint): string => {
     for (const code of Object.values(Currencies)) {
         normalized = normalized.replace(code, '')
     }
-    
+
     if (normalized.length > MAX_INPUT_LENGTH) {
         throw new Error(`Input exceeds maximum length of ${MAX_INPUT_LENGTH} characters`)
     }
