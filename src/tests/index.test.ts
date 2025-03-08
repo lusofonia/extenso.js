@@ -49,14 +49,14 @@ test('extenso(): should automatically set mode to CURRENCY when currency is dete
         [Currencies.XOF]: 'francos',
         [Currencies.MZN]: 'meticais',
         [Currencies.STN]: 'dobras',
-        [Currencies.MOP]: 'patacas'
+        [Currencies.MOP]: 'patacas',
     }
-    
+
     for (const testCase of currencyTestCases) {
         const input = testCase.input.replace('123', amount)
         const result = extenso(input)
         const expectedWord = currencyWords[testCase.expectedCurrency]
-        t.true(result.includes(expectedWord), 
+        t.true(result.includes(expectedWord),
             `Currency mode not automatically set for: ${input}, expected to find: ${expectedWord}`)
     }
 
@@ -66,18 +66,18 @@ test('extenso(): should automatically set mode to CURRENCY when currency is dete
 
 test('extenso(): should prioritize currency code from options over detection', (t) => {
     const amount = '1234.56'
-    t.is(extenso(getFormattedAmountWithSymbol(amount, 'R$'), { mode: Modes.CURRENCY, currency: { code: Currencies.EUR } }), 
+    t.is(extenso(getFormattedAmountWithSymbol(amount, 'R$'), { mode: Modes.CURRENCY, currency: { code: Currencies.EUR } }),
         'mil duzentos e trinta e quatro euros e cinquenta e seis cêntimos')
-    t.is(extenso(getFormattedAmount(amount, 'BRL'), { mode: Modes.CURRENCY, currency: { code: Currencies.USD } }), 
+    t.is(extenso(getFormattedAmount(amount, 'BRL'), { mode: Modes.CURRENCY, currency: { code: Currencies.USD } }),
         'mil duzentos e trinta e quatro dólares e cinquenta e seis centavos')
 })
 
 test('extenso(): should prioritize explicit mode over auto-detection', (t) => {
     const amount = '1234.56'
     // Even with currency detected, explicit mode should be used
-    t.is(extenso(getFormattedAmountWithSymbol(amount, 'R$'), { mode: Modes.NUMBER }), 
+    t.is(extenso(getFormattedAmountWithSymbol(amount, 'R$'), { mode: Modes.NUMBER }),
         'mil duzentos e trinta e quatro inteiros e cinquenta e seis centésimos')
-    t.is(extenso(getFormattedAmount(amount, 'BRL'), { mode: Modes.DIGIT }), 
+    t.is(extenso(getFormattedAmount(amount, 'BRL'), { mode: Modes.DIGIT }),
         'um dois três quatro vírgula cinco seis')
 })
 

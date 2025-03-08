@@ -46,7 +46,7 @@ export const currencyTestCases: CurrencyTestCase[] = [
 
     // Multiple indicators (should use first occurrence)
     { input: 'BRL 123 EUR', expectedCurrency: Currencies.BRL, description: 'Multiple currency codes' },
-    { input: 'R$ 123 €', expectedCurrency: Currencies.BRL, description: 'Multiple currency symbols' }
+    { input: 'R$ 123 €', expectedCurrency: Currencies.BRL, description: 'Multiple currency symbols' },
 ]
 
 export const invalidCurrencyTestCases = [
@@ -57,7 +57,7 @@ export const invalidCurrencyTestCases = [
     '123 XYZ',
     '',
     '0',
-    '-123'
+    '-123',
 ]
 
 export const getFormattedAmount = (amount: string | number, currency: string): string => {
@@ -66,4 +66,4 @@ export const getFormattedAmount = (amount: string | number, currency: string): s
 
 export const getFormattedAmountWithSymbol = (amount: string | number, symbol: string): string => {
     return typeof amount === 'string' ? `${symbol} ${amount}` : `${symbol} ${amount.toString()}`
-} 
+}
