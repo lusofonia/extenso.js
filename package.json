@@ -13,6 +13,9 @@
       "rewritePaths": {
         "src/": "build/src/"
       },
+      "files": [
+        "src/**/*.test.ts"
+      ],
       "compile": "tsc"
     }
   },
