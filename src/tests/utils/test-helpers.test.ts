@@ -15,4 +15,4 @@ test('getFormattedAmountWithSymbol(): should handle string amounts', (t) => {
 
 test('getFormattedAmountWithSymbol(): should handle number amounts', (t) => {
     t.is(getFormattedAmountWithSymbol(123.45, 'R$'), 'R$ 123.45')
-})
+}) 
