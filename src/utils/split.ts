@@ -1,6 +1,7 @@
 /**
  * Splits a string into groups of 3 digits from right to left
  * @param input - The string to split
+ * @returns Array of numbers, each representing a group of 3 digits
  */
 const split = (input: string): number[] => {
     const result = []
