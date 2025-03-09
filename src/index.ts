@@ -22,7 +22,6 @@ const NEGATIVE_SIGN = '-'
  * @param options.scale - The number scale to use (SHORT or LONG)
  * @param options.currency - Currency configuration when mode is CURRENCY
  * @param options.number - Number configuration when mode is NUMBER
- * @returns The written form of the number in Portuguese
  * @throws {TypeError} If input is not a string, number, or bigint
  * @throws {Error} If the number format is invalid
  * @throws {Error} If the number exceeds scale limits

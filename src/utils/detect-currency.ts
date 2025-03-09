@@ -15,7 +15,6 @@ const currencySymbols: Record<string, Currencies> = {
 /**
  * Detects currency code or symbol in the input string
  * @param input - The input string to check for currency
- * @returns The detected currency code or undefined if none found
  */
 const detectCurrency = (input: string): Currencies | undefined => {
     // First check for currency codes (e.g. BRL, EUR, USD)

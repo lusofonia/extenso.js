@@ -7,7 +7,6 @@ import writeLowerThan1000 from './write-lower-than-1000'
  * Writes a number greater than 1000 in words
  * @param input - The number to write
  * @param scale - The scale to use (SHORT or LONG)
- * @returns The number written in words
  * @throws {Error} If the number exceeds the scale limit
  */
 const writeGreaterThan1000 = (input: string, scale: Scales = Scales.SHORT): string => {

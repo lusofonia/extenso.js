@@ -6,7 +6,6 @@ import writeLowerThan1000 from './integer/write-lower-than-1000'
  * Writes an integer number in words
  * @param input - The integer to write
  * @param scale - The scale to use (SHORT or LONG)
- * @returns The integer written in words
  */
 const writeInteger = (input: string, scale: Scales = Scales.SHORT): string => {
     if (Number(input) < 1000) {

@@ -17,7 +17,6 @@ const MAX_INPUT_LENGTH = 1000 // Maximum length for input strings to prevent mem
 /**
  * Normalizes the input by converting it to a string and removing currency symbols/codes
  * @param input - The input to normalize
- * @returns The normalized string
  * @throws {TypeError} If input is not a string, number, or bigint
  * @throws {Error} If the normalized string exceeds maximum length
  */

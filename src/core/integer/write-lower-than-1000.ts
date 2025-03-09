@@ -6,7 +6,6 @@ import listFrom100To900, { HUNDRED } from '../../lists/list-from-100-to-900'
 /**
  * Writes a number from 0 to 9 in words
  * @param input - The number to write
- * @returns The number written in words
  */
 export const writeLowerThan10 = (input: number): string => {
     return listFrom0To9[input]
@@ -15,7 +14,6 @@ export const writeLowerThan10 = (input: number): string => {
 /**
  * Writes a number from 0 to 19 in words
  * @param input - The number to write
- * @returns The number written in words
  */
 export const writeLowerThan20 = (input: number): string => {
     if (input < 10) {
@@ -27,7 +25,6 @@ export const writeLowerThan20 = (input: number): string => {
 /**
  * Writes a number from 0 to 99 in words
  * @param input - The number to write
- * @returns The number written in words
  */
 export const writeLowerThan100 = (input: number): string => {
     if (input < 20) {
@@ -43,7 +40,6 @@ export const writeLowerThan100 = (input: number): string => {
 /**
  * Writes a number from 0 to 999 in words
  * @param input - The number to write
- * @returns The number written in words
  */
 const writeLowerThan1000 = (input: number): string => {
     if (input < 100) {
