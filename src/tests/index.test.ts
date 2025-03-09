@@ -3,7 +3,6 @@ import extenso from '../index'
 import Modes from '../ts/enum/modes.enum'
 import Currencies from '../ts/enum/currencies.enum'
 import DecimalSeparators from '../ts/enum/decimal-separators.enum'
-import { currencyTestCases, getFormattedAmount, getFormattedAmountWithSymbol } from './utils/test-helpers'
 
 test('extenso(): should handle default mode (NUMBER)', (t) => {
     t.is(extenso('1234.56'), 'mil duzentos e trinta e quatro inteiros e cinquenta e seis centésimos')
@@ -18,67 +17,91 @@ test('extenso(): should handle undefined number gender', (t) => {
     t.is(extenso('1234.56', { mode: Modes.NUMBER, number: {} }), 'mil duzentos e trinta e quatro inteiros e cinquenta e seis centésimos')
 })
 
-test('extenso(): should detect currency from input', (t) => {
-    const amount = '1234.56'
-    const negativeAmount = '-1234.56'
-
-    // Test basic currency detection for main currencies
-    t.is(extenso(getFormattedAmount(amount, 'BRL'), { mode: Modes.CURRENCY }), 'mil duzentos e trinta e quatro reais e cinquenta e seis centavos')
-    t.is(extenso(getFormattedAmount(amount, 'EUR'), { mode: Modes.CURRENCY }), 'mil duzentos e trinta e quatro euros e cinquenta e seis cêntimos')
-    t.is(extenso(getFormattedAmount(amount, 'USD'), { mode: Modes.CURRENCY }), 'mil duzentos e trinta e quatro dólares e cinquenta e seis centavos')
-
-    // Test with currency symbols
-    t.is(extenso(getFormattedAmountWithSymbol(amount, 'R$'), { mode: Modes.CURRENCY }), 'mil duzentos e trinta e quatro reais e cinquenta e seis centavos')
-    t.is(extenso(getFormattedAmountWithSymbol(amount, '€'), { mode: Modes.CURRENCY }), 'mil duzentos e trinta e quatro euros e cinquenta e seis cêntimos')
-    t.is(extenso(getFormattedAmountWithSymbol(amount, '$'), { mode: Modes.CURRENCY }), 'mil duzentos e trinta e quatro dólares e cinquenta e seis centavos')
-
-    // Test negative amounts
-    t.is(extenso(getFormattedAmount(negativeAmount, 'BRL'), { mode: Modes.CURRENCY }), 'menos mil duzentos e trinta e quatro reais e cinquenta e seis centavos')
-    t.is(extenso(getFormattedAmount(negativeAmount, 'EUR'), { mode: Modes.CURRENCY }), 'menos mil duzentos e trinta e quatro euros e cinquenta e seis cêntimos')
-    t.is(extenso(getFormattedAmount(negativeAmount, 'USD'), { mode: Modes.CURRENCY }), 'menos mil duzentos e trinta e quatro dólares e cinquenta e seis centavos')
+test('extenso(): should detect currency from code in input', (t) => {
+    t.is(extenso('1234.56 BRL', { mode: Modes.CURRENCY }), 'mil duzentos e trinta e quatro reais e cinquenta e seis centavos')
+    t.is(extenso('1234.56 EUR', { mode: Modes.CURRENCY }), 'mil duzentos e trinta e quatro euros e cinquenta e seis cêntimos')
+    t.is(extenso('1234.56 USD', { mode: Modes.CURRENCY }), 'mil duzentos e trinta e quatro dólares e cinquenta e seis centavos')
 })
 
-test('extenso(): should automatically set mode to CURRENCY when currency is detected', (t) => {
-    const amount = '1234.56'
-    const currencyWords = {
-        [Currencies.BRL]: 'reais',
-        [Currencies.EUR]: 'euros',
-        [Currencies.USD]: 'dólares',
-        [Currencies.AOA]: 'kwanzas',
-        [Currencies.CVE]: 'escudos',
-        [Currencies.XOF]: 'francos',
-        [Currencies.MZN]: 'meticais',
-        [Currencies.STN]: 'dobras',
-        [Currencies.MOP]: 'patacas'
-    }
-    
-    for (const testCase of currencyTestCases) {
-        const input = testCase.input.replace('123', amount)
-        const result = extenso(input)
-        const expectedWord = currencyWords[testCase.expectedCurrency]
-        t.true(result.includes(expectedWord), 
-            `Currency mode not automatically set for: ${input}, expected to find: ${expectedWord}`)
-    }
+test('extenso(): should detect currency from symbol in input', (t) => {
+    t.is(extenso('R$ 1234.56', { mode: Modes.CURRENCY }), 'mil duzentos e trinta e quatro reais e cinquenta e seis centavos')
+    t.is(extenso('€ 1234.56', { mode: Modes.CURRENCY }), 'mil duzentos e trinta e quatro euros e cinquenta e seis cêntimos')
+    t.is(extenso('$ 1234.56', { mode: Modes.CURRENCY }), 'mil duzentos e trinta e quatro dólares e cinquenta e seis centavos')
+})
 
-    // Test that NUMBER mode is still used when no currency is detected
-    t.is(extenso(amount), 'mil duzentos e trinta e quatro inteiros e cinquenta e seis centésimos')
+test('extenso(): should detect currency from code in input without spaces', (t) => {
+    t.is(extenso('1234.56BRL', { mode: Modes.CURRENCY }), 'mil duzentos e trinta e quatro reais e cinquenta e seis centavos')
+    t.is(extenso('1234.56EUR', { mode: Modes.CURRENCY }), 'mil duzentos e trinta e quatro euros e cinquenta e seis cêntimos')
+    t.is(extenso('1234.56USD', { mode: Modes.CURRENCY }), 'mil duzentos e trinta e quatro dólares e cinquenta e seis centavos')
+})
+
+test('extenso(): should detect currency from symbol in input without spaces', (t) => {
+    t.is(extenso('R$1234.56', { mode: Modes.CURRENCY }), 'mil duzentos e trinta e quatro reais e cinquenta e seis centavos')
+    t.is(extenso('€1234.56', { mode: Modes.CURRENCY }), 'mil duzentos e trinta e quatro euros e cinquenta e seis cêntimos')
+    t.is(extenso('$1234.56', { mode: Modes.CURRENCY }), 'mil duzentos e trinta e quatro dólares e cinquenta e seis centavos')
+})
+
+test('extenso(): should handle currency codes in different positions', (t) => {
+    t.is(extenso('BRL 1234.56', { mode: Modes.CURRENCY }), 'mil duzentos e trinta e quatro reais e cinquenta e seis centavos')
+    t.is(extenso('1234.56 EUR 789', { mode: Modes.CURRENCY }), 'mil duzentos e trinta e quatro euros e cinquenta e seis cêntimos')
+    t.is(extenso('1234.56 789 USD', { mode: Modes.CURRENCY }), 'mil duzentos e trinta e quatro dólares e cinquenta e seis centavos')
+})
+
+test('extenso(): should handle currency symbols in different positions', (t) => {
+    t.is(extenso('R$ 1234.56', { mode: Modes.CURRENCY }), 'mil duzentos e trinta e quatro reais e cinquenta e seis centavos')
+    t.is(extenso('1234.56 € 789', { mode: Modes.CURRENCY }), 'mil duzentos e trinta e quatro euros e cinquenta e seis cêntimos')
+    t.is(extenso('1234.56 789 $', { mode: Modes.CURRENCY }), 'mil duzentos e trinta e quatro dólares e cinquenta e seis centavos')
+})
+
+test('extenso(): should handle multiple currency indicators', (t) => {
+    // Should use the first occurrence
+    t.is(extenso('BRL 1234.56 EUR', { mode: Modes.CURRENCY }), 'mil duzentos e trinta e quatro reais e cinquenta e seis centavos')
+    t.is(extenso('R$ 1234.56 €', { mode: Modes.CURRENCY }), 'mil duzentos e trinta e quatro reais e cinquenta e seis centavos')
+})
+
+test('extenso(): should handle negative currency values', (t) => {
+    t.is(extenso('-1234.56 BRL', { mode: Modes.CURRENCY }), 'menos mil duzentos e trinta e quatro reais e cinquenta e seis centavos')
+    t.is(extenso('-1234.56 EUR', { mode: Modes.CURRENCY }), 'menos mil duzentos e trinta e quatro euros e cinquenta e seis cêntimos')
+    t.is(extenso('-1234.56 USD', { mode: Modes.CURRENCY }), 'menos mil duzentos e trinta e quatro dólares e cinquenta e seis centavos')
+    t.is(extenso('-R$ 1234.56', { mode: Modes.CURRENCY }), 'menos mil duzentos e trinta e quatro reais e cinquenta e seis centavos')
+    t.is(extenso('-€ 1234.56', { mode: Modes.CURRENCY }), 'menos mil duzentos e trinta e quatro euros e cinquenta e seis cêntimos')
+    t.is(extenso('-$ 1234.56', { mode: Modes.CURRENCY }), 'menos mil duzentos e trinta e quatro dólares e cinquenta e seis centavos')
 })
 
 test('extenso(): should prioritize currency code from options over detection', (t) => {
-    const amount = '1234.56'
-    t.is(extenso(getFormattedAmountWithSymbol(amount, 'R$'), { mode: Modes.CURRENCY, currency: { code: Currencies.EUR } }), 
-        'mil duzentos e trinta e quatro euros e cinquenta e seis cêntimos')
-    t.is(extenso(getFormattedAmount(amount, 'BRL'), { mode: Modes.CURRENCY, currency: { code: Currencies.USD } }), 
-        'mil duzentos e trinta e quatro dólares e cinquenta e seis centavos')
+    t.is(extenso('R$ 1234.56', { mode: Modes.CURRENCY, currency: { code: Currencies.EUR } }), 'mil duzentos e trinta e quatro euros e cinquenta e seis cêntimos')
+    t.is(extenso('1234.56 BRL', { mode: Modes.CURRENCY, currency: { code: Currencies.USD } }), 'mil duzentos e trinta e quatro dólares e cinquenta e seis centavos')
+})
+
+test('extenso(): should automatically set mode to CURRENCY when currency is detected', (t) => {
+    // Test with currency code
+    t.is(extenso('1234.56 BRL'), 'mil duzentos e trinta e quatro reais e cinquenta e seis centavos')
+    t.is(extenso('1234.56 EUR'), 'mil duzentos e trinta e quatro euros e cinquenta e seis cêntimos')
+    t.is(extenso('1234.56 USD'), 'mil duzentos e trinta e quatro dólares e cinquenta e seis centavos')
+
+    // Test with currency symbol
+    t.is(extenso('R$ 1234.56'), 'mil duzentos e trinta e quatro reais e cinquenta e seis centavos')
+    t.is(extenso('€ 1234.56'), 'mil duzentos e trinta e quatro euros e cinquenta e seis cêntimos')
+    t.is(extenso('$ 1234.56'), 'mil duzentos e trinta e quatro dólares e cinquenta e seis centavos')
+
+    // Test with currency code without spaces
+    t.is(extenso('1234.56BRL'), 'mil duzentos e trinta e quatro reais e cinquenta e seis centavos')
+    t.is(extenso('1234.56EUR'), 'mil duzentos e trinta e quatro euros e cinquenta e seis cêntimos')
+    t.is(extenso('1234.56USD'), 'mil duzentos e trinta e quatro dólares e cinquenta e seis centavos')
+
+    // Test with currency symbol without spaces
+    t.is(extenso('R$1234.56'), 'mil duzentos e trinta e quatro reais e cinquenta e seis centavos')
+    t.is(extenso('€1234.56'), 'mil duzentos e trinta e quatro euros e cinquenta e seis cêntimos')
+    t.is(extenso('$1234.56'), 'mil duzentos e trinta e quatro dólares e cinquenta e seis centavos')
+
+    // Test that NUMBER mode is still used when no currency is detected
+    t.is(extenso('1234.56'), 'mil duzentos e trinta e quatro inteiros e cinquenta e seis centésimos')
 })
 
 test('extenso(): should prioritize explicit mode over auto-detection', (t) => {
-    const amount = '1234.56'
     // Even with currency detected, explicit mode should be used
-    t.is(extenso(getFormattedAmountWithSymbol(amount, 'R$'), { mode: Modes.NUMBER }), 
-        'mil duzentos e trinta e quatro inteiros e cinquenta e seis centésimos')
-    t.is(extenso(getFormattedAmount(amount, 'BRL'), { mode: Modes.DIGIT }), 
-        'um dois três quatro vírgula cinco seis')
+    t.is(extenso('R$ 1234.56', { mode: Modes.NUMBER }), 'mil duzentos e trinta e quatro inteiros e cinquenta e seis centésimos')
+    t.is(extenso('1234.56 BRL', { mode: Modes.DIGIT }), 'um dois três quatro vírgula cinco seis')
 })
 
 test('extenso(): should handle decimal separator in DIGIT mode', (t) => {
@@ -90,30 +113,28 @@ test('extenso(): should handle decimal separator in DIGIT mode', (t) => {
 })
 
 test('extenso(): should handle mode detection edge cases', (t) => {
-    const amount = '1234.56'
     // Test with explicit mode and no currency
-    t.is(extenso(amount, { mode: Modes.NUMBER }), 'mil duzentos e trinta e quatro inteiros e cinquenta e seis centésimos')
+    t.is(extenso('1234.56', { mode: Modes.NUMBER }), 'mil duzentos e trinta e quatro inteiros e cinquenta e seis centésimos')
 
     // Test with explicit mode and detected currency
-    t.is(extenso(getFormattedAmountWithSymbol(amount, 'R$'), { mode: Modes.NUMBER }), 'mil duzentos e trinta e quatro inteiros e cinquenta e seis centésimos')
+    t.is(extenso('R$ 1234.56', { mode: Modes.NUMBER }), 'mil duzentos e trinta e quatro inteiros e cinquenta e seis centésimos')
 
     // Test with explicit mode and currency code
-    t.is(extenso(amount, { mode: Modes.NUMBER, currency: { code: Currencies.BRL } }), 'mil duzentos e trinta e quatro inteiros e cinquenta e seis centésimos')
+    t.is(extenso('1234.56', { mode: Modes.NUMBER, currency: { code: Currencies.BRL } }), 'mil duzentos e trinta e quatro inteiros e cinquenta e seis centésimos')
 })
 
 test('extenso(): should handle all mode detection combinations', (t) => {
-    const amount = '1234.56'
     // Test with no mode and no currency
-    t.is(extenso(amount), 'mil duzentos e trinta e quatro inteiros e cinquenta e seis centésimos')
+    t.is(extenso('1234.56'), 'mil duzentos e trinta e quatro inteiros e cinquenta e seis centésimos')
 
     // Test with no mode and detected currency
-    t.is(extenso(getFormattedAmountWithSymbol(amount, 'R$')), 'mil duzentos e trinta e quatro reais e cinquenta e seis centavos')
+    t.is(extenso('R$ 1234.56'), 'mil duzentos e trinta e quatro reais e cinquenta e seis centavos')
 
     // Test with no mode and currency code
-    t.is(extenso(amount, { currency: { code: Currencies.BRL } }), 'mil duzentos e trinta e quatro reais e cinquenta e seis centavos')
+    t.is(extenso('1234.56', { currency: { code: Currencies.BRL } }), 'mil duzentos e trinta e quatro reais e cinquenta e seis centavos')
 
     // Test with no mode and both detected currency and currency code
-    t.is(extenso(getFormattedAmountWithSymbol(amount, 'R$'), { currency: { code: Currencies.EUR } }), 'mil duzentos e trinta e quatro euros e cinquenta e seis cêntimos')
+    t.is(extenso('R$ 1234.56', { currency: { code: Currencies.EUR } }), 'mil duzentos e trinta e quatro euros e cinquenta e seis cêntimos')
 })
 
 test('extenso(): should handle all decimal separator combinations in DIGIT mode', (t) => {
