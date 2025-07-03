@@ -9,6 +9,9 @@
     "index.d.ts"
   ],
   "ava": {
+    "files": [
+      "src/**/*.test.ts"
+    ],
     "typescript": {
       "rewritePaths": {
         "src/": "build/src/"
