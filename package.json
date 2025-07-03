@@ -32,7 +32,7 @@
     "url": "https://github.com/theuves/extenso.js/issues"
   },
   "devDependencies": {
-    "@ava/typescript": "^5.0.0",
+    "@ava/typescript": "^6.0.0",
     "@types/node": "^24.0.3",
     "ava": "^6.2.0",
     "c8": "^10.1.3",
