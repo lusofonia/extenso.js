@@ -23,14 +23,17 @@ const detectCurrency = (input: string): Currencies | undefined => {
     
     // First check for currency codes (e.g. BRL, EUR, USD)
     for (const code of Object.values(Currencies)) {
-        // Check if code is at the beginning (with optional space)
-        if (trimmedInput.match(new RegExp(`^${code}\\s`)) || 
-            trimmedInput.match(new RegExp(`^${code}$`))) {
+        // Check if code is at the beginning (with optional space or directly attached)
+        if (trimmedInput.match(new RegExp(`^${code}(\\s|$)`))) {
             return code
         }
-        // Check if code is at the end (with optional space)
-        if (trimmedInput.match(new RegExp(`\\s${code}$`)) || 
-            trimmedInput.match(new RegExp(`^${code}$`))) {
+        // Check if code is at the end (with optional space or directly attached)
+        if (trimmedInput.match(new RegExp(`(\\s|^)${code}$`))) {
+            return code
+        }
+        // Check if code is directly attached to numbers (beginning or end)
+        if (trimmedInput.match(new RegExp(`^-?[\\d.,]+${code}$`)) || 
+            trimmedInput.match(new RegExp(`^${code}-?[\\d.,]+$`))) {
             return code
         }
     }
@@ -40,14 +43,21 @@ const detectCurrency = (input: string): Currencies | undefined => {
         // Escape special regex characters in symbol
         const escapedSymbol = symbol.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
         
-        // Check if symbol is at the beginning (with optional space)
-        if (trimmedInput.match(new RegExp(`^${escapedSymbol}\\s`)) || 
-            trimmedInput.match(new RegExp(`^${escapedSymbol}$`))) {
+        // Check if symbol is at the beginning (with optional space or directly attached)
+        if (trimmedInput.match(new RegExp(`^${escapedSymbol}(\\s|$)`))) {
             return code
         }
-        // Check if symbol is at the end (with optional space)
-        if (trimmedInput.match(new RegExp(`\\s${escapedSymbol}$`)) || 
-            trimmedInput.match(new RegExp(`^${escapedSymbol}$`))) {
+        // Check if symbol is at the beginning with minus sign and space
+        if (trimmedInput.match(new RegExp(`^-${escapedSymbol}\\s`))) {
+            return code
+        }
+        // Check if symbol is at the end (with optional space or directly attached)
+        if (trimmedInput.match(new RegExp(`(\\s|^)${escapedSymbol}$`))) {
+            return code
+        }
+        // Check if symbol is directly attached to numbers (beginning or end)
+        if (trimmedInput.match(new RegExp(`^-?[\\d.,]+${escapedSymbol}$`)) || 
+            trimmedInput.match(new RegExp(`^-?${escapedSymbol}[\\d.,]+$`))) {
             return code
         }
     }

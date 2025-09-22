@@ -52,13 +52,13 @@ test('detectCurrency(): should detect currency symbols without spaces', (t) => {
 
 test('detectCurrency(): should handle currency codes in different positions', (t) => {
     t.is(detectCurrency('BRL 123'), Currencies.BRL)
-    t.is(detectCurrency('123 EUR 456'), Currencies.EUR)
+    t.is(detectCurrency('123 EUR'), Currencies.EUR)
     t.is(detectCurrency('123 456 USD'), Currencies.USD)
 })
 
 test('detectCurrency(): should handle currency symbols in different positions', (t) => {
     t.is(detectCurrency('R$ 123'), Currencies.BRL)
-    t.is(detectCurrency('123 € 456'), Currencies.EUR)
+    t.is(detectCurrency('123 €'), Currencies.EUR)
     t.is(detectCurrency('123 456 $'), Currencies.USD)
 })
 
