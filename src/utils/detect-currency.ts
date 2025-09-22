@@ -20,7 +20,7 @@ const currencySymbols: Record<string, Currencies> = {
  */
 const detectCurrency = (input: string): Currencies | undefined => {
     const trimmedInput = input.trim()
-    
+
     // First check for currency codes (e.g. BRL, EUR, USD)
     for (const code of Object.values(Currencies)) {
         // Check if code is at the beginning (with optional space or directly attached)
@@ -32,7 +32,7 @@ const detectCurrency = (input: string): Currencies | undefined => {
             return code
         }
         // Check if code is directly attached to numbers (beginning or end)
-        if (trimmedInput.match(new RegExp(`^-?[\\d.,]+${code}$`)) || 
+        if (trimmedInput.match(new RegExp(`^-?[\\d.,]+${code}$`)) ||
             trimmedInput.match(new RegExp(`^${code}-?[\\d.,]+$`))) {
             return code
         }
@@ -42,7 +42,7 @@ const detectCurrency = (input: string): Currencies | undefined => {
     for (const [symbol, code] of Object.entries(currencySymbols)) {
         // Escape special regex characters in symbol
         const escapedSymbol = symbol.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-        
+
         // Check if symbol is at the beginning (with optional space or directly attached)
         if (trimmedInput.match(new RegExp(`^${escapedSymbol}(\\s|$)`))) {
             return code
@@ -56,7 +56,7 @@ const detectCurrency = (input: string): Currencies | undefined => {
             return code
         }
         // Check if symbol is directly attached to numbers (beginning or end)
-        if (trimmedInput.match(new RegExp(`^-?[\\d.,]+${escapedSymbol}$`)) || 
+        if (trimmedInput.match(new RegExp(`^-?[\\d.,]+${escapedSymbol}$`)) ||
             trimmedInput.match(new RegExp(`^-?${escapedSymbol}[\\d.,]+$`))) {
             return code
         }
