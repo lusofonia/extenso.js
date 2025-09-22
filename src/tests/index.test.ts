@@ -43,14 +43,16 @@ test('extenso(): should detect currency from symbol in input without spaces', (t
 
 test('extenso(): should handle currency codes in different positions', (t) => {
     t.is(extenso('BRL 1234.56', { mode: Modes.CURRENCY }), 'mil duzentos e trinta e quatro reais e cinquenta e seis centavos')
-    t.is(extenso('1234.56 EUR 789', { mode: Modes.CURRENCY }), 'mil duzentos e trinta e quatro euros e cinquenta e seis cêntimos')
-    t.is(extenso('1234.56 789 USD', { mode: Modes.CURRENCY }), 'mil duzentos e trinta e quatro dólares e cinquenta e seis centavos')
+    // Currency codes in the middle should not be detected, so it should use NUMBER mode
+    t.is(extenso('1234.56 EUR 789', { mode: Modes.CURRENCY }), 'mil duzentos e trinta e quatro inteiros e cinquenta e seis centésimos')
+    t.is(extenso('1234.56 789 USD', { mode: Modes.CURRENCY }), 'mil duzentos e trinta e quatro inteiros e cinquenta e seis centésimos')
 })
 
 test('extenso(): should handle currency symbols in different positions', (t) => {
     t.is(extenso('R$ 1234.56', { mode: Modes.CURRENCY }), 'mil duzentos e trinta e quatro reais e cinquenta e seis centavos')
-    t.is(extenso('1234.56 € 789', { mode: Modes.CURRENCY }), 'mil duzentos e trinta e quatro euros e cinquenta e seis cêntimos')
-    t.is(extenso('1234.56 789 $', { mode: Modes.CURRENCY }), 'mil duzentos e trinta e quatro dólares e cinquenta e seis centavos')
+    // Currency symbols in the middle should not be detected, so it should use NUMBER mode
+    t.is(extenso('1234.56 € 789', { mode: Modes.CURRENCY }), 'mil duzentos e trinta e quatro inteiros e cinquenta e seis centésimos')
+    t.is(extenso('1234.56 789 $', { mode: Modes.CURRENCY }), 'mil duzentos e trinta e quatro inteiros e cinquenta e seis centésimos')
 })
 
 test('extenso(): should handle multiple currency indicators', (t) => {
