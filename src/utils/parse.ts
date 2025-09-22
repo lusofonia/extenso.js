@@ -43,10 +43,11 @@ const parse = (input: string, decimalSeparator: DecimalSeparators = DecimalSepar
     if (input.split(separatorFor.decimal)?.length > 2) {
         throw new ParseError(
             `Invalid number format: multiple decimal separators found. Use only one '${separatorFor.decimal}' as decimal separator.`,
-            ParseErrorCode.MULTIPLE_DECIMALS
+            ParseErrorCode.MULTIPLE_DECIMALS,
         )
     }
 
+    // eslint-disable-next-line
     let [integer, decimal] = input
         .replace(RegExp(`(^-|\\${separatorFor.thousands})`, 'g'), '')
         .trim()
@@ -56,25 +57,22 @@ const parse = (input: string, decimalSeparator: DecimalSeparators = DecimalSepar
     if (!integer) {
         integer = '0'
     }
-    if (!decimal) {
-        decimal = '0'
-    }
     if (!/^\d+$/.test(integer)) {
         throw new ParseError(
             `Invalid integer part: "${integer}". Only digits are allowed.`,
-            ParseErrorCode.INVALID_INTEGER
+            ParseErrorCode.INVALID_INTEGER,
         )
     }
-    if (!/^\d+$/.test(decimal)) {
+    if (decimal && !/^\d+$/.test(decimal)) {
         throw new ParseError(
             `Invalid decimal part: "${decimal}". Only digits are allowed.`,
-            ParseErrorCode.INVALID_DECIMAL
+            ParseErrorCode.INVALID_DECIMAL,
         )
     }
 
     return {
         integer,
-        decimal,
+        decimal: decimal || '0',
     }
 }
 

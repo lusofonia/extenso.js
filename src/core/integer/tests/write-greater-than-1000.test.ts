@@ -53,6 +53,6 @@ test('writeGreaterThan1000(): should throw error when number exceeds scale limit
     const error = t.throws(() => {
         writeGreaterThan1000('1000000000000000000000000000000000000000000')
     }, { instanceOf: Error })
-    
+
     t.is(error.message, 'Number exceeds short scale limit')
 })

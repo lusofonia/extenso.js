@@ -1,0 +1,75 @@
+---
+description: Main rules
+globs: 
+alwaysApply: true
+---
+# extenso.js Project Rules
+
+## Project Overview
+This is a TypeScript library that converts numbers to their written form in Portuguese. The project follows strict TypeScript conventions and maintains high code quality standards.
+
+## Directory Structure
+- `src/` - Source TypeScript files
+- `dist/` - Compiled JavaScript output (Git ignored)
+- `build/` - Temporary build files for AVA unit tests (Git ignored)
+- `coverage/` - Test coverage reports (Git ignored)
+
+## Development Rules
+
+### TypeScript
+- All source code must be written in TypeScript
+- Maintain strict type checking (as configured in [tsconfig.json](mdc:tsconfig.json))
+- No `any` types unless absolutely necessary
+- Document all functions with JSDoc comments
+
+### Code Style
+- Follow ESLint rules defined in [eslint.config.mjs](mdc:eslint.config.mjs)
+- Use ES modules (import/export) syntax
+- Keep functions pure when possible
+- Use meaningful variable and function names in English
+
+### Testing
+- 100% test coverage required (configured with c8)
+- Write tests using AVA test runner
+- Place test files alongside source files
+- Test both positive and negative cases
+- Run `npm run test:coverage` to check the coverage after big changes
+
+### Building
+- Use esbuild for bundling [esbuild.config.mjs](mdc:esbuild.config.mjs)
+- Build ESM modules for distribution
+- Keep bundle size minimal
+
+### Git Workflow
+- Write clear, descriptive commit messages alwasys in English
+- Keep commits focused and atomic
+- Follow semantic versioning
+
+#### Format
+```[type]: [subject]```
+
+#### Types
+- `feat` - New features
+- `fix` - Bug fixes
+- `docs` - Documentation changes
+- `style` - Code style changes (formatting, missing semi-colons, etc.)
+- `refactor` - Code refactoring
+- `test` - Adding or modifying tests
+- `chore` - Build process, dependencies, or tooling changes
+- `perf` - Performance improvements
+
+### Dependencies
+- Minimize runtime dependencies
+
+## Quality Standards
+- Maintain 100% test coverage
+- Zero lint errors
+- TypeScript strict mode compliance
+- Clear documentation
+- Performance optimization
+
+## Documentation
+- Keep [README.md](mdc:README.md) (Brazilian Portuguese) and [README-english.md](mdc:README-english.md) (American English) in sync
+- Include usage examples
+- Maintain changelog
+- Keep [index.d.ts](mdc:index.d.ts) updated
