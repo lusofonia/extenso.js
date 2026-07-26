@@ -114,6 +114,7 @@ Strings preserve every supplied digit. The `-` sign is only valid at the beginni
 - [`locale`](#optionslocale-string) [*string*]
 - [`currency.code`](#optionscurrencycode-string) [*string*]
 - [`number.gender`](#optionsnumbergender-string) [*string*]
+- [`number.ordinal`](#optionsnumberordinal-boolean) [*boolean*]
 - [`decimalSeparator`](#optionsdecimalseparator-string) [*string*]
 
 ## `options.mode` [*string*]
@@ -283,13 +284,39 @@ extenso('322000', { number: { gender: 'female' } })
 //=> 'trezentas e vinte e duas mil'
 ```
 
+## `options.number.ordinal` [*boolean*]
+
+> Defines whether the number is written as an ordinal.
+
+This option applies to `number` mode and only accepts integer values. The
+`number.gender` option also inflects every ordinal component.
+
+- `false` [*default*] - Write the number as a cardinal.
+- `true` - Write the number as an ordinal.
+
+Examples:
+
+```js
+extenso('1', { number: { ordinal: true } })
+//=> 'primeiro'
+
+extenso('11', { number: { ordinal: true } })
+//=> 'décimo primeiro'
+
+extenso('42', { number: { ordinal: true, gender: 'female' } })
+//=> 'quadragésima segunda'
+
+extenso('1000', { number: { ordinal: true } })
+//=> 'milésimo'
+```
+
 ## Currency values
 
 Currency mode accepts zero, one, or two decimal places. One place is padded with a zero on the right (`1.1` means ten cents). More than two places are rejected without truncation or rounding. Codes and symbols may appear before or after the value; markers for different currencies in one input are ambiguous and cause an error. `currency.code` takes precedence over one detected currency.
 
 ## Validation and errors
 
-`mode`, `locale`, `scale`, `decimalSeparator`, `number.gender`, and `currency.code` are validated at runtime. The library also rejects empty input, a bare sign, invalid grouping, incomplete decimals, `NaN`, infinities, conflicting currencies, values beyond the selected scale, and strings longer than 1000 characters.
+`mode`, `locale`, `scale`, `decimalSeparator`, `number.gender`, `number.ordinal`, and `currency.code` are validated at runtime. The library also rejects empty input, a bare sign, invalid grouping, incomplete decimals, decimal ordinals, `NaN`, infinities, conflicting currencies, values beyond the selected scale, and strings longer than 1000 characters.
 
 ## Migrating to the next version
 

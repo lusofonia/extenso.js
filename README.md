@@ -114,6 +114,7 @@ Strings preservam todos os dígitos fornecidos. O sinal `-` só pode aparecer no
 - [`locale`](#optionslocale-string) [*string*]
 - [`currency.code`](#optionscurrencycode-string) [*string*]
 - [`number.gender`](#optionsnumbergender-string) [*string*]
+- [`number.ordinal`](#optionsnumberordinal-boolean) [*boolean*]
 - [`decimalSeparator`](#optionsdecimalseparator-string) [*string*]
 
 ## `options.mode` [*string*]
@@ -283,13 +284,39 @@ extenso('322000', { number: { gender: 'female' } })
 //=> 'trezentas e vinte e duas mil'
 ```
 
+## `options.number.ordinal` [*boolean*]
+
+> Define se o número será escrito na forma ordinal.
+
+Esta opção é válida no modo `number` e aceita somente valores inteiros. A opção
+`number.gender` também flexiona todos os componentes do ordinal.
+
+- `false` [*default*] - Para escrever o número na forma cardinal.
+- `true` - Para escrever o número na forma ordinal.
+
+Exemplos:
+
+```js
+extenso('1', { number: { ordinal: true } })
+//=> 'primeiro'
+
+extenso('11', { number: { ordinal: true } })
+//=> 'décimo primeiro'
+
+extenso('42', { number: { ordinal: true, gender: 'female' } })
+//=> 'quadragésima segunda'
+
+extenso('1000', { number: { ordinal: true } })
+//=> 'milésimo'
+```
+
 ## Valores monetários
 
 No modo `currency`, são aceitas zero, uma ou duas casas decimais. Uma casa é completada com zero à direita (`1.1` equivale a dez centavos). Mais de duas casas são rejeitadas sem truncamento ou arredondamento. Códigos e símbolos podem aparecer antes ou depois do valor; marcadores de moedas diferentes na mesma entrada são considerados ambíguos e geram erro. `currency.code` tem prioridade sobre uma única moeda detectada.
 
 ## Validação e erros
 
-`mode`, `locale`, `scale`, `decimalSeparator`, `number.gender` e `currency.code` são validados em runtime. A biblioteca também rejeita entrada vazia, sinal isolado, agrupamento inválido, decimal incompleto, `NaN`, infinitos, moedas conflitantes, valores acima da escala escolhida e strings com mais de 1000 caracteres.
+`mode`, `locale`, `scale`, `decimalSeparator`, `number.gender`, `number.ordinal` e `currency.code` são validados em runtime. A biblioteca também rejeita entrada vazia, sinal isolado, agrupamento inválido, decimal incompleto, ordinais decimais, `NaN`, infinitos, moedas conflitantes, valores acima da escala escolhida e strings com mais de 1000 caracteres.
 
 ## Migração para a próxima versão
 

@@ -36,6 +36,7 @@ const assert = require('node:assert/strict')
 const extenso = require('extenso')
 assert.equal(typeof extenso, 'function')
 assert.equal(extenso(123), 'cento e vinte e três')
+assert.equal(extenso(11, { number: { ordinal: true } }), 'décimo primeiro')
 `)
     execFileSync(process.execPath, ['consumer.cjs'], {
         cwd: temporaryDirectory,
@@ -57,7 +58,7 @@ assert.equal(extenso(123), 'cento e vinte e três')
 
     await writeFile(join(temporaryDirectory, 'consumer.ts'), `
 import extenso, { type ExtensoOptions } from 'extenso'
-const options: ExtensoOptions = { mode: 'number' }
+const options: ExtensoOptions = { mode: 'number', number: { ordinal: true } }
 const result: string = extenso(123, options)
 void result
 `)

@@ -18,6 +18,7 @@ test('Options interface structure', t => {
         },
         number: {
             gender: Genders.MALE,
+            ordinal: true,
         },
     }
 
@@ -27,4 +28,5 @@ test('Options interface structure', t => {
     t.is(options.decimalSeparator, DecimalSeparators.POINT)
     t.is(options.currency?.code, Currencies.USD)
     t.is(options.number?.gender, Genders.MALE)
+    t.true(options.number?.ordinal)
 })
