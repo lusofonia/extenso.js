@@ -60,9 +60,36 @@ yarn add extenso
 
 ## Usage
 
+ESM:
+
 ```js
 import extenso from 'extenso'
+
+extenso(123)
+//=> 'cento e vinte e três'
 ```
+
+CommonJS:
+
+```js
+const extenso = require('extenso')
+
+extenso(123)
+//=> 'cento e vinte e três'
+```
+
+TypeScript:
+
+```ts
+import extenso, { type ExtensoOptions } from 'extenso'
+
+const options: ExtensoOptions = { mode: 'number' }
+const result: string = extenso(123, options)
+```
+
+The package also exports `CurrencyOptions`, `NumberOptions`, `ExtensoMode`, `ExtensoLocale`, `ExtensoScale`, `ExtensoGender`, `CurrencyCode`, and `DecimalSeparator`.
+
+The package requires Node.js 18 or newer.
 
 ## Syntax
 
@@ -74,9 +101,9 @@ extenso(number[, options])
 
 > The value to be written in full (mandatory).
 
-If the value is of type `number`, it is recommended that it be a number with a safe integer part, that is, the value must be valid in the verification with `Number.isSafeInteger()`, otherwise, it is recommended that the numbers be encapsulated in *string* due to the fact that, in JavaScript, numbers (of type `number`) greater than 9 quadrillion lose precision. Alternatively, you can use `BigInt` numbers (of type `bigint`) by adding `n` at the end, for example, `10000000000000001n` ([read this article for more information](https://bit.ly/tableless-bigint)), however, you will be limited to integers only, not being able to represent decimal numbers.
+Finite `number` inputs are accepted, including values JavaScript represents in scientific notation, and are normalized before conversion. The value must already be representable with the desired `number` precision: use a `string` or `bigint` for integers above `Number.MAX_SAFE_INTEGER`. A `bigint` can only represent integers.
 
-Numbers involved in *strings* should follow the natural format of writing numbers. You can use `-` at the beginning to represent negative numbers and comma (`,`) or dot (`.`) for thousands and decimal separation, following, by default, the Brazilian writing format (i.e., with comma as decimal separator). This format can be changed as preferred, using the `number.decimalSeparator` parameter as will be seen later.
+Strings preserve every supplied digit. The `-` sign is only valid at the beginning. When grouping is used, the first group must contain one to three digits and every following group exactly three. A decimal separator must be followed by digits; incomplete inputs such as `1.` are rejected.
 
 ## `options` [*object*]
 
@@ -87,7 +114,7 @@ Numbers involved in *strings* should follow the natural format of writing number
 - [`locale`](#optionslocale-string) [*string*]
 - [`currency.code`](#optionscurrencycode-string) [*string*]
 - [`number.gender`](#optionsnumbergender-string) [*string*]
-- [`number.decimalSeparator`](#optionsnumberdecimalsseparator-string) [*string*]
+- [`decimalSeparator`](#optionsdecimalseparator-string) [*string*]
 
 ## `options.mode` [*string*]
 
@@ -131,13 +158,13 @@ The writing diverges only in numbers equal to or greater than a thousand million
 Examples:
 
 ```js
-extenso('2.000.000.001')
+extenso('2,000,000,001')
 //=> 'dois bilhões e um'
 
-extenso('2.000.000.001', { scale: 'short' })
+extenso('2,000,000,001', { scale: 'short' })
 //=> 'dois bilhões e um'
 
-extenso('2.000.000.001', { scale: 'long' })
+extenso('2,000,000,001', { scale: 'long' })
 //=> 'dois mil milhões e um'
 ```
 
@@ -145,23 +172,23 @@ extenso('2.000.000.001', { scale: 'long' })
 
 > Defines the integer and decimal separator.
 
-In Portuguese, the most common integer and decimal separator is the comma (`comma`). However, in other countries, it may be necessary to use the dot (`point`) as a decimal separator. In this case, you can use the `number.decimalSeparator` parameter to define another decimal separator (`point`), however, this is only necessary if the provided number is encapsulated in *string*.
+By default, the point is the decimal separator (`point`) and the comma is the thousands separator. Use `comma` to reverse that interpretation. This option matters primarily for strings because `number` inputs are normalized from JavaScript's representation.
 
 Note that if the decimal separator is `point` (.) then the thousand separator will automatically be `comma` (,) and vice versa.
 
-- `comma` [*default*] - To use **comma** as separator (e.g., `3,14`).
-- `point` - To use **dot** as separator (e.g., `3.14`)
+- `point` [*default*] - To use **dot** as separator (e.g., `3.14`).
+- `comma` - To use **comma** as separator (e.g., `3,14`).
 
 Examples:
 
 ```js
-extenso('3,14')
+extenso('3.14')
 //=> 'três inteiros e quatorze centésimos'
 
-extenso('3,14', { number: { decimalSeparator: 'comma' } })
+extenso('3,14', { decimalSeparator: 'comma' })
 //=> 'três inteiros e quatorze centésimos'
 
-extenso('3.14', { number: { decimalSeparator: 'point' } })
+extenso('3.14', { decimalSeparator: 'point' })
 //=> 'três inteiros e quatorze centésimos'
 ```
 
@@ -188,10 +215,10 @@ extenso('16', { locale: 'br' })
 extenso('16', { locale: 'pt' })
 //=> 'dezasseis'
 
-extenso('1.000.000.000', { locale: 'br' })
+extenso('1,000,000,000', { locale: 'br' })
 //=> 'um bilhão'
 
-extenso('1.000.000.000', { locale: 'pt' })
+extenso('1,000,000,000', { locale: 'pt' })
 //=> 'um bilião'
 ```
 
@@ -235,7 +262,7 @@ extenso('42', { mode: 'currency', currency: { code: 'CVE' } })
 
 > Defines the gender inflection of the number to be written.
 
-Currently, in the Portuguese language [only the numbers 1 and 2 can be written in both masculine and feminine modes](https://pt.wikipedia.org/wiki/Dual), for example, *1* can be written as *um* or *uma* and *2* can be written as *dois* or *duas*. If you need the number to be written in the feminine gender, you can use `female` to define it.
+Female gender inflects units, tens, and hundreds (`uma`, `duas`, `duzentas`, `trezentas`, and so on), including the thousands group. Scale names such as `milhão` and `bilhão` remain masculine.
 
 - `male` [*default*] - To write in the masculine mode.
 - `female` - To write in the feminine mode.
@@ -251,7 +278,22 @@ extenso('42', { number: { gender: 'male' } })
 
 extenso('42', { number: { gender: 'female' } })
 //=> 'quarenta e duas'
+
+extenso('322000', { number: { gender: 'female' } })
+//=> 'trezentas e vinte e duas mil'
 ```
+
+## Currency values
+
+Currency mode accepts zero, one, or two decimal places. One place is padded with a zero on the right (`1.1` means ten cents). More than two places are rejected without truncation or rounding. Codes and symbols may appear before or after the value; markers for different currencies in one input are ambiguous and cause an error. `currency.code` takes precedence over one detected currency.
+
+## Validation and errors
+
+`mode`, `locale`, `scale`, `decimalSeparator`, `number.gender`, and `currency.code` are validated at runtime. The library also rejects empty input, a bare sign, invalid grouping, incomplete decimals, `NaN`, infinities, conflicting currencies, values beyond the selected scale, and strings longer than 1000 characters.
+
+## Migrating to the next version
+
+This preparation includes breaking changes: CommonJS now returns the function directly; numeric formats that were previously tolerated may throw; currency no longer accepts more than two decimal places; and unknown options no longer silently fall back to defaults. The next version has not been published, and its number will be decided by the maintainer.
 
 ## Default Language
 
@@ -260,7 +302,7 @@ The default language of Extenso.js is Brazilian Portuguese. This choice is due t
 1. **Project Origin**: Extenso.js was created in Brazil, where the need to convert numbers to text in Portuguese is quite common in various applications.
 2. **Speaking Population**: Brazil has the largest population of Portuguese speakers in the world, making Brazilian Portuguese the most widely used variant of the language.
 3. **Currency Used**: Although the Euro is an important global currency, the Real (BRL) is the most used currency by Portuguese speakers, especially in Brazil.
-4. **Decimal Separator**: The comma is used as a decimal separator in most Portuguese-speaking countries, including Brazil, which justifies its adoption as the default in Extenso.js.
+4. **Decimal Separator**: The `decimalSeparator` option explicitly selects point or comma without changing the output dialect.
 
 These factors contribute to Brazilian Portuguese being the default language of Extenso.js, ensuring that the library meets the needs of most of its users.
 

@@ -60,9 +60,36 @@ yarn add extenso
 
 ## Uso
 
+ESM:
+
 ```js
 import extenso from 'extenso'
+
+extenso(123)
+//=> 'cento e vinte e três'
 ```
+
+CommonJS:
+
+```js
+const extenso = require('extenso')
+
+extenso(123)
+//=> 'cento e vinte e três'
+```
+
+TypeScript:
+
+```ts
+import extenso, { type ExtensoOptions } from 'extenso'
+
+const options: ExtensoOptions = { mode: 'number' }
+const result: string = extenso(123, options)
+```
+
+Também são exportados os tipos `CurrencyOptions`, `NumberOptions`, `ExtensoMode`, `ExtensoLocale`, `ExtensoScale`, `ExtensoGender`, `CurrencyCode` e `DecimalSeparator`.
+
+O pacote requer Node.js 18 ou mais recente.
 
 ## Sintaxe
 
@@ -74,9 +101,9 @@ extenso(number[, options])
 
 > O valor que deverá ser escrito por extenso (obrigatório).
 
-Se o valor for do tipo `number`, recomenda-se que ele seja um número com parte inteira segura, ou seja, o valor deve ser válido na verificação com `Number.isSafeInteger()`, caso contrário, é recomendado que os números sejam encapsulados em *string* devido ao fato de que, no JavaScript, números (do tipo `number`) maiores que 9 quatrilhões perdem precisão. Alternativamente, pode-se utilizar números `BigInt` (do tipo `bigint`) adicionando `n` no final, por exemplo, `10000000000000001n` ([leia este artigo para mais informações](https://bit.ly/tableless-bigint)), porém você estará limitado a números inteiros apenas, não podendo representar números decimais.
+Entradas `number` finitas, inclusive quando o JavaScript as representa em notação científica, são aceitas e normalizadas antes da conversão. O valor já precisa ser representável com a precisão desejada pelo tipo `number`: para inteiros maiores que `Number.MAX_SAFE_INTEGER`, use `string` ou `bigint`. `bigint` aceita somente inteiros.
 
-Números envolvidos em *strings* deverão seguir o formato natural de escrita de números. Você pode usar `-` no início para representar números negativos e vírgula (`,`) ou ponto (`.`) para separação de milhares e decimais, seguindo, por padrão, o formato de escrita do Brasil (ou seja, com vírgula como separador decimal). Esse formato pode ser alterado conforme a preferência, utilizando o parâmetro `decimalSeparator` como será visto mais adiante.
+Strings preservam todos os dígitos fornecidos. O sinal `-` só pode aparecer no início. Quando houver agrupamento, o primeiro grupo deve ter de um a três dígitos e os demais exatamente três. O separador decimal precisa ser seguido por dígitos; entradas incompletas como `1.` são rejeitadas.
 
 ## `options` [*object*]
 
@@ -131,13 +158,13 @@ A escrita diverge somente em números iguais ou superiores a um milhar de milhõ
 Exemplos:
 
 ```js
-extenso('2.000.000.001')
+extenso('2,000,000,001')
 //=> 'dois bilhões e um'
 
-extenso('2.000.000.001', { scale: 'short' })
+extenso('2,000,000,001', { scale: 'short' })
 //=> 'dois bilhões e um'
 
-extenso('2.000.000.001', { scale: 'long' })
+extenso('2,000,000,001', { scale: 'long' })
 //=> 'dois mil milhões e um'
 ```
 
@@ -145,17 +172,17 @@ extenso('2.000.000.001', { scale: 'long' })
 
 > Define o separador de inteiro e decimal.
 
-No português, o separador de inteiro e decimal mais comum é a vírgula (`comma`). No entanto, em outros países, pode ser necessário usar o ponto (`point`) como separador decimal. Nesse caso você pode utilizar o parâmetro `decimalSeparator` para definir outro separador de decimal (`point`), no entanto, isso só é necessário se o número fornecido esteja encapsulado em *string*.
+Por padrão, o ponto é o separador decimal (`point`) e a vírgula é o separador de milhares. Use `comma` para inverter essa interpretação. A opção é especialmente importante para strings, pois entradas `number` são normalizadas diretamente da representação do JavaScript.
 
 Observe que caso o separador decimal seja `point` (.) então o separador de milhar automaticamente será `comma` (,) e vice-versa.
 
-- `comma` [*default*] - Para usar **vírgula** como separador (ex. `3,14`).
-- `point` - Para usar **ponto** como separador (ex.: `3.14`)
+- `point` [*default*] - Para usar **ponto** como separador (ex.: `3.14`).
+- `comma` - Para usar **vírgula** como separador (ex.: `3,14`).
 
 Exemplos:
 
 ```js
-extenso('3,14')
+extenso('3.14')
 //=> 'três inteiros e quatorze centésimos'
 
 extenso('3,14', { decimalSeparator: 'comma' })
@@ -188,10 +215,10 @@ extenso('16', { locale: 'br' })
 extenso('16', { locale: 'pt' })
 //=> 'dezasseis'
 
-extenso('1.000.000.000', { locale: 'br' })
+extenso('1,000,000,000', { locale: 'br' })
 //=> 'um bilhão'
 
-extenso('1.000.000.000', { locale: 'pt' })
+extenso('1,000,000,000', { locale: 'pt' })
 //=> 'um bilião'
 ```
 
@@ -235,7 +262,7 @@ extenso('42', { mode: 'currency', currency: { code: 'CVE' } })
 
 > Define a flexão de gênero do número que será escrito.
 
-Atualmente na língua portuguesa [somente os números 1 e 2 podem ser escritos tanto no modo masculino quanto no modo feminino](https://pt.wikipedia.org/wiki/Dual), por exemplo, *1* pode ser escrito como *um* ou *uma* e *2* pode ser escrito como *dois* ou *duas*. Caso você precise que o número esteja escrito no gênero feminino, pode usar `female` para defini-lo.
+O gênero feminino flexiona unidades, dezenas e centenas (`uma`, `duas`, `duzentas`, `trezentas` etc.), inclusive no grupo dos milhares. Os nomes de escala como `milhão` e `bilhão` permanecem masculinos.
 
 - `male` [*default*] - Para escrever no modo masculino.
 - `female` - Para escrever no modo feminino.
@@ -251,7 +278,22 @@ extenso('42', { number: { gender: 'male' } })
 
 extenso('42', { number: { gender: 'female' } })
 //=> 'quarenta e duas'
+
+extenso('322000', { number: { gender: 'female' } })
+//=> 'trezentas e vinte e duas mil'
 ```
+
+## Valores monetários
+
+No modo `currency`, são aceitas zero, uma ou duas casas decimais. Uma casa é completada com zero à direita (`1.1` equivale a dez centavos). Mais de duas casas são rejeitadas sem truncamento ou arredondamento. Códigos e símbolos podem aparecer antes ou depois do valor; marcadores de moedas diferentes na mesma entrada são considerados ambíguos e geram erro. `currency.code` tem prioridade sobre uma única moeda detectada.
+
+## Validação e erros
+
+`mode`, `locale`, `scale`, `decimalSeparator`, `number.gender` e `currency.code` são validados em runtime. A biblioteca também rejeita entrada vazia, sinal isolado, agrupamento inválido, decimal incompleto, `NaN`, infinitos, moedas conflitantes, valores acima da escala escolhida e strings com mais de 1000 caracteres.
+
+## Migração para a próxima versão
+
+Esta preparação inclui mudanças incompatíveis: CommonJS agora retorna a função diretamente; formatos numéricos anteriormente tolerados podem gerar erro; moeda não aceita mais de duas casas; e opções desconhecidas não usam valores padrão silenciosamente. A próxima versão ainda não foi publicada e seu número será decidido pelo mantenedor.
 
 ## Idioma Padrão
 
@@ -260,7 +302,7 @@ O idioma padrão do Extenso.js é o Português Brasileiro. Esta escolha se deve 
 1. **Origem do Projeto**: O Extenso.js foi criado no Brasil, onde a necessidade de converter números para texto em português é bastante comum em diversas aplicações.
 2. **População Falante**: O Brasil possui a maior população de falantes de português no mundo, o que torna o Português Brasileiro a variante mais amplamente utilizada do idioma.
 3. **Moeda Utilizada**: Embora o Euro seja uma moeda importante globalmente, o Real (BRL) é a moeda mais utilizada pelos falantes de português, especialmente no Brasil.
-4. **Separador Decimal**: A vírgula é usada como separador decimal na maioria dos países de língua portuguesa, incluindo o Brasil, o que justifica sua adoção como padrão no Extenso.js.
+4. **Separador Decimal**: A opção `decimalSeparator` permite escolher explicitamente ponto ou vírgula sem alterar o dialeto de saída.
 
 Esses fatores contribuem para que o Português Brasileiro seja o idioma padrão do Extenso.js, garantindo que a biblioteca atenda às necessidades da maioria dos seus usuários.
 
