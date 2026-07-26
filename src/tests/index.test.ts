@@ -119,6 +119,16 @@ test('extenso(): should handle decimal separator in DIGIT mode', (t) => {
     t.is(extenso('1234,56', { mode: Modes.DIGIT, decimalSeparator: DecimalSeparators.COMMA }), 'um dois três quatro vírgula cinco seis')
 })
 
+test('extenso(): should preserve supplied zeros in DIGIT mode', (t) => {
+    t.is(extenso('0012', { mode: Modes.DIGIT }), 'zero zero um dois')
+    t.is(extenso('0012.0', { mode: Modes.DIGIT }), 'zero zero um dois vírgula zero')
+    t.is(extenso('000.05', { mode: Modes.DIGIT }), 'zero zero zero vírgula zero cinco')
+    t.is(
+        extenso('0012,00', { mode: Modes.DIGIT, decimalSeparator: DecimalSeparators.COMMA }),
+        'zero zero um dois vírgula zero zero',
+    )
+})
+
 test('extenso(): should handle mode detection edge cases', (t) => {
     // Test with explicit mode and no currency
     t.is(extenso('1234.56', { mode: Modes.NUMBER }), 'mil duzentos e trinta e quatro inteiros e cinquenta e seis centésimos')

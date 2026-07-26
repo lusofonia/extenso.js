@@ -21,13 +21,18 @@ export class ParseError extends Error {
  * Parses a string input into integer and decimal parts
  * @param input - The string to parse
  * @param decimalSeparator - The decimal separator to use (POINT or COMMA)
+ * @param preserveLeadingZeros - Whether to preserve leading zeros in the integer part
  * @returns Object containing integer and decimal parts as strings
  * @throws {ParseError} If input is empty
  * @throws {ParseError} If multiple decimal separators are found
  * @throws {ParseError} If integer part contains non-digit characters
  * @throws {ParseError} If decimal part contains non-digit characters
  */
-const parse = (input: string, decimalSeparator: DecimalSeparators = DecimalSeparators.POINT): {
+const parse = (
+    input: string,
+    decimalSeparator: DecimalSeparators = DecimalSeparators.POINT,
+    preserveLeadingZeros = false,
+): {
     integer: string
     decimal: string
 } => {
@@ -101,7 +106,7 @@ const parse = (input: string, decimalSeparator: DecimalSeparators = DecimalSepar
     }
 
     return {
-        integer: integer.replace(/^0+(?=\d)/, ''),
+        integer: preserveLeadingZeros ? integer : integer.replace(/^0+(?=\d)/, ''),
         decimal: decimal || '0',
     }
 }

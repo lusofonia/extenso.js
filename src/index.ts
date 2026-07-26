@@ -39,14 +39,14 @@ const extenso = (input: number | string | bigint, options: Options = {}): string
     // Detect currency before normalizing input
     const detectedCurrency = typeof input === 'string' ? detectCurrency(input) : undefined
     const currencyCode = options?.currency?.code || detectedCurrency || Currencies.BRL
+    const mode = options?.mode || (detectedCurrency || options?.currency?.code ? Modes.CURRENCY : Modes.NUMBER)
 
     // Now normalize and parse the input
     input = normalize(input)
-    const { integer, decimal } = parse(input, options?.decimalSeparator)
+    const decimalSeparator = options?.decimalSeparator === DecimalSeparators.COMMA ? ',' : '.'
+    const hasDecimal = input.includes(decimalSeparator)
+    const { integer, decimal } = parse(input, options?.decimalSeparator, mode === Modes.DIGIT)
     let text: string
-
-    // Use explicit mode if provided, otherwise auto-detect based on currency
-    const mode = options?.mode || (detectedCurrency || options?.currency?.code ? Modes.CURRENCY : Modes.NUMBER)
 
     switch (mode) {
     case Modes.CURRENCY:
@@ -56,9 +56,8 @@ const extenso = (input: number | string | bigint, options: Options = {}): string
         text = writeCurrency(integer, decimal, currencyCode, options?.scale)
         break
     case Modes.DIGIT:
-        // Only include decimal part if it exists
-        text = decimal && decimal !== '0'
-            ? writeDigit(`${integer}${options?.decimalSeparator === DecimalSeparators.COMMA ? ',' : '.'}${decimal}`)
+        text = hasDecimal
+            ? writeDigit(`${integer}${decimalSeparator}${decimal}`)
             : writeDigit(integer)
         break
     case Modes.NUMBER:
