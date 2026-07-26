@@ -42,6 +42,11 @@ test('writeCurrency(): should use the currency gender', (t) => {
     t.is(writeCurrency('200', '0', Currencies.MOP), 'duzentas patacas')
 })
 
+test('writeCurrency(): should use the singular MOP subunit', (t) => {
+    t.is(writeCurrency('0', '01', Currencies.MOP), 'um avo')
+    t.is(writeCurrency('0', '02', Currencies.MOP), 'dois avos')
+})
+
 test('writeCurrency(): should handle BRL currency with long scale', (t) => {
     t.is(writeCurrency('1000000', '0', Currencies.BRL, Scales.LONG), 'um milhão de reais')
     t.is(writeCurrency('1000000000', '0', Currencies.BRL, Scales.LONG), 'um mil milhão de reais')

@@ -88,7 +88,7 @@ const currencies: Record<Currencies, Currency> = {
         plural: 'patacas',
         gender: Genders.FEMALE,
         subunit: {
-            singular: 'avos',
+            singular: 'avo',
             plural: 'avos',
             gender: Genders.MALE,
         },

@@ -25,7 +25,7 @@ test('currency mode preserves and validates decimal precision', (t) => {
     }
 
     t.is(extenso('EUR 1.1'), 'um euro e dez cêntimos')
-    t.is(extenso('MOP$0.01'), 'um avos')
+    t.is(extenso('MOP$0.01'), 'um avo')
     t.is(extenso('USD 0.10'), 'dez centavos')
 })
 
@@ -119,7 +119,7 @@ test('currency markers are complete, unambiguous, and overridable', (t) => {
     t.is(extenso('R$ 1.01'), 'um real e um centavo')
     t.is(extenso('$ 1.01'), 'um dólar e um centavo')
     t.is(extenso('€ 1.01'), 'um euro e um cêntimo')
-    t.is(extenso('MOP$ 1.01'), 'uma pataca e um avos')
+    t.is(extenso('MOP$ 1.01'), 'uma pataca e um avo')
     t.is(extenso('1.01 BRL BRL'), 'um real e um centavo')
     t.is(extenso('R$ 1.01', {
         currency: { code: Currencies.EUR },
