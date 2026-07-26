@@ -43,7 +43,9 @@ test('female gender reaches units, tens, hundreds, and thousands only', (t) => {
         ['900', 'novecentas'],
         ['300000', 'trezentas mil'],
         ['322000', 'trezentas e vinte e duas mil'],
+        ['200322', 'duzentas mil trezentas e vinte e duas'],
         ['200000000', 'duzentos milhões'],
+        ['200000322', 'duzentos milhões trezentas e vinte e duas'],
         ['2000000000', 'dois bilhões'],
     ]
 
