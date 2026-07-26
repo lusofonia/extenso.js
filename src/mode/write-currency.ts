@@ -14,7 +14,7 @@ const ONE_MILLION = 1000000n
  * @returns The unit part written in words with currency name
  */
 export const writeUnit = (unit: string, currency: Currency, scale: Scales = Scales.SHORT) => {
-    const text = writeInteger(unit, scale)
+    const text = writeInteger(unit, scale, currency.gender)
     const unitValue = BigInt(unit)
 
     if (unitValue === 1n) {
@@ -33,7 +33,7 @@ export const writeUnit = (unit: string, currency: Currency, scale: Scales = Scal
  * @returns The subunit part written in words with currency name
  */
 export const writeSubunit = (subunit: string, currency: Currency) => {
-    const text = writeInteger(subunit.slice(0, 2))
+    const text = writeInteger(subunit.slice(0, 2), Scales.SHORT, currency.subunit.gender)
 
     if (BigInt(subunit) === 1n) {
         return `${text} ${currency.subunit.singular}`

@@ -35,6 +35,13 @@ test('writeCurrency(): should handle EUR currency', (t) => {
     t.is(writeCurrency('2000000', '50', Currencies.EUR), 'dois milhões de euros e cinquenta cêntimos')
 })
 
+test('writeCurrency(): should use the currency gender', (t) => {
+    t.is(writeCurrency('1', '0', Currencies.STN), 'uma dobra')
+    t.is(writeCurrency('2', '0', Currencies.STN), 'duas dobras')
+    t.is(writeCurrency('21', '0', Currencies.MOP), 'vinte e uma patacas')
+    t.is(writeCurrency('200', '0', Currencies.MOP), 'duzentas patacas')
+})
+
 test('writeCurrency(): should handle BRL currency with long scale', (t) => {
     t.is(writeCurrency('1000000', '0', Currencies.BRL, Scales.LONG), 'um milhão de reais')
     t.is(writeCurrency('1000000000', '0', Currencies.BRL, Scales.LONG), 'um mil milhão de reais')
