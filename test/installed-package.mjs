@@ -7,12 +7,16 @@ import { fileURLToPath } from 'node:url'
 
 const projectDirectory = resolve(fileURLToPath(new URL('..', import.meta.url)))
 const temporaryDirectory = await mkdtemp(join(tmpdir(), 'extenso-consumer-'))
+const npmCli = process.env.npm_execpath
+const safeEnvironment = { ...process.env, PATH: '/usr/bin:/bin' }
+
+assert.ok(npmCli, 'This test must be run from an npm script')
 
 try {
     const packOutput = execFileSync(
-        'npm',
-        ['pack', '--json', '--pack-destination', temporaryDirectory],
-        { cwd: projectDirectory, encoding: 'utf8' },
+        process.execPath,
+        [npmCli, 'pack', '--json', '--pack-destination', temporaryDirectory],
+        { cwd: projectDirectory, encoding: 'utf8', env: safeEnvironment },
     )
     const [{ filename }] = JSON.parse(packOutput)
     const tarball = join(temporaryDirectory, filename)
@@ -22,9 +26,9 @@ try {
         type: 'module',
     }))
     execFileSync(
-        'npm',
-        ['install', '--ignore-scripts', '--no-audit', '--no-fund', tarball],
-        { cwd: temporaryDirectory, stdio: 'pipe' },
+        process.execPath,
+        [npmCli, 'install', '--ignore-scripts', '--no-audit', '--no-fund', tarball],
+        { cwd: temporaryDirectory, env: safeEnvironment, stdio: 'pipe' },
     )
 
     await writeFile(join(temporaryDirectory, 'consumer.cjs'), `
@@ -33,7 +37,11 @@ const extenso = require('extenso')
 assert.equal(typeof extenso, 'function')
 assert.equal(extenso(123), 'cento e vinte e três')
 `)
-    execFileSync('node', ['consumer.cjs'], { cwd: temporaryDirectory, stdio: 'pipe' })
+    execFileSync(process.execPath, ['consumer.cjs'], {
+        cwd: temporaryDirectory,
+        env: safeEnvironment,
+        stdio: 'pipe',
+    })
 
     await writeFile(join(temporaryDirectory, 'consumer.mjs'), `
 import assert from 'node:assert/strict'
@@ -41,7 +49,11 @@ import extenso from 'extenso'
 assert.equal(typeof extenso, 'function')
 assert.equal(extenso(123), 'cento e vinte e três')
 `)
-    execFileSync('node', ['consumer.mjs'], { cwd: temporaryDirectory, stdio: 'pipe' })
+    execFileSync(process.execPath, ['consumer.mjs'], {
+        cwd: temporaryDirectory,
+        env: safeEnvironment,
+        stdio: 'pipe',
+    })
 
     await writeFile(join(temporaryDirectory, 'consumer.ts'), `
 import extenso, { type ExtensoOptions } from 'extenso'
@@ -62,6 +74,7 @@ void result
     const typeScriptBinary = join(projectDirectory, 'node_modules', 'typescript', 'bin', 'tsc')
     execFileSync(process.execPath, [typeScriptBinary, '--project', 'tsconfig.json'], {
         cwd: temporaryDirectory,
+        env: safeEnvironment,
         stdio: 'pipe',
     })
 
