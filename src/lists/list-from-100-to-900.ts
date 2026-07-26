@@ -12,4 +12,16 @@ const listFrom100To900: string[] = [
     'novecentos',
 ]
 
+export const listFrom100To900Female: string[] = [
+    'cento',
+    'duzentas',
+    'trezentas',
+    'quatrocentas',
+    'quinhentas',
+    'seiscentas',
+    'setecentas',
+    'oitocentas',
+    'novecentas',
+]
+
 export default listFrom100To900

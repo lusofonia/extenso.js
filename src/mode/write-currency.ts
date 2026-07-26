@@ -4,7 +4,7 @@ import listCurrencies from '../lists/list-currencies'
 import Scales from '../ts/enum/scales.enum'
 import writeInteger from '../core/write-integer'
 
-const ONE_MILION = 1000000
+const ONE_MILLION = 1000000n
 
 /**
  * Writes the unit part of a currency amount
@@ -15,11 +15,12 @@ const ONE_MILION = 1000000
  */
 export const writeUnit = (unit: string, currency: Currency, scale: Scales = Scales.SHORT) => {
     const text = writeInteger(unit, scale)
+    const unitValue = BigInt(unit)
 
-    if (Number(unit) === 1) {
+    if (unitValue === 1n) {
         return `${text} ${currency.singular}`
     }
-    if (Number(unit) >= ONE_MILION && Number(unit.slice(-6)) === 0) {
+    if (unitValue >= ONE_MILLION && unitValue % ONE_MILLION === 0n) {
         return `${text} de ${currency.plural}`
     }
     return `${text} ${currency.plural}`
@@ -34,7 +35,7 @@ export const writeUnit = (unit: string, currency: Currency, scale: Scales = Scal
 export const writeSubunit = (subunit: string, currency: Currency) => {
     const text = writeInteger(subunit.slice(0, 2))
 
-    if (Number(subunit) === 1) {
+    if (BigInt(subunit) === 1n) {
         return `${text} ${currency.subunit.singular}`
     }
     return `${text} ${currency.subunit.plural}`
@@ -55,6 +56,9 @@ const writeCurrency = (
     code: Currencies = Currencies.BRL,
     scale: Scales = Scales.SHORT,
 ): string => {
+    if (!/^\d+$/.test(unit) || !/^\d{1,2}$/.test(subunit)) {
+        throw new Error('Currency values must have zero, one, or two decimal places')
+    }
     subunit = subunit.padEnd(2, '0')
 
     if (!Object.keys(listCurrencies).includes(code)) {
@@ -62,8 +66,8 @@ const writeCurrency = (
     }
 
     const currency = listCurrencies[code]
-    const hasUnit = Number(unit) > 0
-    const hasSubunit = Number(subunit) > 0
+    const hasUnit = BigInt(unit) > 0n
+    const hasSubunit = BigInt(subunit) > 0n
 
     if (!hasUnit && !hasSubunit) {
         return `zero ${currency.plural}`

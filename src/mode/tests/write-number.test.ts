@@ -21,7 +21,14 @@ test('writeNumber(): should handle integer values with female gender', (t) => {
     t.is(writeNumber('1', '0', Scales.SHORT, Genders.FEMALE), 'uma')
     t.is(writeNumber('2', '0', Scales.SHORT, Genders.FEMALE), 'duas')
     t.is(writeNumber('22', '0', Scales.SHORT, Genders.FEMALE), 'vinte e duas')
+    t.is(writeNumber('200', '0', Scales.SHORT, Genders.FEMALE), 'duzentas')
+    t.is(writeNumber('322', '0', Scales.SHORT, Genders.FEMALE), 'trezentas e vinte e duas')
     t.is(writeNumber('42002', '0', Scales.SHORT, Genders.FEMALE), 'quarenta e duas mil e duas')
+    t.is(writeNumber('322000', '0', Scales.SHORT, Genders.FEMALE), 'trezentas e vinte e duas mil')
+    t.is(writeNumber('1200000', '0', Scales.SHORT, Genders.FEMALE), 'um milhão e duzentas mil')
+    t.is(writeNumber('200000001', '0', Scales.SHORT, Genders.FEMALE), 'duzentos milhões e uma')
+    t.is(writeNumber('2000000001', '0', Scales.SHORT, Genders.FEMALE), 'dois bilhões e uma')
+    t.is(writeNumber('2000000001', '0', Scales.LONG, Genders.FEMALE), 'dois mil milhões e uma')
 })
 
 test('writeNumber(): should handle decimal values', (t) => {
@@ -42,4 +49,8 @@ test('writeNumber(): should handle integer and decimal values', (t) => {
     t.is(writeNumber('30', '0005'), 'trinta inteiros e cinco décimos de milésimo')
     t.is(writeNumber('35', '00005'), 'trinta e cinco inteiros e cinco centésimos de milésimo')
     t.is(writeNumber('100', '000005'), 'cem inteiros e cinco milionésimos')
+    t.is(
+        writeNumber('2', '1', Scales.SHORT, Genders.FEMALE),
+        'duas inteiras e um décimo',
+    )
 })

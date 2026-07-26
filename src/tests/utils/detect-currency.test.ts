@@ -62,10 +62,14 @@ test('detectCurrency(): should handle currency symbols in different positions', 
     t.is(detectCurrency('123 456 $'), Currencies.USD)
 })
 
-test('detectCurrency(): should handle multiple currency indicators', (t) => {
-    // Should detect the first occurrence
-    t.is(detectCurrency('BRL 123 EUR'), Currencies.BRL)
-    t.is(detectCurrency('R$ 123 €'), Currencies.BRL)
+test('detectCurrency(): should handle repeated and conflicting currency indicators', (t) => {
+    t.is(detectCurrency('BRL 123 BRL'), Currencies.BRL)
+    t.throws(() => detectCurrency('BRL 123 EUR'), {
+        message: 'Conflicting currency markers: BRL, EUR',
+    })
+    t.throws(() => detectCurrency('R$ 123 €'), {
+        message: 'Conflicting currency markers: BRL, EUR',
+    })
 })
 
 test('detectCurrency(): should handle decimal numbers', (t) => {
@@ -91,4 +95,5 @@ test('detectCurrency(): should return undefined when no currency is found', (t) 
     t.is(detectCurrency(''), undefined)
     t.is(detectCurrency('0'), undefined)
     t.is(detectCurrency('-123'), undefined)
+    t.is(detectCurrency('wordBRLword 123'), undefined)
 })

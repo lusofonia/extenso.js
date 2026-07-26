@@ -46,4 +46,10 @@ test('writeCurrency(): should handle BRL currency with long scale', (t) => {
 test('writeCurrency(): should handle invalid currency', (t) => {
     // @ts-expect-error - this is expected to throw
     t.throws(() => writeCurrency('1', '0', 'INVALID'))
+    t.throws(() => writeCurrency('invalid'), {
+        message: 'Currency values must have zero, one, or two decimal places',
+    })
+    t.throws(() => writeCurrency('1', '001'), {
+        message: 'Currency values must have zero, one, or two decimal places',
+    })
 })

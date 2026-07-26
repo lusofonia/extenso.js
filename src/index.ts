@@ -9,6 +9,7 @@ import writeNumber from './mode/write-number'
 import detectCurrency from './utils/detect-currency'
 import Currencies from './ts/enum/currencies.enum'
 import DecimalSeparators from './ts/enum/decimal-separators.enum'
+import validateOptions from './utils/validate-options'
 
 const NEGATIVE_SIGN = '-'
 
@@ -33,6 +34,8 @@ const NEGATIVE_SIGN = '-'
  * extenso("R$ 1234.56", { mode: Modes.CURRENCY }) // "mil duzentos e trinta e quatro reais e cinquenta e seis centavos"
  */
 const extenso = (input: number | string | bigint, options: Options = {}): string => {
+    validateOptions(options)
+
     // Detect currency before normalizing input
     const detectedCurrency = typeof input === 'string' ? detectCurrency(input) : undefined
     const currencyCode = options?.currency?.code || detectedCurrency || Currencies.BRL
@@ -47,6 +50,9 @@ const extenso = (input: number | string | bigint, options: Options = {}): string
 
     switch (mode) {
     case Modes.CURRENCY:
+        if (decimal.length > 2) {
+            throw new RangeError('Currency values must have zero, one, or two decimal places')
+        }
         text = writeCurrency(integer, decimal, currencyCode, options?.scale)
         break
     case Modes.DIGIT:
@@ -56,7 +62,6 @@ const extenso = (input: number | string | bigint, options: Options = {}): string
             : writeDigit(integer)
         break
     case Modes.NUMBER:
-    default:
         text = writeNumber(integer, decimal, options?.scale, options?.number?.gender)
         break
     }

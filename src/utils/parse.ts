@@ -5,7 +5,9 @@ export enum ParseErrorCode {
     INVALID_INTEGER = 'INVALID_INTEGER',
     INVALID_DECIMAL = 'INVALID_DECIMAL',
     MULTIPLE_DECIMALS = 'MULTIPLE_DECIMALS',
-    EMPTY_INPUT = 'EMPTY_INPUT'
+    INVALID_GROUPING = 'INVALID_GROUPING',
+    INCOMPLETE_DECIMAL = 'INCOMPLETE_DECIMAL',
+    EMPTY_INPUT = 'EMPTY_INPUT',
 }
 
 export class ParseError extends Error {
@@ -39,20 +41,48 @@ const parse = (input: string, decimalSeparator: DecimalSeparators = DecimalSepar
     if (input === '') {
         throw new ParseError('Input cannot be empty', ParseErrorCode.EMPTY_INPUT)
     }
+    if (input === '-') {
+        throw new ParseError('A negative sign must be followed by a number', ParseErrorCode.INVALID_NUMBER)
+    }
+    if (!/^-?[^-]+$/.test(input)) {
+        throw new ParseError(
+            'Invalid number format: the negative sign is only allowed at the beginning.',
+            ParseErrorCode.INVALID_NUMBER,
+        )
+    }
 
-    if (input.split(separatorFor.decimal)?.length > 2) {
+    const unsignedInput = input.startsWith('-') ? input.slice(1) : input
+    const decimalParts = unsignedInput.split(separatorFor.decimal)
+
+    if (decimalParts.length > 2) {
         throw new ParseError(
             `Invalid number format: multiple decimal separators found. Use only one '${separatorFor.decimal}' as decimal separator.`,
             ParseErrorCode.MULTIPLE_DECIMALS,
         )
     }
+    if (decimalParts.length === 2 && decimalParts[1] === '') {
+        throw new ParseError(
+            'Invalid number format: decimal separator must be followed by digits.',
+            ParseErrorCode.INCOMPLETE_DECIMAL,
+        )
+    }
 
-    // eslint-disable-next-line
-    let [integer, decimal] = input
-        .replace(RegExp(`(^-|\\${separatorFor.thousands})`, 'g'), '')
-        .trim()
-        .split(separatorFor.decimal)
-        .map((number) => number.replace(/^0+$/, '0'))
+    const [groupedInteger, decimal] = decimalParts
+    let integer = groupedInteger
+
+    if (integer.includes(separatorFor.thousands)) {
+        const groups = integer.split(separatorFor.thousands)
+        const validGrouping = /^\d{1,3}$/.test(groups[0]) &&
+            groups.slice(1).every((group) => /^\d{3}$/.test(group))
+
+        if (!validGrouping) {
+            throw new ParseError(
+                `Invalid thousands grouping for separator '${separatorFor.thousands}'.`,
+                ParseErrorCode.INVALID_GROUPING,
+            )
+        }
+        integer = groups.join('')
+    }
 
     if (!integer) {
         integer = '0'
@@ -71,7 +101,7 @@ const parse = (input: string, decimalSeparator: DecimalSeparators = DecimalSepar
     }
 
     return {
-        integer,
+        integer: integer.replace(/^0+(?=\d)/, ''),
         decimal: decimal || '0',
     }
 }

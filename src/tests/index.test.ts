@@ -44,19 +44,26 @@ test('extenso(): should detect currency from symbol in input without spaces', (t
 test('extenso(): should handle currency codes in different positions', (t) => {
     t.is(extenso('BRL 1234.56', { mode: Modes.CURRENCY }), 'mil duzentos e trinta e quatro reais e cinquenta e seis centavos')
     t.is(extenso('1234.56 EUR', { mode: Modes.CURRENCY }), 'mil duzentos e trinta e quatro euros e cinquenta e seis cêntimos')
-    t.is(extenso('1234.56 789 USD', { mode: Modes.CURRENCY }), 'mil duzentos e trinta e quatro dólares e cinquenta e seis centavos')
+    t.throws(() => extenso('1234.56 789 USD', { mode: Modes.CURRENCY }), {
+        message: 'Invalid number format: whitespace is not allowed within the number',
+    })
 })
 
 test('extenso(): should handle currency symbols in different positions', (t) => {
     t.is(extenso('R$ 1234.56', { mode: Modes.CURRENCY }), 'mil duzentos e trinta e quatro reais e cinquenta e seis centavos')
     t.is(extenso('1234.56 €', { mode: Modes.CURRENCY }), 'mil duzentos e trinta e quatro euros e cinquenta e seis cêntimos')
-    t.is(extenso('1234.56 789 $', { mode: Modes.CURRENCY }), 'mil duzentos e trinta e quatro dólares e cinquenta e seis centavos')
+    t.throws(() => extenso('1234.56 789 $', { mode: Modes.CURRENCY }), {
+        message: 'Invalid number format: whitespace is not allowed within the number',
+    })
 })
 
-test('extenso(): should handle multiple currency indicators', (t) => {
-    // Should use the first occurrence
-    t.is(extenso('BRL 1234.56 EUR', { mode: Modes.CURRENCY }), 'mil duzentos e trinta e quatro reais e cinquenta e seis centavos')
-    t.is(extenso('R$ 1234.56 €', { mode: Modes.CURRENCY }), 'mil duzentos e trinta e quatro reais e cinquenta e seis centavos')
+test('extenso(): should reject conflicting currency indicators', (t) => {
+    t.throws(() => extenso('BRL 1234.56 EUR', { mode: Modes.CURRENCY }), {
+        message: 'Conflicting currency markers: BRL, EUR',
+    })
+    t.throws(() => extenso('R$ 1234.56 €', { mode: Modes.CURRENCY }), {
+        message: 'Conflicting currency markers: BRL, EUR',
+    })
 })
 
 test('extenso(): should handle negative currency values', (t) => {
@@ -153,5 +160,8 @@ test('extenso(): should handle all decimal separator combinations in DIGIT mode'
 
 test('extenso(): should handle invalid mode', (t) => {
     // @ts-expect-error - Testing invalid mode
-    t.is(extenso('1234.56', { mode: 'INVALID' }), 'mil duzentos e trinta e quatro inteiros e cinquenta e seis centésimos')
+    t.throws(() => extenso('1234.56', { mode: 'INVALID' }), {
+        instanceOf: TypeError,
+        message: 'Invalid mode: INVALID',
+    })
 })

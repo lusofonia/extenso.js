@@ -25,22 +25,12 @@ const writeNumber = (
         return writeDecimal(decimal)
     }
 
-    let text
+    let text: string
     if (decimal === '0') {
-        text = writeInteger(integer, scale)
+        text = writeInteger(integer, scale, gender)
     } else {
-        text = `${writeInteger(integer, scale)} ${pluralize('inteiro', Number(integer))} e ${writeDecimal(decimal)}`
-    }
-
-    switch (gender) {
-    case Genders.FEMALE:
-        text = text
-            .replace(/\bum\b/g, 'uma')
-            .replace(/\bdois\b/g, 'duas')
-        break
-    case Genders.MALE:
-    default:
-        break
+        const whole = gender === Genders.FEMALE ? 'inteira' : 'inteiro'
+        text = `${writeInteger(integer, scale, gender)} ${pluralize(whole, Number(integer))} e ${writeDecimal(decimal)}`
     }
 
     return text
