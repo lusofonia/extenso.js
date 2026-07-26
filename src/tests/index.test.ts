@@ -119,6 +119,21 @@ test('extenso(): should handle decimal separator in DIGIT mode', (t) => {
     t.is(extenso('1234,56', { mode: Modes.DIGIT, decimalSeparator: DecimalSeparators.COMMA }), 'um dois três quatro vírgula cinco seis')
 })
 
+test('extenso(): should parse number inputs with the JavaScript decimal separator', (t) => {
+    t.is(
+        extenso(3.14, { decimalSeparator: DecimalSeparators.COMMA }),
+        'três inteiros e quatorze centésimos',
+    )
+    t.is(
+        extenso(3.14, { mode: Modes.CURRENCY, decimalSeparator: DecimalSeparators.COMMA }),
+        'três reais e quatorze centavos',
+    )
+    t.is(
+        extenso(3.14, { mode: Modes.DIGIT, decimalSeparator: DecimalSeparators.COMMA }),
+        'três vírgula um quatro',
+    )
+})
+
 test('extenso(): should preserve supplied zeros in DIGIT mode', (t) => {
     t.is(extenso('0012', { mode: Modes.DIGIT }), 'zero zero um dois')
     t.is(extenso('0012.0', { mode: Modes.DIGIT }), 'zero zero um dois vírgula zero')

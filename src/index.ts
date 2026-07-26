@@ -36,6 +36,8 @@ const NEGATIVE_SIGN = '-'
 const extenso = (input: number | string | bigint, options: Options = {}): string => {
     validateOptions(options)
 
+    const inputIsNumber = typeof input === 'number'
+
     // Detect currency before normalizing input
     const detectedCurrency = typeof input === 'string' ? detectCurrency(input) : undefined
     const currencyCode = options?.currency?.code || detectedCurrency || Currencies.BRL
@@ -43,9 +45,10 @@ const extenso = (input: number | string | bigint, options: Options = {}): string
 
     // Now normalize and parse the input
     input = normalize(input)
-    const decimalSeparator = options?.decimalSeparator === DecimalSeparators.COMMA ? ',' : '.'
+    const parseSeparator = inputIsNumber ? DecimalSeparators.POINT : options?.decimalSeparator
+    const decimalSeparator = parseSeparator === DecimalSeparators.COMMA ? ',' : '.'
     const hasDecimal = input.includes(decimalSeparator)
-    const { integer, decimal } = parse(input, options?.decimalSeparator, mode === Modes.DIGIT)
+    const { integer, decimal } = parse(input, parseSeparator, mode === Modes.DIGIT)
     let text: string
 
     switch (mode) {
