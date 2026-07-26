@@ -2,11 +2,24 @@
   "name": "extenso",
   "version": "2.1.0",
   "description": "Uma biblioteca avançada para escrever números por extenso (em português).",
-  "main": "dist/extenso.esm.js",
-  "types": "index.d.ts",
+  "main": "./dist/extenso.cjs",
+  "module": "./dist/extenso.mjs",
+  "types": "./index.d.mts",
+  "exports": {
+    ".": {
+      "types": "./index.d.mts",
+      "import": "./dist/extenso.mjs",
+      "require": "./dist/extenso.cjs"
+    }
+  },
+  "sideEffects": false,
+  "engines": {
+    "node": ">=18"
+  },
   "files": [
     "dist",
-    "index.d.ts"
+    "index.d.ts",
+    "index.d.mts"
   ],
   "ava": {
     "files": [
@@ -20,19 +33,20 @@
     }
   },
   "scripts": {
-    "test": "rm -rf build && ava --colors",
-    "test:coverage": "rm -rf build && c8 --check-coverage --100 ava --colors",
+    "test": "ava --colors",
+    "test:coverage": "c8 --check-coverage --100 ava --colors",
+    "test:package": "npm run build && node test/installed-package.mjs",
     "lint": "eslint . --ignore-pattern 'dist/*' --ignore-pattern 'build/*'",
     "lint:fix": "eslint . --ignore-pattern 'dist/*' --ignore-pattern 'build/*' --fix",
     "build": "node esbuild.config.mjs"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/theuves/extenso.js.git"
+    "url": "git+https://github.com/lusofonia/extenso.js.git"
   },
-  "homepage": "https://github.com/theuves/extenso.js#readme",
+  "homepage": "https://github.com/lusofonia/extenso.js#readme",
   "bugs": {
-    "url": "https://github.com/theuves/extenso.js/issues"
+    "url": "https://github.com/lusofonia/extenso.js/issues"
   },
   "devDependencies": {
     "@ava/typescript": "^6.0.0",

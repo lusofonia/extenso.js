@@ -1,17 +1,20 @@
 import esbuild from 'esbuild'
+import { readFile } from 'node:fs/promises'
 
+const packageJson = JSON.parse(await readFile(new URL('./package.json', import.meta.url), 'utf8'))
 const year = (new Date()).getFullYear()
-const banner = `/*! Extenso.js v2.1.0 | MIT (c) 2015-${year} by Matheus Alves */\n`
+const banner = `/*! ${packageJson.name} v${packageJson.version} | MIT (c) 2015-${year} by Matheus Alves */\n`
 
 const options = [
     {
         format: 'cjs',
-        outfile: 'dist/extenso.cjs.js',
+        outfile: 'dist/extenso.cjs',
         banner: { js: banner },
+        footer: { js: 'module.exports=module.exports.default;' },
     },
     {
         format: 'esm',
-        outfile: 'dist/extenso.esm.js',
+        outfile: 'dist/extenso.mjs',
         banner: { js: banner },
     },
     {
@@ -19,15 +22,16 @@ const options = [
         globalName: 'extenso',
         outfile: 'dist/extenso.umd.js',
         banner: { js: banner },
+        footer: { js: 'extenso=extenso.default;' },
     },
 ]
 
-options.forEach((opt) => {
-    esbuild.build({
+await Promise.all(
+    options.map((opt) => esbuild.build({
         entryPoints: ['./src/index.ts'],
         bundle: true,
         minify: true,
         sourcemap: true,
         ...opt,
-    }).catch(() => process.exit(1))
-})
+    })),
+)
