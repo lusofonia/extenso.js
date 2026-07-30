@@ -112,7 +112,7 @@ Strings preservam todos os dígitos fornecidos. O sinal `-` só pode aparecer no
 - [`mode`](#optionsmode-string) [*string*]
 - [`scale`](#optionsscale-string) [*string*]
 - [`locale`](#optionslocale-string) [*string*]
-- [`currency.code`](#optionscurrencycode-string) [*string*]
+- [`currency`](#optionscurrency) [*object*]
 - [`number.gender`](#optionsnumbergender-string) [*string*]
 - [`decimalSeparator`](#optionsdecimalseparator-string) [*string*]
 
@@ -222,13 +222,11 @@ extenso('1,000,000,000', { locale: 'pt' })
 //=> 'um bilião'
 ```
 
-## `options.currency.code` [*string*]
+## `options.currency`
 
 > Define o código [ISO](https://pt.wikipedia.org/wiki/ISO_4217) da moeda em que o número deverá ser escrito.
 
 Até o momento são suportadas apenas 9 moedas escolhidas com base na importância econômica e comercial de cada uma delas e que são as mais utilizadas nos países membros da [CPLP (Comunidade dos Países de Língua Portuguesa)](https://www.cplp.org/), os quais são: Brasil, Angola, Cabo Verde, Guiné-Bissau, Guiné Equatorial, Moçambique, Portugal, São Tomé e Príncipe e Timor-Leste.
-
-_Em breve será suportada a definição de moedas personalizadas. Você pode contribuir enviando um [*pull request*](https://github.com/lusofonia/extenso.js/pulls) com a adição de uma nova moeda ou com a correção de um erro em uma moeda já existente._
 
 As moedas suportadas são:
 
@@ -256,7 +254,26 @@ extenso('42', { mode: 'currency', currency: { code: 'EUR' } })
 
 extenso('42', { mode: 'currency', currency: { code: 'CVE' } })
 //=> 'quarenta e dois escudos'
+
+extenso('2.01', {
+  currency: {
+    singular: 'crédito',
+    plural: 'créditos',
+    gender: 'male',
+    subunit: {
+      singular: 'ficha',
+      plural: 'fichas',
+      gender: 'female'
+    }
+  }
+})
+//=> 'dois créditos e uma ficha'
 ```
+
+Para uma moeda personalizada, informe os nomes no singular e plural e o gênero
+gramatical (`male` ou `female`) da unidade e da subunidade. `code` não pode ser
+combinado com uma definição personalizada. A presença da definição ativa
+automaticamente o modo `currency`.
 
 ## `options.number.gender` [*string*]
 

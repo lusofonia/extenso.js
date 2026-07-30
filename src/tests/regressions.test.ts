@@ -95,6 +95,81 @@ test('all public options are validated at runtime', (t) => {
         { decimalSeparator: 'unknown' },
         { number: { gender: 'unknown' } },
         { currency: { code: 'ZZZ' } },
+        { currency: { singular: 'crédito' } },
+        { currency: { plural: 'créditos' } },
+        { currency: { gender: Genders.MALE } },
+        { currency: { subunit: {} } },
+        {
+            currency: {
+                code: Currencies.BRL,
+                singular: 'crédito',
+                plural: 'créditos',
+                gender: Genders.MALE,
+                subunit: {
+                    singular: 'ficha',
+                    plural: 'fichas',
+                    gender: Genders.FEMALE,
+                },
+            },
+        },
+        {
+            currency: {
+                singular: '',
+                plural: 'créditos',
+                gender: Genders.MALE,
+                subunit: {
+                    singular: 'ficha',
+                    plural: 'fichas',
+                    gender: Genders.FEMALE,
+                },
+            },
+        },
+        {
+            currency: {
+                singular: 'crédito',
+                plural: 'créditos',
+                gender: 'unknown',
+                subunit: {
+                    singular: 'ficha',
+                    plural: 'fichas',
+                    gender: Genders.FEMALE,
+                },
+            },
+        },
+        ...[null, 'ficha', []].map(subunit => ({
+            currency: {
+                singular: 'crédito',
+                plural: 'créditos',
+                gender: Genders.MALE,
+                subunit,
+            },
+        })),
+        {
+            currency: {
+                singular: 'crédito',
+                plural: 'créditos',
+                gender: Genders.MALE,
+                subunit: {
+                    singular: 'ficha',
+                    plural: '',
+                    gender: Genders.FEMALE,
+                },
+            },
+        },
+        {
+            currency: {
+                singular: 'crédito',
+                plural: 'créditos',
+                gender: Genders.MALE,
+                subunit: {
+                    singular: 'ficha',
+                    plural: 'fichas',
+                    gender: 'unknown',
+                },
+            },
+        },
+        { currency: [] },
+        { currency: 'BRL' },
         { number: null },
         { currency: null },
         null,

@@ -112,7 +112,7 @@ Strings preserve every supplied digit. The `-` sign is only valid at the beginni
 - [`mode`](#optionsmode-string) [*string*]
 - [`scale`](#optionsscale-string) [*string*]
 - [`locale`](#optionslocale-string) [*string*]
-- [`currency.code`](#optionscurrencycode-string) [*string*]
+- [`currency`](#optionscurrency) [*object*]
 - [`number.gender`](#optionsnumbergender-string) [*string*]
 - [`decimalSeparator`](#optionsdecimalseparator-string) [*string*]
 
@@ -222,13 +222,11 @@ extenso('1,000,000,000', { locale: 'pt' })
 //=> 'um bilião'
 ```
 
-## `options.currency.code` [*string*]
+## `options.currency`
 
 > Defines the [ISO](https://pt.wikipedia.org/wiki/ISO_4217) currency code in which the number should be written.
 
 So far, only 9 currencies are supported, chosen based on the economic and commercial importance of each and which are the most used in the member countries of the [CPLP (Community of Portuguese Language Countries)](https://www.cplp.org/), which are: Brazil, Angola, Cape Verde, Guinea-Bissau, Equatorial Guinea, Mozambique, Portugal, São Tomé and Príncipe, and Timor-Leste.
-
-_Custom currency definition will be supported soon. You can contribute by sending a [*pull request*](https://github.com/lusofonia/extenso.js/pulls) with the addition of a new currency or with the correction of an error in an existing currency._
 
 The supported currencies are:
 
@@ -256,7 +254,26 @@ extenso('42', { mode: 'currency', currency: { code: 'EUR' } })
 
 extenso('42', { mode: 'currency', currency: { code: 'CVE' } })
 //=> 'quarenta e dois escudos'
+
+extenso('2.01', {
+  currency: {
+    singular: 'crédito',
+    plural: 'créditos',
+    gender: 'male',
+    subunit: {
+      singular: 'ficha',
+      plural: 'fichas',
+      gender: 'female'
+    }
+  }
+})
+//=> 'dois créditos e uma ficha'
 ```
+
+For a custom currency, provide the singular and plural names and the grammatical
+gender (`male` or `female`) of both the unit and subunit. `code` cannot be
+combined with a custom definition. Providing the definition automatically
+enables `currency` mode.
 
 ## `options.number.gender` [*string*]
 

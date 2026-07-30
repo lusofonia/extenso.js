@@ -58,8 +58,22 @@ assert.equal(extenso(123), 'cento e vinte e três')
     await writeFile(join(temporaryDirectory, 'consumer.ts'), `
 import extenso, { type ExtensoOptions } from 'extenso'
 const options: ExtensoOptions = { mode: 'number' }
+const customCurrency: ExtensoOptions = {
+    currency: {
+        singular: 'crédito',
+        plural: 'créditos',
+        gender: 'male',
+        subunit: {
+            singular: 'ficha',
+            plural: 'fichas',
+            gender: 'female',
+        },
+    },
+}
 const result: string = extenso(123, options)
+const customResult: string = extenso('2.01', customCurrency)
 void result
+void customResult
 `)
     await writeFile(join(temporaryDirectory, 'tsconfig.json'), JSON.stringify({
         compilerOptions: {

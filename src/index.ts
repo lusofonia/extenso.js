@@ -10,6 +10,7 @@ import detectCurrency from './utils/detect-currency'
 import Currencies from './ts/enum/currencies.enum'
 import DecimalSeparators from './ts/enum/decimal-separators.enum'
 import validateOptions from './utils/validate-options'
+import Currency from './ts/interface/currency.interface'
 
 const NEGATIVE_SIGN = '-'
 
@@ -40,8 +41,14 @@ const extenso = (input: number | string | bigint, options: Options = {}): string
 
     // Detect currency before normalizing input
     const detectedCurrency = typeof input === 'string' ? detectCurrency(input) : undefined
-    const currencyCode = options?.currency?.code || detectedCurrency || Currencies.BRL
-    const mode = options?.mode || (detectedCurrency || options?.currency?.code ? Modes.CURRENCY : Modes.NUMBER)
+    const customCurrency = options.currency && 'singular' in options.currency
+        ? options.currency as Currency
+        : undefined
+    const currencyCode = options.currency?.code || detectedCurrency || Currencies.BRL
+    const currency = customCurrency || currencyCode
+    const mode = options.mode || (detectedCurrency || options.currency?.code || customCurrency
+        ? Modes.CURRENCY
+        : Modes.NUMBER)
 
     // Now normalize and parse the input
     input = normalize(input)
@@ -56,7 +63,7 @@ const extenso = (input: number | string | bigint, options: Options = {}): string
         if (decimal.length > 2) {
             throw new RangeError('Currency values must have zero, one, or two decimal places')
         }
-        text = writeCurrency(integer, decimal, currencyCode, options?.scale)
+        text = writeCurrency(integer, decimal, currency, options?.scale)
         break
     case Modes.DIGIT:
         text = hasDecimal
