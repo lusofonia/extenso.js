@@ -42,6 +42,7 @@ Nossa ambição com o Extenso.js é tornar esta biblioteca uma referência para 
 - [x] Suporte à escala curta e longa de números.
 - [x] Suporte à personalização de gênero gramatical.
 - [x] Suporte à formatação flexível (vírgula ou ponto como separador decimal).
+- [x] Suporte à escrita sem acentos.
 - [x] Zero dependências.
 
 _**NOTA**: Observe que 10³⁹ é o limite para a escala curta enquanto que 10⁷² é o limite para a escala longa._
@@ -112,6 +113,7 @@ Strings preservam todos os dígitos fornecidos. O sinal `-` só pode aparecer no
 - [`mode`](#optionsmode-string) [*string*]
 - [`scale`](#optionsscale-string) [*string*]
 - [`locale`](#optionslocale-string) [*string*]
+- [`removeAccents`](#optionsremoveaccents-boolean) [*boolean*]
 - [`currency.code`](#optionscurrencycode-string) [*string*]
 - [`number.gender`](#optionsnumbergender-string) [*string*]
 - [`decimalSeparator`](#optionsdecimalseparator-string) [*string*]
@@ -222,6 +224,28 @@ extenso('1,000,000,000', { locale: 'pt' })
 //=> 'um bilião'
 ```
 
+## `options.removeAccents` [*boolean*]
+
+> Remove os acentos e outros sinais diacríticos do texto retornado.
+
+- `false` [*default*] - Mantém a acentuação normal.
+- `true` - Retorna o número por extenso sem acentos.
+
+Esta opção funciona em todos os modos de escrita e pode ser combinada com qualquer localização.
+
+Exemplos:
+
+```js
+extenso('123')
+//=> 'cento e vinte e três'
+
+extenso('123', { removeAccents: true })
+//=> 'cento e vinte e tres'
+
+extenso('3.14', { removeAccents: true })
+//=> 'tres inteiros e quatorze centesimos'
+```
+
 ## `options.currency.code` [*string*]
 
 > Define o código [ISO](https://pt.wikipedia.org/wiki/ISO_4217) da moeda em que o número deverá ser escrito.
@@ -289,7 +313,7 @@ No modo `currency`, são aceitas zero, uma ou duas casas decimais. Uma casa é c
 
 ## Validação e erros
 
-`mode`, `locale`, `scale`, `decimalSeparator`, `number.gender` e `currency.code` são validados em runtime. A biblioteca também rejeita entrada vazia, sinal isolado, agrupamento inválido, decimal incompleto, `NaN`, infinitos, moedas conflitantes, valores acima da escala escolhida e strings com mais de 1000 caracteres.
+`mode`, `locale`, `scale`, `decimalSeparator`, `removeAccents`, `number.gender` e `currency.code` são validados em runtime. A biblioteca também rejeita entrada vazia, sinal isolado, agrupamento inválido, decimal incompleto, `NaN`, infinitos, moedas conflitantes, valores acima da escala escolhida e strings com mais de 1000 caracteres.
 
 ## Migração para a próxima versão
 

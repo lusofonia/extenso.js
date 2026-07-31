@@ -31,6 +31,10 @@ const validateOptions = (options: Options): void => {
     assertEnumValue('scale', options.scale, Scales)
     assertEnumValue('decimalSeparator', options.decimalSeparator, DecimalSeparators)
 
+    if (options.removeAccents !== undefined && typeof options.removeAccents !== 'boolean') {
+        throw new TypeError(`Invalid removeAccents: ${String(options.removeAccents)}`)
+    }
+
     if (options.currency !== undefined &&
         (options.currency === null || typeof options.currency !== 'object' || Array.isArray(options.currency))) {
         throw new TypeError('Invalid currency options: expected an object')
