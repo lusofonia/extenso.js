@@ -20,6 +20,16 @@ const assertEnumValue = <Value extends string>(
     }
 }
 
+const assertRequiredEnumValue = <Value extends string>(
+    name: string,
+    value: unknown,
+    allowed: Record<string, Value>,
+): void => {
+    if (value === undefined || !Object.values(allowed).includes(value as Value)) {
+        throw new TypeError(`Invalid ${name}: ${String(value)}`)
+    }
+}
+
 const assertNonEmptyString = (name: string, value: unknown): void => {
     if (typeof value !== 'string' || value.trim() === '') {
         throw new TypeError(`Invalid ${name}: expected a non-empty string`)
@@ -33,7 +43,7 @@ const validateCustomCurrency = (currency: Record<string, unknown>): void => {
 
     assertNonEmptyString('currency.singular', currency.singular)
     assertNonEmptyString('currency.plural', currency.plural)
-    assertEnumValue('currency.gender', currency.gender, Genders)
+    assertRequiredEnumValue('currency.gender', currency.gender, Genders)
 
     if (!isRecord(currency.subunit)) {
         throw new TypeError('Invalid currency.subunit: expected an object')
@@ -42,7 +52,7 @@ const validateCustomCurrency = (currency: Record<string, unknown>): void => {
     const subunit = currency.subunit
     assertNonEmptyString('currency.subunit.singular', subunit.singular)
     assertNonEmptyString('currency.subunit.plural', subunit.plural)
-    assertEnumValue('currency.subunit.gender', subunit.gender, Genders)
+    assertRequiredEnumValue('currency.subunit.gender', subunit.gender, Genders)
 }
 
 /**

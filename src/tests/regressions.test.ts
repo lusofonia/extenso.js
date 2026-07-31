@@ -139,6 +139,28 @@ test('all public options are validated at runtime', (t) => {
                 },
             },
         },
+        {
+            currency: {
+                singular: 'crédito',
+                plural: 'créditos',
+                subunit: {
+                    singular: 'ficha',
+                    plural: 'fichas',
+                    gender: Genders.FEMALE,
+                },
+            },
+        },
+        {
+            currency: {
+                singular: 'crédito',
+                plural: 'créditos',
+                gender: Genders.MALE,
+                subunit: {
+                    singular: 'ficha',
+                    plural: 'fichas',
+                },
+            },
+        },
         ...[null, 'ficha', []].map(subunit => ({
             currency: {
                 singular: 'crédito',
