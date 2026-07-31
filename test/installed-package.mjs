@@ -36,6 +36,7 @@ const assert = require('node:assert/strict')
 const extenso = require('extenso')
 assert.equal(typeof extenso, 'function')
 assert.equal(extenso(123), 'cento e vinte e três')
+assert.equal(extenso(1500, { mode: 'abbreviated' }), '1,5 mil')
 `)
     execFileSync(process.execPath, ['consumer.cjs'], {
         cwd: temporaryDirectory,
@@ -48,6 +49,7 @@ import assert from 'node:assert/strict'
 import extenso from 'extenso'
 assert.equal(typeof extenso, 'function')
 assert.equal(extenso(123), 'cento e vinte e três')
+assert.equal(extenso(1500000, { mode: 'abbreviated' }), '1,5 mi')
 `)
     execFileSync(process.execPath, ['consumer.mjs'], {
         cwd: temporaryDirectory,
@@ -57,8 +59,8 @@ assert.equal(extenso(123), 'cento e vinte e três')
 
     await writeFile(join(temporaryDirectory, 'consumer.ts'), `
 import extenso, { type ExtensoOptions } from 'extenso'
-const options: ExtensoOptions = { mode: 'number' }
-const result: string = extenso(123, options)
+const options: ExtensoOptions = { mode: 'abbreviated' }
+const result: string = extenso(1500, options)
 void result
 `)
     await writeFile(join(temporaryDirectory, 'tsconfig.json'), JSON.stringify({

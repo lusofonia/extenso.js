@@ -42,6 +42,7 @@ Our ambition with Extenso.js is to make this library a reference for developers 
 - [x] Support for short and long number scales.
 - [x] Support for grammatical gender customization.
 - [x] Support for flexible formatting (comma or dot as decimal separator).
+- [x] Support for abbreviated number formatting.
 - [x] Zero dependencies.
 
 _**NOTE**: Note that 10³⁹ is the limit for the short scale while 10⁷² is the limit for the long scale._
@@ -125,6 +126,7 @@ Available options:
 - `number` [*default*] - Write only the number in full.
 - `currency` - Write the number as a monetary value.
 - `digit` - Write the number in full in digits.
+- `abbreviated` - Write the number in abbreviated form.
 
 Examples:
 
@@ -140,6 +142,12 @@ extenso('123', { mode: 'currency' })
 
 extenso('123', { mode: 'digit' })
 //=> 'um dois três'
+
+extenso('1500', { mode: 'abbreviated' })
+//=> '1,5 mil'
+
+extenso('1500000', { mode: 'abbreviated' })
+//=> '1,5 mi'
 ```
 
 ## `options.scale` [*string*]

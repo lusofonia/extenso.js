@@ -42,6 +42,7 @@ Nossa ambição com o Extenso.js é tornar esta biblioteca uma referência para 
 - [x] Suporte à escala curta e longa de números.
 - [x] Suporte à personalização de gênero gramatical.
 - [x] Suporte à formatação flexível (vírgula ou ponto como separador decimal).
+- [x] Suporte à escrita abreviada de números.
 - [x] Zero dependências.
 
 _**NOTA**: Observe que 10³⁹ é o limite para a escala curta enquanto que 10⁷² é o limite para a escala longa._
@@ -125,6 +126,7 @@ Opções disponíveis:
 - `number` [*default*] - Escrever somente o número por extenso.
 - `currency` - Escrever o número como valor monetário.
 - `digit` - Escrever o número por extenso em dígitos.
+- `abbreviated` - Escrever o número em formato abreviado.
 
 Exemplos:
 
@@ -140,6 +142,12 @@ extenso('123', { mode: 'currency' })
 
 extenso('123', { mode: 'digit' })
 //=> 'um dois três'
+
+extenso('1500', { mode: 'abbreviated' })
+//=> '1,5 mil'
+
+extenso('1500000', { mode: 'abbreviated' })
+//=> '1,5 mi'
 ```
 
 ## `options.scale` [*string*]
