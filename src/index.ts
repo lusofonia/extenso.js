@@ -6,6 +6,7 @@ import translate from './utils/translate'
 import writeCurrency from './mode/write-currency'
 import writeDigit from './mode/write-digit'
 import writeNumber from './mode/write-number'
+import writeAbbreviated from './mode/write-abbreviated'
 import detectCurrency from './utils/detect-currency'
 import Currencies from './ts/enum/currencies.enum'
 import DecimalSeparators from './ts/enum/decimal-separators.enum'
@@ -18,7 +19,7 @@ const NEGATIVE_SIGN = '-'
  * Converts a number to its written form in Portuguese
  * @param input - The number to convert (can be string, number, or bigint)
  * @param options - Configuration options for the conversion
- * @param options.mode - The conversion mode (CURRENCY, DIGIT, or NUMBER)
+ * @param options.mode - The conversion mode (ABBREVIATED, CURRENCY, DIGIT, or NUMBER)
  * @param options.decimalSeparator - The decimal separator to use (POINT or COMMA)
  * @param options.locale - The locale to use for the output (BR or PT)
  * @param options.scale - The number scale to use (SHORT or LONG)
@@ -54,6 +55,9 @@ const extenso = (input: number | string | bigint, options: Options = {}): string
     let text: string
 
     switch (mode) {
+    case Modes.ABBREVIATED:
+        text = writeAbbreviated(integer, decimal, options?.scale)
+        break
     case Modes.CURRENCY:
         if (decimal.length > 2) {
             throw new RangeError('Currency values must have zero, one, or two decimal places')
