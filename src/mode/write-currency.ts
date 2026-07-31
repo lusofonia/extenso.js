@@ -7,6 +7,12 @@ import type { CurrencyCode, ExtensoScale } from '../types'
 
 const ONE_MILLION = 1000000n
 
+interface CurrencyWriteOptions {
+    fractionDigits?: number
+    showZeroSubunit?: boolean
+    showZeroUnit?: boolean
+}
+
 /**
  * Writes the unit part of a currency amount
  * @param unit - The unit part of the amount
@@ -33,8 +39,12 @@ export const writeUnit = (unit: string, currency: Currency, scale: ExtensoScale 
  * @param currency - The currency configuration
  * @returns The subunit part written in words with currency name
  */
-export const writeSubunit = (subunit: string, currency: Currency) => {
-    const text = writeInteger(subunit.slice(0, 2), Scales.SHORT, currency.subunit.gender)
+export const writeSubunit = (
+    subunit: string,
+    currency: Currency,
+    scale: ExtensoScale = Scales.SHORT,
+) => {
+    const text = writeInteger(subunit, scale, currency.subunit.gender)
 
     if (BigInt(subunit) === 1n) {
         return `${text} ${currency.subunit.singular}`
@@ -56,11 +66,19 @@ const writeCurrency = (
     subunit = '0',
     currencyOrCode: CurrencyCode | Currency = Currencies.BRL,
     scale: ExtensoScale = Scales.SHORT,
+    options: CurrencyWriteOptions = {},
 ): string => {
-    if (!/^\d+$/.test(unit) || !/^\d{1,2}$/.test(subunit)) {
-        throw new Error('Currency values must have zero, one, or two decimal places')
+    const fractionDigits = options.fractionDigits ?? 2
+    const validSubunit = /^\d+$/.test(subunit) &&
+        (fractionDigits === 0 ? subunit === '0' : subunit.length <= fractionDigits)
+
+    if (!/^\d+$/.test(unit) || !validSubunit) {
+        const message = fractionDigits === 2
+            ? 'Currency values must have zero, one, or two decimal places'
+            : `Currency values must have at most ${fractionDigits} decimal places`
+        throw new Error(message)
     }
-    subunit = subunit.padEnd(2, '0')
+    subunit = fractionDigits === 0 ? '0' : subunit.padEnd(fractionDigits, '0')
 
     let currency: Currency
     if (typeof currencyOrCode === 'string') {
@@ -73,17 +91,21 @@ const writeCurrency = (
     }
     const hasUnit = BigInt(unit) > 0n
     const hasSubunit = BigInt(subunit) > 0n
+    const includeUnit = hasUnit || options.showZeroUnit === true
+    const includeSubunit = hasSubunit || options.showZeroSubunit === true
 
-    if (!hasUnit && !hasSubunit) {
+    if (!includeUnit && !includeSubunit) {
         return `zero ${currency.plural}`
     }
-    if (!hasUnit) {
-        return writeSubunit(subunit, currency)
+
+    const parts: string[] = []
+    if (includeUnit) {
+        parts.push(writeUnit(unit, currency, scale))
     }
-    if (!hasSubunit) {
-        return writeUnit(unit, currency, scale)
+    if (includeSubunit) {
+        parts.push(writeSubunit(subunit, currency, scale))
     }
-    return `${writeUnit(unit, currency, scale)} e ${writeSubunit(subunit, currency)}`
+    return parts.join(' e ')
 }
 
 export default writeCurrency

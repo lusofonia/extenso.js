@@ -61,11 +61,14 @@ assert.equal(extenso(123, { removeAccents: true }), 'cento e vinte e tres')
     })
 
     await writeFile(join(temporaryDirectory, 'consumer.ts'), `
-import extenso, { type ExtensoOptions } from 'extenso'
+import extenso, { type CurrencyRounding, type ExtensoOptions } from 'extenso'
+const rounding: CurrencyRounding = 'half-up'
 const ordinalOptions: ExtensoOptions = { mode: 'number', number: { ordinal: true } }
 const numberOptions: ExtensoOptions = { mode: 'number' }
 const customCurrency: ExtensoOptions = {
     currency: {
+        fractionDigits: 3,
+        rounding,
         singular: 'crédito',
         plural: 'créditos',
         gender: 'male',

@@ -1,4 +1,5 @@
 import Currencies from './ts/enum/currencies.enum'
+import CurrencyRoundings from './ts/enum/currency-roundings.enum'
 import DecimalSeparators from './ts/enum/decimal-separators.enum'
 import Genders from './ts/enum/genders.enum'
 import Locales from './ts/enum/locales.enum'
@@ -11,9 +12,17 @@ export type ExtensoScale = `${Scales}`
 export type ExtensoGender = `${Genders}`
 export type DecimalSeparator = `${DecimalSeparators}`
 export type CurrencyCode = `${Currencies}`
+export type CurrencyRounding = `${CurrencyRoundings}`
+
+export interface CurrencyFormattingOptions {
+    rounding?: CurrencyRounding
+    showZeroSubunit?: boolean
+    showZeroUnit?: boolean
+}
 
 export interface BuiltInCurrencyOptions {
     code?: CurrencyCode
+    fractionDigits?: never
     singular?: never
     plural?: never
     gender?: never
@@ -21,6 +30,7 @@ export interface BuiltInCurrencyOptions {
 }
 
 export interface CurrencyDefinition {
+    fractionDigits?: number
     singular: string
     plural: string
     gender: ExtensoGender
@@ -32,8 +42,10 @@ export interface CurrencyDefinition {
 }
 
 export type CurrencyOptions =
-    | BuiltInCurrencyOptions
-    | (CurrencyDefinition & { code?: never })
+    CurrencyFormattingOptions & (
+        | BuiltInCurrencyOptions
+        | (CurrencyDefinition & { code?: never })
+    )
 
 export interface NumberOptions {
     gender?: ExtensoGender

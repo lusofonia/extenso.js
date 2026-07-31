@@ -92,8 +92,9 @@ const result: string = extenso(123, options)
 ```
 
 The package also exports `BuiltInCurrencyOptions`, `CurrencyDefinition`,
-`CurrencyOptions`, `NumberOptions`, `ExtensoMode`, `ExtensoLocale`,
-`ExtensoScale`, `ExtensoGender`, `CurrencyCode`, and `DecimalSeparator`.
+`CurrencyFormattingOptions`, `CurrencyOptions`, `CurrencyRounding`,
+`NumberOptions`, `ExtensoMode`, `ExtensoLocale`, `ExtensoScale`,
+`ExtensoGender`, `CurrencyCode`, and `DecimalSeparator`.
 
 The package requires Node.js 22.20 or newer.
 
@@ -121,6 +122,10 @@ Strings preserve every supplied digit. The `-` sign is only valid at the beginni
 - [`currency`](#optionscurrency-object) [*object*]
 - [`removeAccents`](#optionsremoveaccents-boolean) [*boolean*]
 - [`currency.code`](#optionscurrencycode-string) [*string*]
+- [`currency.rounding`](#optionscurrencyrounding-string) [*string*]
+- [`currency.showZeroUnit`](#optionscurrencyshowzerounit-boolean) [*boolean*]
+- [`currency.showZeroSubunit`](#optionscurrencyshowzerosubunit-boolean) [*boolean*]
+- [`currency.fractionDigits`](#optionscurrencyfractiondigits-number) [*number*]
 - [`number.gender`](#optionsnumbergender-string) [*string*]
 - [`number.ordinal`](#optionsnumberordinal-boolean) [*boolean*]
 - [`decimalSeparator`](#optionsdecimalseparator-string) [*string*]
@@ -348,6 +353,63 @@ gender (`male` or `female`) of both the unit and subunit. `code` cannot be
 combined with a custom definition. Providing the definition automatically
 enables `currency` mode.
 
+### `options.currency.rounding` [*string*]
+
+> Defines how decimal places beyond the currency precision are handled.
+
+- `reject` [*default*] - Reject the value without changing it.
+- `truncate` - Discard excess decimal places.
+- `half-up` - Round to the nearest value; ties are rounded away from zero.
+
+The calculation is exact decimal arithmetic and never converts the value to
+floating point.
+
+### `options.currency.showZeroUnit` [*boolean*]
+
+> Writes the unit even when it is zero. The default is `false`.
+
+### `options.currency.showZeroSubunit` [*boolean*]
+
+> Writes the subunit even when it is zero. The default is `false`.
+
+Enabling both options always includes the unit and subunit:
+
+```js
+extenso('0', {
+  currency: {
+    code: 'BRL',
+    showZeroUnit: true,
+    showZeroSubunit: true
+  }
+})
+//=> 'zero reais e zero centavos'
+```
+
+### `options.currency.fractionDigits` [*number*]
+
+> Defines the number of subunit decimal places for a custom currency.
+
+It accepts integers from 0 through 1000 and defaults to 2. Built-in currencies
+keep two decimal places. This option cannot be combined with `currency.code`.
+
+```js
+extenso('1.2345', {
+  currency: {
+    fractionDigits: 3,
+    rounding: 'half-up',
+    singular: 'crédito',
+    plural: 'créditos',
+    gender: 'male',
+    subunit: {
+      singular: 'ficha',
+      plural: 'fichas',
+      gender: 'female'
+    }
+  }
+})
+//=> 'um crédito e duzentas e trinta e cinco fichas'
+```
+
 ## `options.number.gender` [*string*]
 
 > Defines the gender inflection of the number to be written.
@@ -401,10 +463,11 @@ extenso('1000', { number: { ordinal: true } })
 
 ## Currency values
 
-Currency mode accepts zero, one, or two decimal places. One place is padded
-with a zero on the right: `1.1` represents one unit and ten subunits — for BRL,
-one real and ten cents. More than two places are rejected without truncation or
-rounding.
+In currency mode, built-in currencies accept zero, one, or two decimal places.
+One place is padded with a zero on the right: `1.1` represents one unit and ten
+subunits — for BRL, one real and ten cents. More places are rejected by default;
+`currency.rounding` enables explicit truncation or rounding. Custom currencies
+can change their precision with `currency.fractionDigits`.
 
 The subunit of the São Tomé and Príncipe dobra (`STN`) is the cêntimo:
 
@@ -424,8 +487,9 @@ fraction (`1.00` is equivalent to `1`, and `-0.00` is equivalent to `0`).
 ## Validation and errors
 
 `mode`, `locale`, `scale`, `decimalSeparator`, `removeAccents`,
-`number.gender`, `number.ordinal`, `currency.code`, and every field in a custom
-currency definition are validated at runtime. The library also rejects
+`number.gender`, `number.ordinal`, `currency.code`, currency formatting options,
+and every field in a custom currency definition are validated at runtime. The
+library also rejects
 `number` and `currency` options with invalid types, empty input, a bare sign,
 invalid grouping, incomplete decimals, decimal ordinals, `NaN`, infinities,
 conflicting currencies, values beyond the selected scale, and strings longer

@@ -7,28 +7,6 @@ import Locales from '../ts/enum/locales.enum'
 import Modes from '../ts/enum/modes.enum'
 import Scales from '../ts/enum/scales.enum'
 
-test('currency mode preserves and validates decimal precision', (t) => {
-    const currency = { mode: Modes.CURRENCY }
-
-    t.is(extenso('1', currency), 'um real')
-    t.is(extenso('1.1', currency), 'um real e dez centavos')
-    t.is(extenso('1.01', currency), 'um real e um centavo')
-    t.is(extenso('0.01', currency), 'um centavo')
-    t.is(extenso('0.10', currency), 'dez centavos')
-    t.is(extenso('0.00', currency), 'zero reais')
-
-    for (const input of ['1.001', '1.009', '1.999']) {
-        t.throws(() => extenso(input, currency), {
-            instanceOf: RangeError,
-            message: 'Currency values must have zero, one, or two decimal places',
-        })
-    }
-
-    t.is(extenso('EUR 1.1'), 'um euro e dez cêntimos')
-    t.is(extenso('MOP$0.01'), 'um avo')
-    t.is(extenso('USD 0.10'), 'dez centavos')
-})
-
 test('female gender reaches units, tens, hundreds, and thousands only', (t) => {
     const female = { number: { gender: Genders.FEMALE } }
     const expected: [string, string][] = [
@@ -98,6 +76,10 @@ test('all public options are validated at runtime', (t) => {
         { removeAccents: 'yes' },
         { number: { gender: 'unknown' } },
         { currency: { code: 'ZZZ' } },
+        { currency: { code: Currencies.BRL, rounding: 'unknown' } },
+        { currency: { code: Currencies.BRL, showZeroUnit: 'yes' } },
+        { currency: { code: Currencies.BRL, showZeroSubunit: 'yes' } },
+        { currency: { code: Currencies.BRL, fractionDigits: 3 } },
         { currency: { singular: 'crédito' } },
         { currency: { plural: 'créditos' } },
         { currency: { gender: Genders.MALE } },
@@ -161,6 +143,19 @@ test('all public options are validated at runtime', (t) => {
                 },
             },
         },
+        ...[-1, 1.5, 1001, '3'].map(fractionDigits => ({
+            currency: {
+                fractionDigits,
+                singular: 'crédito',
+                plural: 'créditos',
+                gender: Genders.MALE,
+                subunit: {
+                    singular: 'ficha',
+                    plural: 'fichas',
+                    gender: Genders.FEMALE,
+                },
+            },
+        })),
         ...[null, 'ficha', []].map(subunit => ({
             currency: {
                 singular: 'crédito',

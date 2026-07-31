@@ -63,6 +63,28 @@ test('writeCurrency(): should handle a custom currency', (t) => {
     t.is(writeCurrency('1', '01', currency), 'um crédito e uma ficha')
     t.is(writeCurrency('2', '02', currency), 'dois créditos e duas fichas')
     t.is(writeCurrency('0', '0', currency), 'zero créditos')
+    t.is(
+        writeCurrency('1', '234', currency, Scales.SHORT, { fractionDigits: 3 }),
+        'um crédito e duzentas e trinta e quatro fichas',
+    )
+})
+
+test('writeCurrency(): should optionally include zero units and subunits', (t) => {
+    t.is(
+        writeCurrency('1', '0', Currencies.BRL, Scales.SHORT, { showZeroSubunit: true }),
+        'um real e zero centavos',
+    )
+    t.is(
+        writeCurrency('0', '50', Currencies.BRL, Scales.SHORT, { showZeroUnit: true }),
+        'zero reais e cinquenta centavos',
+    )
+    t.is(
+        writeCurrency('0', '0', Currencies.BRL, Scales.SHORT, {
+            showZeroSubunit: true,
+            showZeroUnit: true,
+        }),
+        'zero reais e zero centavos',
+    )
 })
 
 test('writeCurrency(): should handle BRL currency with long scale', (t) => {
@@ -82,4 +104,10 @@ test('writeCurrency(): should handle invalid currency', (t) => {
     t.throws(() => writeCurrency('1', '001'), {
         message: 'Currency values must have zero, one, or two decimal places',
     })
+    t.throws(
+        () => writeCurrency('1', '0001', Currencies.BRL, Scales.SHORT, {
+            fractionDigits: 3,
+        }),
+        { message: 'Currency values must have at most 3 decimal places' },
+    )
 })

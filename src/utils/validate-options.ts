@@ -1,4 +1,5 @@
 import Currencies from '../ts/enum/currencies.enum'
+import CurrencyRoundings from '../ts/enum/currency-roundings.enum'
 import DecimalSeparators from '../ts/enum/decimal-separators.enum'
 import Genders from '../ts/enum/genders.enum'
 import Locales from '../ts/enum/locales.enum'
@@ -53,6 +54,14 @@ const validateCustomCurrency = (currency: Record<string, unknown>): void => {
     assertNonEmptyString('currency.subunit.singular', subunit.singular)
     assertNonEmptyString('currency.subunit.plural', subunit.plural)
     assertRequiredEnumValue('currency.subunit.gender', subunit.gender, Genders)
+
+    if (currency.fractionDigits !== undefined &&
+        (typeof currency.fractionDigits !== 'number' ||
+            !Number.isInteger(currency.fractionDigits) ||
+            currency.fractionDigits < 0 ||
+            currency.fractionDigits > 1000)) {
+        throw new TypeError('Invalid currency.fractionDigits: expected an integer from 0 to 1000')
+    }
 }
 
 /**
@@ -82,11 +91,20 @@ const validateOptions: (options: unknown) => asserts options is Options = (optio
     }
 
     const currency = options.currency
+    assertEnumValue('currency.rounding', currency?.rounding, CurrencyRoundings)
+    for (const field of ['showZeroUnit', 'showZeroSubunit'] as const) {
+        if (currency?.[field] !== undefined && typeof currency[field] !== 'boolean') {
+            throw new TypeError(`Invalid currency.${field}: ${String(currency[field])}`)
+        }
+    }
     if (currency && ('singular' in currency || 'plural' in currency ||
         'gender' in currency || 'subunit' in currency)) {
         validateCustomCurrency(currency)
     } else {
         assertEnumValue('currency.code', currency?.code, Currencies)
+        if (currency?.fractionDigits !== undefined) {
+            throw new TypeError('currency.fractionDigits is only supported for custom currencies')
+        }
     }
     const number = options.number
     assertEnumValue('number.gender', number?.gender, Genders)

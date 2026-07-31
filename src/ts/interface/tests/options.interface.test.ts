@@ -1,6 +1,7 @@
 import test from 'ava'
 import Options from '../options.interface'
 import Currencies from '../../enum/currencies.enum'
+import CurrencyRoundings from '../../enum/currency-roundings.enum'
 import DecimalSeparators from '../../enum/decimal-separators.enum'
 import Genders from '../../enum/genders.enum'
 import Locales from '../../enum/locales.enum'
@@ -16,6 +17,9 @@ test('Options interface structure', t => {
         removeAccents: true,
         currency: {
             code: Currencies.USD,
+            rounding: CurrencyRoundings.HALF_UP,
+            showZeroSubunit: true,
+            showZeroUnit: true,
         },
         number: {
             gender: Genders.MALE,
@@ -29,6 +33,9 @@ test('Options interface structure', t => {
     t.is(options.decimalSeparator, DecimalSeparators.POINT)
     t.true(options.removeAccents)
     t.is(options.currency?.code, Currencies.USD)
+    t.is(options.currency?.rounding, CurrencyRoundings.HALF_UP)
+    t.true(options.currency?.showZeroSubunit)
+    t.true(options.currency?.showZeroUnit)
     t.is(options.number?.gender, Genders.MALE)
     t.true(options.number?.ordinal)
 })
@@ -36,6 +43,7 @@ test('Options interface structure', t => {
 test('Options interface accepts a custom currency', t => {
     const options: Options = {
         currency: {
+            fractionDigits: 3,
             singular: 'crédito',
             plural: 'créditos',
             gender: Genders.MALE,
@@ -48,5 +56,6 @@ test('Options interface accepts a custom currency', t => {
     }
 
     t.is(options.currency?.singular, 'crédito')
+    t.is(options.currency?.fractionDigits, 3)
     t.is(options.currency?.subunit?.plural, 'fichas')
 })

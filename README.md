@@ -92,8 +92,9 @@ const result: string = extenso(123, options)
 ```
 
 Também são exportados os tipos `BuiltInCurrencyOptions`, `CurrencyDefinition`,
-`CurrencyOptions`, `NumberOptions`, `ExtensoMode`, `ExtensoLocale`,
-`ExtensoScale`, `ExtensoGender`, `CurrencyCode` e `DecimalSeparator`.
+`CurrencyFormattingOptions`, `CurrencyOptions`, `CurrencyRounding`,
+`NumberOptions`, `ExtensoMode`, `ExtensoLocale`, `ExtensoScale`,
+`ExtensoGender`, `CurrencyCode` e `DecimalSeparator`.
 
 O pacote requer Node.js 22.20 ou mais recente.
 
@@ -121,6 +122,10 @@ Strings preservam todos os dígitos fornecidos. O sinal `-` só pode aparecer no
 - [`currency`](#optionscurrency-object) [*object*]
 - [`removeAccents`](#optionsremoveaccents-boolean) [*boolean*]
 - [`currency.code`](#optionscurrencycode-string) [*string*]
+- [`currency.rounding`](#optionscurrencyrounding-string) [*string*]
+- [`currency.showZeroUnit`](#optionscurrencyshowzerounit-boolean) [*boolean*]
+- [`currency.showZeroSubunit`](#optionscurrencyshowzerosubunit-boolean) [*boolean*]
+- [`currency.fractionDigits`](#optionscurrencyfractiondigits-number) [*number*]
 - [`number.gender`](#optionsnumbergender-string) [*string*]
 - [`number.ordinal`](#optionsnumberordinal-boolean) [*boolean*]
 - [`decimalSeparator`](#optionsdecimalseparator-string) [*string*]
@@ -347,6 +352,62 @@ gramatical (`male` ou `female`) da unidade e da subunidade. `code` não pode ser
 combinado com uma definição personalizada. A presença da definição ativa
 automaticamente o modo `currency`.
 
+### `options.currency.rounding` [*string*]
+
+> Define como tratar casas decimais além da precisão da moeda.
+
+- `reject` [*default*] - Rejeita o valor sem modificá-lo.
+- `truncate` - Descarta as casas excedentes.
+- `half-up` - Arredonda para o valor mais próximo; empates são afastados de zero.
+
+O cálculo é decimal exato e não converte o valor para ponto flutuante.
+
+### `options.currency.showZeroUnit` [*boolean*]
+
+> Escreve a unidade mesmo quando ela é zero. O padrão é `false`.
+
+### `options.currency.showZeroSubunit` [*boolean*]
+
+> Escreve a subunidade mesmo quando ela é zero. O padrão é `false`.
+
+Ativar as duas opções sempre inclui unidade e subunidade:
+
+```js
+extenso('0', {
+  currency: {
+    code: 'BRL',
+    showZeroUnit: true,
+    showZeroSubunit: true
+  }
+})
+//=> 'zero reais e zero centavos'
+```
+
+### `options.currency.fractionDigits` [*number*]
+
+> Define a quantidade de casas da subunidade de uma moeda personalizada.
+
+Aceita inteiros de 0 a 1000 e usa 2 por padrão. Moedas incorporadas mantêm duas
+casas decimais. Esta opção não pode ser combinada com `currency.code`.
+
+```js
+extenso('1.2345', {
+  currency: {
+    fractionDigits: 3,
+    rounding: 'half-up',
+    singular: 'crédito',
+    plural: 'créditos',
+    gender: 'male',
+    subunit: {
+      singular: 'ficha',
+      plural: 'fichas',
+      gender: 'female'
+    }
+  }
+})
+//=> 'um crédito e duzentas e trinta e cinco fichas'
+```
+
 ## `options.number.gender` [*string*]
 
 > Define a flexão de gênero do número que será escrito.
@@ -400,10 +461,12 @@ extenso('1000', { number: { ordinal: true } })
 
 ## Valores monetários
 
-No modo `currency`, são aceitas zero, uma ou duas casas decimais. Uma casa é
-completada com zero à direita: `1.1` representa uma unidade e dez subunidades
-— em BRL, um real e dez centavos. Mais de duas casas são rejeitadas sem
-truncamento ou arredondamento.
+No modo `currency`, moedas incorporadas aceitam zero, uma ou duas casas
+decimais. Uma casa é completada com zero à direita: `1.1` representa uma
+unidade e dez subunidades — em BRL, um real e dez centavos. Mais casas são
+rejeitadas por padrão; `currency.rounding` permite truncamento ou arredondamento
+explícito. Moedas personalizadas podem alterar a precisão com
+`currency.fractionDigits`.
 
 A subunidade da dobra de São Tomé e Príncipe (`STN`) é o cêntimo:
 
@@ -423,8 +486,9 @@ continua preservando todos os dígitos fornecidos.
 ## Validação e erros
 
 `mode`, `locale`, `scale`, `decimalSeparator`, `removeAccents`,
-`number.gender`, `number.ordinal`, `currency.code` e todos os campos de uma
-moeda personalizada são validados em runtime. A biblioteca também rejeita
+`number.gender`, `number.ordinal`, `currency.code`, as opções de formatação
+monetária e todos os campos de uma moeda personalizada são validados em runtime.
+A biblioteca também rejeita
 opções `number` e `currency` com tipos inválidos, entrada vazia, sinal isolado,
 agrupamento inválido, decimal incompleto, ordinais decimais, `NaN`, infinitos,
 moedas conflitantes, valores acima da escala escolhida e strings com mais de

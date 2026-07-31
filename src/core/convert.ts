@@ -4,6 +4,7 @@ import writeDigit from '../mode/write-digit'
 import writeFraction from '../mode/write-fraction'
 import writeNumber from '../mode/write-number'
 import writePercentage from '../mode/write-percentage'
+import quantizeCurrency from '../utils/quantize-currency'
 import type {
     CurrencyCode,
     CurrencyDefinition,
@@ -43,10 +44,29 @@ const convert = (
     case 'abbreviated':
         return writeAbbreviated(integer, decimal, options.scale)
     case 'currency':
-        if (decimal.length > 2) {
-            throw new RangeError('Currency values must have zero, one, or two decimal places')
-        }
-        return writeCurrency(integer, decimal, currency, options.scale)
+    {
+        const fractionDigits = typeof currency === 'string'
+            ? 2
+            : currency.fractionDigits ?? 2
+        const quantized = quantizeCurrency(
+            integer,
+            hasDecimalSeparator ? decimal : '',
+            fractionDigits,
+            options.currency?.rounding,
+        )
+
+        return writeCurrency(
+            quantized.unit,
+            quantized.subunit,
+            currency,
+            options.scale,
+            {
+                fractionDigits,
+                showZeroSubunit: options.currency?.showZeroSubunit,
+                showZeroUnit: options.currency?.showZeroUnit,
+            },
+        )
+    }
     case 'digit':
         return hasDecimalSeparator
             ? writeDigit(`${integer}${decimalSeparator}${decimal}`)
