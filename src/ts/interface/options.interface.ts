@@ -10,6 +10,7 @@ interface Options {
     locale?: Locales
     scale?: Scales
     decimalSeparator?: DecimalSeparators
+    removeAccents?: boolean
     currency?: {
         code?: Currencies
     }

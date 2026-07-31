@@ -93,6 +93,7 @@ test('all public options are validated at runtime', (t) => {
         { locale: 'unknown' },
         { scale: 'unknown' },
         { decimalSeparator: 'unknown' },
+        { removeAccents: 'yes' },
         { number: { gender: 'unknown' } },
         { currency: { code: 'ZZZ' } },
         { number: null },
@@ -110,9 +111,32 @@ test('all public options are validated at runtime', (t) => {
         locale: Locales.BR,
         scale: Scales.SHORT,
         decimalSeparator: DecimalSeparators.POINT,
+        removeAccents: false,
         number: { gender: Genders.MALE },
         currency: { code: Currencies.BRL },
     }), 'um')
+})
+
+test('accent removal works across every output mode and locale', (t) => {
+    t.is(extenso('3'), 'três')
+    t.is(extenso('3', { removeAccents: false }), 'três')
+    t.is(extenso('3', { removeAccents: true }), 'tres')
+    t.is(
+        extenso('-2000003.14', { removeAccents: true }),
+        'menos dois milhoes e tres inteiros e quatorze centesimos',
+    )
+    t.is(
+        extenso('€ 2000003.14', { removeAccents: true }),
+        'dois milhoes e tres euros e quatorze centimos',
+    )
+    t.is(
+        extenso('3.2', { mode: Modes.DIGIT, removeAccents: true }),
+        'tres virgula dois',
+    )
+    t.is(
+        extenso('1000000000', { locale: Locales.PT, removeAccents: true }),
+        'um biliao',
+    )
 })
 
 test('currency markers are complete, unambiguous, and overridable', (t) => {

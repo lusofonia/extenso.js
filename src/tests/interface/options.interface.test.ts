@@ -13,6 +13,7 @@ test('Options interface structure', t => {
         locale: Locales.BR,
         scale: Scales.LONG,
         decimalSeparator: DecimalSeparators.POINT,
+        removeAccents: true,
         currency: {
             code: Currencies.USD,
         },
@@ -25,6 +26,7 @@ test('Options interface structure', t => {
     t.is(options.locale, Locales.BR)
     t.is(options.scale, Scales.LONG)
     t.is(options.decimalSeparator, DecimalSeparators.POINT)
+    t.true(options.removeAccents)
     t.is(options.currency?.code, Currencies.USD)
     t.is(options.number?.gender, Genders.MALE)
 })
