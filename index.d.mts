@@ -14,9 +14,28 @@ export type CurrencyCode =
     | 'USD'
     | 'MOP'
 
-export interface CurrencyOptions {
+export interface BuiltInCurrencyOptions {
     code?: CurrencyCode
+    singular?: never
+    plural?: never
+    gender?: never
+    subunit?: never
 }
+
+export interface CurrencyDefinition {
+    singular: string
+    plural: string
+    gender: ExtensoGender
+    subunit: {
+        singular: string
+        plural: string
+        gender: ExtensoGender
+    }
+}
+
+export type CurrencyOptions =
+    | BuiltInCurrencyOptions
+    | (CurrencyDefinition & { code?: never })
 
 export interface NumberOptions {
     gender?: ExtensoGender

@@ -2,6 +2,7 @@ import test from 'ava'
 import writeCurrency from '../write-currency'
 import Currencies from '../../ts/enum/currencies.enum'
 import Scales from '../../ts/enum/scales.enum'
+import Genders from '../../ts/enum/genders.enum'
 
 test('writeCurrency(): should handle BRL currency', (t) => {
     t.is(writeCurrency('1'), 'um real')
@@ -45,6 +46,23 @@ test('writeCurrency(): should use the currency gender', (t) => {
 test('writeCurrency(): should use the singular MOP subunit', (t) => {
     t.is(writeCurrency('0', '01', Currencies.MOP), 'um avo')
     t.is(writeCurrency('0', '02', Currencies.MOP), 'dois avos')
+})
+
+test('writeCurrency(): should handle a custom currency', (t) => {
+    const currency = {
+        singular: 'crédito',
+        plural: 'créditos',
+        gender: Genders.MALE,
+        subunit: {
+            singular: 'ficha',
+            plural: 'fichas',
+            gender: Genders.FEMALE,
+        },
+    }
+
+    t.is(writeCurrency('1', '01', currency), 'um crédito e uma ficha')
+    t.is(writeCurrency('2', '02', currency), 'dois créditos e duas fichas')
+    t.is(writeCurrency('0', '0', currency), 'zero créditos')
 })
 
 test('writeCurrency(): should handle BRL currency with long scale', (t) => {

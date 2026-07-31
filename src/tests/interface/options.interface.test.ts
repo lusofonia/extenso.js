@@ -30,3 +30,21 @@ test('Options interface structure', t => {
     t.is(options.currency?.code, Currencies.USD)
     t.is(options.number?.gender, Genders.MALE)
 })
+
+test('Options interface accepts a custom currency', t => {
+    const options: Options = {
+        currency: {
+            singular: 'crédito',
+            plural: 'créditos',
+            gender: Genders.MALE,
+            subunit: {
+                singular: 'ficha',
+                plural: 'fichas',
+                gender: Genders.FEMALE,
+            },
+        },
+    }
+
+    t.is(options.currency?.singular, 'crédito')
+    t.is(options.currency?.subunit?.plural, 'fichas')
+})

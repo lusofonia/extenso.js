@@ -3,6 +3,7 @@ import extenso from '../index'
 import Modes from '../ts/enum/modes.enum'
 import Currencies from '../ts/enum/currencies.enum'
 import DecimalSeparators from '../ts/enum/decimal-separators.enum'
+import Genders from '../ts/enum/genders.enum'
 
 test('extenso(): should handle default mode (NUMBER)', (t) => {
     t.is(extenso('1234.56'), 'mil duzentos e trinta e quatro inteiros e cinquenta e seis centésimos')
@@ -85,6 +86,32 @@ test('extenso(): should handle negative currency values', (t) => {
 test('extenso(): should prioritize currency code from options over detection', (t) => {
     t.is(extenso('R$ 1234.56', { mode: Modes.CURRENCY, currency: { code: Currencies.EUR } }), 'mil duzentos e trinta e quatro euros e cinquenta e seis cêntimos')
     t.is(extenso('1234.56 BRL', { mode: Modes.CURRENCY, currency: { code: Currencies.USD } }), 'mil duzentos e trinta e quatro dólares e cinquenta e seis centavos')
+})
+
+test('extenso(): should support a custom currency definition', (t) => {
+    const customCurrency = {
+        singular: 'crédito',
+        plural: 'créditos',
+        gender: Genders.MALE,
+        subunit: {
+            singular: 'ficha',
+            plural: 'fichas',
+            gender: Genders.FEMALE,
+        },
+    }
+
+    t.is(
+        extenso('1.01', { currency: customCurrency }),
+        'um crédito e uma ficha',
+    )
+    t.is(
+        extenso('2.02', { mode: Modes.CURRENCY, currency: customCurrency }),
+        'dois créditos e duas fichas',
+    )
+    t.is(
+        extenso('1000000', { currency: customCurrency }),
+        'um milhão de créditos',
+    )
 })
 
 test('extenso(): should automatically set mode to CURRENCY when currency is detected', (t) => {
