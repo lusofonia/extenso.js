@@ -285,15 +285,17 @@ Macau, onde o português também é língua oficial.
 
 As moedas suportadas são:
 
-- `BRL` [*default*] - Real brasileiro
-- `AOA` - Kwanza angolano
-- `CVE` - Escudo cabo-verdiano
-- `XOF` - Franco CFA de África Ocidental
-- `MZN` - Metical moçambicano
-- `EUR` - Euro
-- `STN` - Dobra de São Tomé e Príncipe
-- `USD` - Dólar americano
-- `MOP` - Pataca de Macau
+| Código | Moeda |
+| --- | --- |
+| `BRL` [*default*] | Real brasileiro |
+| `AOA` | Kwanza angolano |
+| `CVE` | Escudo cabo-verdiano |
+| `XOF` | Franco CFA de África Ocidental |
+| `MZN` | Metical moçambicano |
+| `EUR` | Euro |
+| `STN` | Dobra de São Tomé e Príncipe |
+| `USD` | Dólar americano |
+| `MOP` | Pataca de Macau |
 
 Exemplos:
 

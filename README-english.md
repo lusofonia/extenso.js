@@ -286,15 +286,17 @@ and Macau, where Portuguese is also an official language.
 
 The supported currencies are:
 
-- `BRL` [*default*] - Brazilian Real
-- `AOA` - Angolan Kwanza
-- `CVE` - Cape Verdean Escudo
-- `XOF` - West African CFA Franc
-- `MZN` - Mozambican Metical
-- `EUR` - Euro
-- `STN` - São Tomé and Príncipe Dobra
-- `USD` - US Dollar
-- `MOP` - Macanese Pataca
+| Code | Currency |
+| --- | --- |
+| `BRL` [*default*] | Brazilian Real |
+| `AOA` | Angolan Kwanza |
+| `CVE` | Cape Verdean Escudo |
+| `XOF` | West African CFA Franc |
+| `MZN` | Mozambican Metical |
+| `EUR` | Euro |
+| `STN` | São Tomé and Príncipe Dobra |
+| `USD` | US Dollar |
+| `MOP` | Macanese Pataca |
 
 Examples:
 
