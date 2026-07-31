@@ -27,6 +27,7 @@ export interface ExtensoOptions {
     locale?: ExtensoLocale
     scale?: ExtensoScale
     decimalSeparator?: DecimalSeparator
+    removeAccents?: boolean
     currency?: CurrencyOptions
     number?: NumberOptions
 }
