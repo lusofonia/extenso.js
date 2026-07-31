@@ -39,6 +39,9 @@ assert.equal(extenso(123), 'cento e vinte e três')
 assert.equal(extenso(11, { number: { ordinal: true } }), 'décimo primeiro')
 assert.equal(extenso(1500, { mode: 'abbreviated' }), '1,5 mil')
 assert.equal(extenso(123, { removeAccents: true }), 'cento e vinte e tres')
+assert.equal(extenso.getCurrency('BRL').singular, 'real')
+assert.equal(extenso.getScaleLimit('short').maximumDigits, 42)
+assert.equal(extenso.listCurrencies().length, 9)
 `)
     execFileSync(process.execPath, ['consumer.cjs'], {
         cwd: temporaryDirectory,
@@ -53,6 +56,8 @@ assert.equal(typeof extenso, 'function')
 assert.equal(extenso(123), 'cento e vinte e três')
 assert.equal(extenso(1500000, { mode: 'abbreviated' }), '1,5 mi')
 assert.equal(extenso(123, { removeAccents: true }), 'cento e vinte e tres')
+assert.equal(extenso.getCurrency('EUR').singular, 'euro')
+assert.equal(extenso.getScaleLimit('long').maximumDigits, 75)
 `)
     execFileSync(process.execPath, ['consumer.mjs'], {
         cwd: temporaryDirectory,
@@ -61,7 +66,12 @@ assert.equal(extenso(123, { removeAccents: true }), 'cento e vinte e tres')
     })
 
     await writeFile(join(temporaryDirectory, 'consumer.ts'), `
-import extenso, { type CurrencyRounding, type ExtensoOptions } from 'extenso'
+import extenso, {
+    type CurrencyMetadata,
+    type CurrencyRounding,
+    type ExtensoOptions,
+    type ScaleLimit,
+} from 'extenso'
 const rounding: CurrencyRounding = 'half-up'
 const ordinalOptions: ExtensoOptions = { mode: 'number', number: { ordinal: true } }
 const numberOptions: ExtensoOptions = { mode: 'number' }
@@ -93,6 +103,8 @@ const accentlessResult: string = extenso(123, accentlessOptions)
 const uppercaseResult: string = extenso(123, uppercaseOptions)
 const customResult: string = extenso('2.01', customCurrency)
 const measurementResult: string = extenso('2', measurementOptions)
+const currencyMetadata: CurrencyMetadata = extenso.getCurrency('BRL')
+const scaleLimit: ScaleLimit = extenso.getScaleLimit('short')
 void ordinalResult
 void numberResult
 void abbreviatedResult
@@ -100,6 +112,8 @@ void accentlessResult
 void uppercaseResult
 void customResult
 void measurementResult
+void currencyMetadata
+void scaleLimit
 `)
     await writeFile(join(temporaryDirectory, 'consumer.cts'), `
 import extenso = require('extenso')

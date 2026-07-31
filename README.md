@@ -48,6 +48,7 @@ Nossa ambição com o Extenso.js é tornar esta biblioteca uma referência para 
 - [x] Suporte a unidades de medida personalizadas.
 - [x] Suporte à escrita sem acentos.
 - [x] Formatação do texto em minúsculas, maiúsculas ou título.
+- [x] API de metadados para moedas e limites de escala.
 - [x] Zero dependências.
 
 _**NOTA**: Observe que 10³⁹ é o limite para a escala curta enquanto que 10⁷² é o limite para a escala longa._
@@ -95,8 +96,9 @@ const result: string = extenso(123, options)
 
 Também são exportados os tipos `BuiltInCurrencyOptions`, `CurrencyDefinition`,
 `CurrencyFormattingOptions`, `CurrencyOptions`, `CurrencyRounding`,
-`MeasurementUnit`, `NumberOptions`, `ExtensoMode`, `ExtensoLocale`, `ExtensoScale`,
-`ExtensoGender`, `CurrencyCode`, `DecimalSeparator` e `TextCase`.
+`CurrencyMetadata`, `MeasurementUnit`, `NumberOptions`, `ScaleLimit`,
+`ExtensoMode`, `ExtensoLocale`, `ExtensoScale`, `ExtensoGender`, `CurrencyCode`,
+`DecimalSeparator` e `TextCase`.
 
 O pacote requer Node.js 22.20 ou mais recente.
 
@@ -550,6 +552,28 @@ moedas diferentes na mesma entrada são considerados ambíguos e geram erro.
 No modo `number`, casas decimais formadas somente por zeros não criam uma
 fração (`1.00` equivale a `1` e `-0.00` equivale a `0`). O modo `digit`
 continua preservando todos os dígitos fornecidos.
+
+## Metadados
+
+O export padrão oferece funções de consulta que funcionam igualmente em ESM,
+CommonJS e UMD:
+
+```js
+extenso.listCurrencies()
+//=> metadados das 9 moedas incorporadas
+
+extenso.getCurrency('BRL')
+//=> { code: 'BRL', singular: 'real', plural: 'reais', ... }
+
+extenso.getScaleLimit('long')
+//=> { scale: 'long', largestNamedExponent: 72, maximumDigits: 75, ... }
+```
+
+`listCurrencies()` e `getCurrency()` retornam cópias dos metadados, incluindo
+nomes, gênero, subunidade, símbolos e quantidade de casas decimais.
+`getScaleLimit()` retorna a maior potência nomeada, a quantidade máxima de
+dígitos aceita e o maior valor exato representável como string. Códigos e
+escalas inválidos geram `TypeError`.
 
 ## Validação e erros
 

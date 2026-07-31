@@ -48,6 +48,7 @@ Our ambition with Extenso.js is to make this library a reference for developers 
 - [x] Support for custom measurement units.
 - [x] Support for writing without accents.
 - [x] Lowercase, uppercase, and title text formatting.
+- [x] Metadata API for currencies and scale limits.
 - [x] Zero dependencies.
 
 _**NOTE**: Note that 10³⁹ is the limit for the short scale while 10⁷² is the limit for the long scale._
@@ -95,8 +96,9 @@ const result: string = extenso(123, options)
 
 The package also exports `BuiltInCurrencyOptions`, `CurrencyDefinition`,
 `CurrencyFormattingOptions`, `CurrencyOptions`, `CurrencyRounding`,
-`MeasurementUnit`, `NumberOptions`, `ExtensoMode`, `ExtensoLocale`, `ExtensoScale`,
-`ExtensoGender`, `CurrencyCode`, `DecimalSeparator`, and `TextCase`.
+`CurrencyMetadata`, `MeasurementUnit`, `NumberOptions`, `ScaleLimit`,
+`ExtensoMode`, `ExtensoLocale`, `ExtensoScale`, `ExtensoGender`, `CurrencyCode`,
+`DecimalSeparator`, and `TextCase`.
 
 The package requires Node.js 22.20 or newer.
 
@@ -551,6 +553,27 @@ precedence over one detected currency.
 In `number` mode, decimal places containing only zeros do not produce a
 fraction (`1.00` is equivalent to `1`, and `-0.00` is equivalent to `0`).
 `digit` mode continues to preserve every supplied digit.
+
+## Metadata
+
+The default export provides query functions that work identically in ESM,
+CommonJS, and UMD:
+
+```js
+extenso.listCurrencies()
+//=> metadata for all 9 built-in currencies
+
+extenso.getCurrency('BRL')
+//=> { code: 'BRL', singular: 'real', plural: 'reais', ... }
+
+extenso.getScaleLimit('long')
+//=> { scale: 'long', largestNamedExponent: 72, maximumDigits: 75, ... }
+```
+
+`listCurrencies()` and `getCurrency()` return metadata copies containing names,
+gender, subunit, symbols, and decimal-place count. `getScaleLimit()` returns the
+largest named power, maximum accepted digit count, and greatest exact value as
+a string. Invalid codes and scales throw `TypeError`.
 
 ## Validation and errors
 

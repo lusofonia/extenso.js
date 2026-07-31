@@ -10,12 +10,14 @@ import convert from './core/convert'
 import resolveConversion from './core/resolve-conversion'
 import parseFraction from './utils/parse-fraction'
 import formatTextCase from './utils/format-text-case'
+import { getCurrency, getScaleLimit, listCurrencies } from './metadata'
 
 export type {
     BuiltInCurrencyOptions,
     CurrencyCode,
     CurrencyDefinition,
     CurrencyFormattingOptions,
+    CurrencyMetadata,
     CurrencyOptions,
     CurrencyRounding,
     DecimalSeparator,
@@ -26,6 +28,7 @@ export type {
     ExtensoScale,
     MeasurementUnit,
     NumberOptions,
+    ScaleLimit,
     TextCase,
 } from './types'
 
@@ -55,7 +58,10 @@ const NEGATIVE_SIGN = '-'
  * extenso(1234.56, { mode: Modes.CURRENCY, currency: { code: Currencies.BRL } }) // "mil duzentos e trinta e quatro reais e cinquenta e seis centavos"
  * extenso("R$ 1234.56", { mode: Modes.CURRENCY }) // "mil duzentos e trinta e quatro reais e cinquenta e seis centavos"
  */
-const extenso = (input: number | string | bigint, options: ExtensoOptions = {}): string => {
+const extenso = Object.assign((
+    input: number | string | bigint,
+    options: ExtensoOptions = {},
+): string => {
     validateOptions(options)
 
     const inputIsNumber = typeof input === 'number'
@@ -103,6 +109,10 @@ const extenso = (input: number | string | bigint, options: ExtensoOptions = {}):
     }
 
     return text
-}
+}, {
+    getCurrency,
+    getScaleLimit,
+    listCurrencies,
+})
 
 export default extenso

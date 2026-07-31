@@ -43,6 +43,20 @@ export interface CurrencyDefinition {
     }
 }
 
+export interface CurrencyMetadata {
+    code: CurrencyCode
+    fractionDigits: number
+    gender: ExtensoGender
+    plural: string
+    singular: string
+    subunit: {
+        gender: ExtensoGender
+        plural: string
+        singular: string
+    }
+    symbols: readonly string[]
+}
+
 export type CurrencyOptions =
     CurrencyFormattingOptions & (
         | BuiltInCurrencyOptions
@@ -58,6 +72,13 @@ export interface MeasurementUnit {
     singular: string
     plural: string
     gender: ExtensoGender
+}
+
+export interface ScaleLimit {
+    largestNamedExponent: number
+    maximum: string
+    maximumDigits: number
+    scale: ExtensoScale
 }
 
 export interface ExtensoOptions {

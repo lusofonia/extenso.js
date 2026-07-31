@@ -4,10 +4,15 @@ const declarationUrl = new URL('../dist/types/index.d.ts', import.meta.url)
 const esmDeclarationUrl = new URL('../dist/types/index.d.mts', import.meta.url)
 const commonJsDeclarationUrl = new URL('../dist/types/index.d.cts', import.meta.url)
 const declaration = await readFile(declarationUrl, 'utf8')
-const esmDeclaration = declaration.replace(
-    /from '(\.[^']+)'/g,
-    (_, specifier) => `from '${specifier}.js'`,
-)
+const esmDeclaration = declaration
+    .replace(
+        /from '(\.[^']+)'/g,
+        (_, specifier) => `from '${specifier}.js'`,
+    )
+    .replace(
+        /import\("(\.[^"]+)"\)/g,
+        (_, specifier) => `import("${specifier}.js")`,
+    )
 const exportedTypesMatch = declaration.match(/export type \{([\s\S]*?)\} from '\.\/types';/)
 
 if (!exportedTypesMatch) {
@@ -25,6 +30,7 @@ const commonJsDeclaration = declaration
         'import type * as PublicTypes from \'./types\';',
     )
     .replace(/export type \{[\s\S]*?\} from '\.\/types';\n/, '')
+    .replace(/import\("\.\/types"\)\./g, 'PublicTypes.')
     .replace(/ExtensoOptions/g, 'PublicTypes.ExtensoOptions')
     .replace(
         /export default extenso;\n$/,
