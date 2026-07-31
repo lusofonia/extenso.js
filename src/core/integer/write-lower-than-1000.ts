@@ -6,13 +6,14 @@ import listFrom100To900, {
     listFrom100To900Female,
 } from '../../lists/list-from-100-to-900'
 import Genders from '../../ts/enum/genders.enum'
+import type { ExtensoGender } from '../../types'
 
 /**
  * Writes a number from 0 to 9 in words
  * @param input - The number to write
  * @returns The number written in words
  */
-export const writeLowerThan10 = (input: number, gender: Genders = Genders.MALE): string => {
+export const writeLowerThan10 = (input: number, gender: ExtensoGender = Genders.MALE): string => {
     return gender === Genders.FEMALE ? listFrom0To9Female[input] : listFrom0To9[input]
 }
 
@@ -21,7 +22,7 @@ export const writeLowerThan10 = (input: number, gender: Genders = Genders.MALE):
  * @param input - The number to write
  * @returns The number written in words
  */
-export const writeLowerThan20 = (input: number, gender: Genders = Genders.MALE): string => {
+export const writeLowerThan20 = (input: number, gender: ExtensoGender = Genders.MALE): string => {
     if (input < 10) {
         return writeLowerThan10(input, gender)
     }
@@ -33,7 +34,7 @@ export const writeLowerThan20 = (input: number, gender: Genders = Genders.MALE):
  * @param input - The number to write
  * @returns The number written in words
  */
-export const writeLowerThan100 = (input: number, gender: Genders = Genders.MALE): string => {
+export const writeLowerThan100 = (input: number, gender: ExtensoGender = Genders.MALE): string => {
     if (input < 20) {
         return writeLowerThan20(input, gender)
     }
@@ -49,7 +50,7 @@ export const writeLowerThan100 = (input: number, gender: Genders = Genders.MALE)
  * @param input - The number to write
  * @returns The number written in words
  */
-const writeLowerThan1000 = (input: number, gender: Genders = Genders.MALE): string => {
+const writeLowerThan1000 = (input: number, gender: ExtensoGender = Genders.MALE): string => {
     if (input < 100) {
         return writeLowerThan100(input, gender)
     }

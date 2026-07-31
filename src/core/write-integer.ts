@@ -1,7 +1,8 @@
 import Scales from '../ts/enum/scales.enum'
-import writeGreaterThan1000 from './integer/write-greater-than-1000'
+import writeAtLeast1000 from './integer/write-greater-than-1000'
 import writeLowerThan1000 from './integer/write-lower-than-1000'
 import Genders from '../ts/enum/genders.enum'
+import type { ExtensoGender, ExtensoScale } from '../types'
 
 /**
  * Writes an integer number in words
@@ -11,13 +12,15 @@ import Genders from '../ts/enum/genders.enum'
  */
 const writeInteger = (
     input: string,
-    scale: Scales = Scales.SHORT,
-    gender: Genders = Genders.MALE,
+    scale: ExtensoScale = Scales.SHORT,
+    gender: ExtensoGender = Genders.MALE,
 ): string => {
-    if (Number(input) < 1000) {
-        return writeLowerThan1000(Number(input), gender)
+    const significantInput = input.replace(/^0+(?=\d)/, '')
+
+    if (significantInput.length < 4) {
+        return writeLowerThan1000(Number(significantInput), gender)
     }
-    return writeGreaterThan1000(input, scale, gender)
+    return writeAtLeast1000(significantInput, scale, gender)
 }
 
 export default writeInteger

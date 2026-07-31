@@ -1,6 +1,7 @@
 import Currencies from '../ts/enum/currencies.enum'
+import type { CurrencyCode } from '../types'
 
-export const currencySymbols: Readonly<Record<string, Currencies>> = {
+export const currencySymbols: Readonly<Record<string, CurrencyCode>> = {
     'MOP$': Currencies.MOP,
     'R$': Currencies.BRL,
     '€': Currencies.EUR,
@@ -32,9 +33,9 @@ const markerPattern = new RegExp(
  * @param input - Text that may contain currency codes or symbols
  * @returns Every detected currency in source order
  */
-export const findCurrencies = (input: string): Currencies[] => {
-    return Array.from(input.matchAll(markerPattern), (match): Currencies => {
-        return currencySymbols[match[0]] ?? match[0] as Currencies
+export const findCurrencies = (input: string): CurrencyCode[] => {
+    return Array.from(input.matchAll(markerPattern), (match): CurrencyCode => {
+        return currencySymbols[match[0]] ?? match[0] as CurrencyCode
     })
 }
 

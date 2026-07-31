@@ -1,8 +1,9 @@
 import Scales from '../ts/enum/scales.enum'
+import type { ExtensoScale } from '../types'
 
 export const ONE_THOUSAND = 'mil'
 
-const listFrom1000: Record<Scales, string[]> = {
+const listFrom1000: Record<ExtensoScale, string[]> = {
     [Scales.SHORT]: [
         'mil',           // 10^3
         'milhão',        // 10^6

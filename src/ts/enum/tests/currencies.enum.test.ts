@@ -1,5 +1,5 @@
 import test from 'ava'
-import Currencies from '../../ts/enum/currencies.enum'
+import Currencies from '../currencies.enum'
 
 test('Currencies enum values', t => {
     const values = Object.values(Currencies)

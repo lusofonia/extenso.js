@@ -5,7 +5,10 @@ import Locales from '../ts/enum/locales.enum'
 import Modes from '../ts/enum/modes.enum'
 import Scales from '../ts/enum/scales.enum'
 import Options from '../ts/interface/options.interface'
-import Currency from '../ts/interface/currency.interface'
+
+const isRecord = (value: unknown): value is Record<string, unknown> => {
+    return value !== null && typeof value === 'object' && !Array.isArray(value)
+}
 
 const assertEnumValue = <Value extends string>(
     name: string,
@@ -32,13 +35,11 @@ const validateCustomCurrency = (currency: Record<string, unknown>): void => {
     assertNonEmptyString('currency.plural', currency.plural)
     assertEnumValue('currency.gender', currency.gender, Genders)
 
-    if (currency.subunit === null ||
-        typeof currency.subunit !== 'object' ||
-        Array.isArray(currency.subunit)) {
+    if (!isRecord(currency.subunit)) {
         throw new TypeError('Invalid currency.subunit: expected an object')
     }
 
-    const subunit = currency.subunit as Record<string, unknown>
+    const subunit = currency.subunit
     assertNonEmptyString('currency.subunit.singular', subunit.singular)
     assertNonEmptyString('currency.subunit.plural', subunit.plural)
     assertEnumValue('currency.subunit.gender', subunit.gender, Genders)
@@ -49,8 +50,8 @@ const validateCustomCurrency = (currency: Record<string, unknown>): void => {
  * @param options - Options supplied to the public API
  * @throws {TypeError} If an option has an unsupported value
  */
-const validateOptions = (options: Options): void => {
-    if (options === null || typeof options !== 'object' || Array.isArray(options)) {
+const validateOptions: (options: unknown) => asserts options is Options = (options) => {
+    if (!isRecord(options)) {
         throw new TypeError('Options must be an object')
     }
 
@@ -63,25 +64,24 @@ const validateOptions = (options: Options): void => {
         throw new TypeError(`Invalid removeAccents: ${String(options.removeAccents)}`)
     }
 
-    if (options.currency !== undefined &&
-        (options.currency === null || typeof options.currency !== 'object' || Array.isArray(options.currency))) {
+    if (options.currency !== undefined && !isRecord(options.currency)) {
         throw new TypeError('Invalid currency options: expected an object')
     }
-    if (options.number !== undefined &&
-        (options.number === null || typeof options.number !== 'object' || Array.isArray(options.number))) {
+    if (options.number !== undefined && !isRecord(options.number)) {
         throw new TypeError('Invalid number options: expected an object')
     }
 
-    const currency = options.currency as Currency | { code?: Currencies } | undefined
+    const currency = options.currency
     if (currency && ('singular' in currency || 'plural' in currency ||
         'gender' in currency || 'subunit' in currency)) {
-        validateCustomCurrency(currency as unknown as Record<string, unknown>)
+        validateCustomCurrency(currency)
     } else {
         assertEnumValue('currency.code', currency?.code, Currencies)
     }
-    assertEnumValue('number.gender', options.number?.gender, Genders)
-    if (options.number?.ordinal !== undefined && typeof options.number.ordinal !== 'boolean') {
-        throw new TypeError(`Invalid number.ordinal: ${String(options.number.ordinal)}`)
+    const number = options.number
+    assertEnumValue('number.gender', number?.gender, Genders)
+    if (number?.ordinal !== undefined && typeof number.ordinal !== 'boolean') {
+        throw new TypeError(`Invalid number.ordinal: ${String(number.ordinal)}`)
     }
 }
 

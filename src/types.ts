@@ -1,18 +1,16 @@
-export type ExtensoMode = 'number' | 'currency' | 'digit' | 'abbreviated'
-export type ExtensoLocale = 'pt' | 'br'
-export type ExtensoScale = 'short' | 'long'
-export type ExtensoGender = 'male' | 'female'
-export type DecimalSeparator = 'comma' | 'point'
-export type CurrencyCode =
-    | 'AOA'
-    | 'CVE'
-    | 'BRL'
-    | 'XOF'
-    | 'MZN'
-    | 'EUR'
-    | 'STN'
-    | 'USD'
-    | 'MOP'
+import Currencies from './ts/enum/currencies.enum'
+import DecimalSeparators from './ts/enum/decimal-separators.enum'
+import Genders from './ts/enum/genders.enum'
+import Locales from './ts/enum/locales.enum'
+import Modes from './ts/enum/modes.enum'
+import Scales from './ts/enum/scales.enum'
+
+export type ExtensoMode = `${Modes}`
+export type ExtensoLocale = `${Locales}`
+export type ExtensoScale = `${Scales}`
+export type ExtensoGender = `${Genders}`
+export type DecimalSeparator = `${DecimalSeparators}`
+export type CurrencyCode = `${Currencies}`
 
 export interface BuiltInCurrencyOptions {
     code?: CurrencyCode
@@ -51,14 +49,3 @@ export interface ExtensoOptions {
     currency?: CurrencyOptions
     number?: NumberOptions
 }
-
-/**
- * Converts a number to its written form in Portuguese.
- * @param input The number to convert
- * @param options Output and parsing options
- * @returns The number written in Portuguese
- */
-export default function extenso(
-    input: string | number | bigint,
-    options?: ExtensoOptions,
-): string

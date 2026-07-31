@@ -4,6 +4,7 @@ import pluralize from '../utils/pluralize'
 import writeInteger from '../core/write-integer'
 import writeDecimal from '../core/write-decimal'
 import writeOrdinal from '../core/write-ordinal'
+import type { ExtensoGender, ExtensoScale } from '../types'
 
 /**
  * Writes a number in words with optional decimal part and gender
@@ -17,18 +18,20 @@ import writeOrdinal from '../core/write-ordinal'
 const writeNumber = (
     integer: string,
     decimal = '0',
-    scale: Scales = Scales.SHORT,
-    gender: Genders = Genders.MALE,
+    scale: ExtensoScale = Scales.SHORT,
+    gender: ExtensoGender = Genders.MALE,
     ordinal = false,
 ): string => {
+    const hasDecimalValue = /[1-9]/.test(decimal)
+
     if (ordinal) {
-        if (decimal !== '0') {
+        if (hasDecimalValue) {
             throw new RangeError('Ordinal numbers must be integers')
         }
         return writeOrdinal(integer, scale, gender)
     }
 
-    if (integer === '0' && decimal === '0') {
+    if (integer === '0' && !hasDecimalValue) {
         return 'zero'
     }
     if (integer === '0') {
@@ -36,7 +39,7 @@ const writeNumber = (
     }
 
     let text: string
-    if (decimal === '0') {
+    if (!hasDecimalValue) {
         text = writeInteger(integer, scale, gender)
     } else {
         const whole = gender === Genders.FEMALE ? 'inteira' : 'inteiro'

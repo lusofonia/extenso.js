@@ -1,5 +1,5 @@
 import test from 'ava'
-import DecimalSeparators from '../../ts/enum/decimal-separators.enum'
+import DecimalSeparators from '../decimal-separators.enum'
 
 test('DecimalSeparators enum values', t => {
     const values = Object.values(DecimalSeparators)

@@ -62,8 +62,8 @@ assert.equal(extenso(123, { removeAccents: true }), 'cento e vinte e tres')
 
     await writeFile(join(temporaryDirectory, 'consumer.ts'), `
 import extenso, { type ExtensoOptions } from 'extenso'
-const options: ExtensoOptions = { mode: 'number', number: { ordinal: true } }
-const options: ExtensoOptions = { mode: 'number' }
+const ordinalOptions: ExtensoOptions = { mode: 'number', number: { ordinal: true } }
+const numberOptions: ExtensoOptions = { mode: 'number' }
 const customCurrency: ExtensoOptions = {
     currency: {
         singular: 'crédito',
@@ -76,12 +76,17 @@ const customCurrency: ExtensoOptions = {
         },
     },
 }
-const options: ExtensoOptions = { mode: 'abbreviated' }
-const result: string = extenso(1500, options)
-const options: ExtensoOptions = { mode: 'number', removeAccents: true }
-const result: string = extenso(123, options)
+const abbreviatedOptions: ExtensoOptions = { mode: 'abbreviated' }
+const accentlessOptions: ExtensoOptions = { mode: 'number', removeAccents: true }
+const ordinalResult: string = extenso(11, ordinalOptions)
+const numberResult: string = extenso(123, numberOptions)
+const abbreviatedResult: string = extenso(1500, abbreviatedOptions)
+const accentlessResult: string = extenso(123, accentlessOptions)
 const customResult: string = extenso('2.01', customCurrency)
-void result
+void ordinalResult
+void numberResult
+void abbreviatedResult
+void accentlessResult
 void customResult
 `)
     await writeFile(join(temporaryDirectory, 'tsconfig.json'), JSON.stringify({

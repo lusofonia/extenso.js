@@ -1,5 +1,5 @@
-import Currencies from '../ts/enum/currencies.enum'
 import { findCurrencies } from './currency-markers'
+import type { CurrencyCode } from '../types'
 
 /**
  * Detects currency code or symbol in the input string
@@ -7,7 +7,7 @@ import { findCurrencies } from './currency-markers'
  * @returns The detected currency code or undefined if none found
  * @throws {Error} If markers for more than one currency are present
  */
-const detectCurrency = (input: string): Currencies | undefined => {
+const detectCurrency = (input: string): CurrencyCode | undefined => {
     const currencies = [...new Set(findCurrencies(input))]
 
     if (currencies.length > 1) {

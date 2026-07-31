@@ -91,7 +91,7 @@ const result: string = extenso(123, options)
 
 Também são exportados os tipos `CurrencyOptions`, `NumberOptions`, `ExtensoMode`, `ExtensoLocale`, `ExtensoScale`, `ExtensoGender`, `CurrencyCode` e `DecimalSeparator`.
 
-O pacote requer Node.js 18 ou mais recente.
+O pacote requer Node.js 22.20 ou mais recente.
 
 ## Sintaxe
 
@@ -234,7 +234,6 @@ extenso('1,000,000,000', { locale: 'pt' })
 //=> 'um bilião'
 ```
 
-## `options.currency`
 ## `options.removeAccents` [*boolean*]
 
 > Remove os acentos e outros sinais diacríticos do texto retornado.
@@ -257,7 +256,15 @@ extenso('3.14', { removeAccents: true })
 //=> 'tres inteiros e quatorze centesimos'
 ```
 
-## `options.currency.code` [*string*]
+## `options.currency` [*object*]
+
+> Configura uma moeda incorporada ou uma definição de moeda personalizada.
+
+Informar `currency`, com um código ou uma definição personalizada, ativa
+automaticamente o modo `currency`, exceto quando outro `mode` é definido
+explicitamente. Um objeto vazio (`currency: {}`) usa a moeda padrão BRL.
+
+### `options.currency.code` [*string*]
 
 > Define o código [ISO](https://pt.wikipedia.org/wiki/ISO_4217) da moeda em que o número deverá ser escrito.
 
@@ -365,14 +372,28 @@ extenso('1000', { number: { ordinal: true } })
 
 No modo `currency`, são aceitas zero, uma ou duas casas decimais. Uma casa é completada com zero à direita (`1.1` equivale a dez centavos). Mais de duas casas são rejeitadas sem truncamento ou arredondamento. Códigos e símbolos podem aparecer antes ou depois do valor; marcadores de moedas diferentes na mesma entrada são considerados ambíguos e geram erro. `currency.code` tem prioridade sobre uma única moeda detectada.
 
+No modo `number`, casas decimais formadas somente por zeros não criam uma
+fração (`1.00` equivale a `1` e `-0.00` equivale a `0`). O modo `digit`
+continua preservando todos os dígitos fornecidos.
+
 ## Validação e erros
 
-`mode`, `locale`, `scale`, `decimalSeparator`, `number.gender`, `number.ordinal` e `currency.code` são validados em runtime. A biblioteca também rejeita entrada vazia, sinal isolado, agrupamento inválido, decimal incompleto, ordinais decimais, `NaN`, infinitos, moedas conflitantes, valores acima da escala escolhida e strings com mais de 1000 caracteres.
-`mode`, `locale`, `scale`, `decimalSeparator`, `removeAccents`, `number.gender` e `currency.code` são validados em runtime. A biblioteca também rejeita entrada vazia, sinal isolado, agrupamento inválido, decimal incompleto, `NaN`, infinitos, moedas conflitantes, valores acima da escala escolhida e strings com mais de 1000 caracteres.
+`mode`, `locale`, `scale`, `decimalSeparator`, `removeAccents`,
+`number.gender`, `number.ordinal`, `currency.code` e todos os campos de uma
+moeda personalizada são validados em runtime. A biblioteca também rejeita
+opções `number` e `currency` com tipos inválidos, entrada vazia, sinal isolado,
+agrupamento inválido, decimal incompleto, ordinais decimais, `NaN`, infinitos,
+moedas conflitantes, valores acima da escala escolhida e strings com mais de
+1000 caracteres.
 
-## Migração para a próxima versão
+## Migração da versão 2.x
 
-Esta preparação inclui mudanças incompatíveis: CommonJS agora retorna a função diretamente; formatos numéricos anteriormente tolerados podem gerar erro; moeda não aceita mais de duas casas; e opções desconhecidas não usam valores padrão silenciosamente. A próxima versão ainda não foi publicada e seu número será decidido pelo mantenedor.
+A versão 3 contém mudanças incompatíveis. CommonJS passa a retornar a função
+diretamente (`const extenso = require('extenso')`), o pacote requer Node.js 22.20
+ou mais recente e entradas e opções inválidas deixam de usar comportamentos
+permissivos. Valores monetários aceitam no máximo duas casas decimais, sem
+truncamento ou arredondamento. Revise os exemplos de uso e as regras de
+validação antes de atualizar.
 
 ## Idioma Padrão
 
@@ -401,4 +422,4 @@ Toda contribuição é bem-vinda.
 
 Criado e mantido por [Matheus Alves](https://github.com/theuves).
 
-Licenciado sob a licença [MIT](https://github.com/lusofonia/extenso.js/blob/master/LICENSE) © 2015-2025
+Licenciado sob a licença [MIT](https://github.com/lusofonia/extenso.js/blob/master/LICENSE) © 2015-2026

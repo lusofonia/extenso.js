@@ -1,4 +1,5 @@
 import DecimalSeparators from '../ts/enum/decimal-separators.enum'
+import type { DecimalSeparator } from '../types'
 
 export enum ParseErrorCode {
     INVALID_NUMBER = 'INVALID_NUMBER',
@@ -30,7 +31,7 @@ export class ParseError extends Error {
  */
 const parse = (
     input: string,
-    decimalSeparator: DecimalSeparators = DecimalSeparators.POINT,
+    decimalSeparator: DecimalSeparator = DecimalSeparators.POINT,
     preserveLeadingZeros = false,
 ): {
     integer: string

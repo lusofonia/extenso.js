@@ -1,11 +1,11 @@
 import test from 'ava'
-import Options from '../../ts/interface/options.interface'
-import Currencies from '../../ts/enum/currencies.enum'
-import DecimalSeparators from '../../ts/enum/decimal-separators.enum'
-import Genders from '../../ts/enum/genders.enum'
-import Locales from '../../ts/enum/locales.enum'
-import Modes from '../../ts/enum/modes.enum'
-import Scales from '../../ts/enum/scales.enum'
+import Options from '../options.interface'
+import Currencies from '../../enum/currencies.enum'
+import DecimalSeparators from '../../enum/decimal-separators.enum'
+import Genders from '../../enum/genders.enum'
+import Locales from '../../enum/locales.enum'
+import Modes from '../../enum/modes.enum'
+import Scales from '../../enum/scales.enum'
 
 test('Options interface structure', t => {
     const options: Options = {

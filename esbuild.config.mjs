@@ -32,6 +32,7 @@ await Promise.all(
         bundle: true,
         minify: true,
         sourcemap: true,
+        target: 'node22',
         ...opt,
     })),
 )

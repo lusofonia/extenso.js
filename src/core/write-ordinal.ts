@@ -6,8 +6,9 @@ import listOrdinalScales, {
 import Genders from '../ts/enum/genders.enum'
 import Scales from '../ts/enum/scales.enum'
 import split from '../utils/split'
+import type { ExtensoGender, ExtensoScale } from '../types'
 
-const inflectGender = (text: string, gender: Genders): string => {
+const inflectGender = (text: string, gender: ExtensoGender): string => {
     if (gender === Genders.MALE) {
         return text
     }
@@ -19,7 +20,7 @@ const inflectGender = (text: string, gender: Genders): string => {
  */
 export const writeOrdinalLowerThan1000 = (
     input: number,
-    gender: Genders = Genders.MALE,
+    gender: ExtensoGender = Genders.MALE,
 ): string => {
     const parts = [
         ordinalHundreds[Math.floor(input / 100) - 1],
@@ -35,8 +36,8 @@ export const writeOrdinalLowerThan1000 = (
  */
 const writeOrdinal = (
     input: string,
-    scale: Scales = Scales.SHORT,
-    gender: Genders = Genders.MALE,
+    scale: ExtensoScale = Scales.SHORT,
+    gender: ExtensoGender = Genders.MALE,
 ): string => {
     if (BigInt(input) === 0n) {
         return gender === Genders.FEMALE ? 'zerésima' : 'zerésimo'

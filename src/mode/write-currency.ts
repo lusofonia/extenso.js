@@ -3,6 +3,7 @@ import Currencies from '../ts/enum/currencies.enum'
 import listCurrencies from '../lists/list-currencies'
 import Scales from '../ts/enum/scales.enum'
 import writeInteger from '../core/write-integer'
+import type { CurrencyCode, ExtensoScale } from '../types'
 
 const ONE_MILLION = 1000000n
 
@@ -13,7 +14,7 @@ const ONE_MILLION = 1000000n
  * @param scale - The scale to use (SHORT or LONG)
  * @returns The unit part written in words with currency name
  */
-export const writeUnit = (unit: string, currency: Currency, scale: Scales = Scales.SHORT) => {
+export const writeUnit = (unit: string, currency: Currency, scale: ExtensoScale = Scales.SHORT) => {
     const text = writeInteger(unit, scale, currency.gender)
     const unitValue = BigInt(unit)
 
@@ -53,8 +54,8 @@ export const writeSubunit = (subunit: string, currency: Currency) => {
 const writeCurrency = (
     unit: string,
     subunit = '0',
-    currencyOrCode: Currencies | Currency = Currencies.BRL,
-    scale: Scales = Scales.SHORT,
+    currencyOrCode: CurrencyCode | Currency = Currencies.BRL,
+    scale: ExtensoScale = Scales.SHORT,
 ): string => {
     if (!/^\d+$/.test(unit) || !/^\d{1,2}$/.test(subunit)) {
         throw new Error('Currency values must have zero, one, or two decimal places')

@@ -1,5 +1,5 @@
 import test from 'ava'
-import Modes from '../../ts/enum/modes.enum'
+import Modes from '../modes.enum'
 
 test('Modes enum values', t => {
     const values = Object.values(Modes)

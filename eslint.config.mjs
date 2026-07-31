@@ -5,6 +5,7 @@ export default tseslint.config(
     {
         rules: {
             'comma-dangle': ['error', 'always-multiline'],
+            'eol-last': ['error', 'always'],
             'func-style': ['error', 'expression'],
             'indent': ['error', 4],
             'keyword-spacing': ['error', { before: true, after: true }],

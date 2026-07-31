@@ -1,4 +1,6 @@
 import Scales from '../ts/enum/scales.enum'
+import listFrom1000 from './list-from-1000'
+import type { ExtensoScale } from '../types'
 
 export const ordinalUnits = [
     '',
@@ -53,14 +55,16 @@ const shortOrdinalScales = [
     'duodecilionésimo',
 ]
 
-const longOrdinalScales = shortOrdinalScales.flatMap((name, index) => {
-    if (index === 0) {
-        return [name]
-    }
-    return [name, `milésimo ${name}`]
-})
+const longOrdinalScales = shortOrdinalScales
+    .flatMap((name, index) => {
+        if (index === 0) {
+            return [name]
+        }
+        return [name, `milésimo ${name}`]
+    })
+    .slice(0, listFrom1000[Scales.LONG].length)
 
-const listOrdinalScales: Record<Scales, string[]> = {
+const listOrdinalScales: Record<ExtensoScale, string[]> = {
     [Scales.SHORT]: shortOrdinalScales,
     [Scales.LONG]: longOrdinalScales,
 }

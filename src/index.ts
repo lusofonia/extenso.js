@@ -1,18 +1,27 @@
-import Modes from './ts/enum/modes.enum'
-import Options from './ts/interface/options.interface'
+import type { ExtensoOptions } from './types'
 import normalize from './utils/normalize'
 import parse from './utils/parse'
 import translate from './utils/translate'
-import writeCurrency from './mode/write-currency'
-import writeDigit from './mode/write-digit'
-import writeNumber from './mode/write-number'
-import writeAbbreviated from './mode/write-abbreviated'
-import detectCurrency from './utils/detect-currency'
-import Currencies from './ts/enum/currencies.enum'
 import DecimalSeparators from './ts/enum/decimal-separators.enum'
+import Modes from './ts/enum/modes.enum'
 import validateOptions from './utils/validate-options'
-import Currency from './ts/interface/currency.interface'
 import removeAccents from './utils/remove-accents'
+import convert from './core/convert'
+import resolveConversion from './core/resolve-conversion'
+
+export type {
+    BuiltInCurrencyOptions,
+    CurrencyCode,
+    CurrencyDefinition,
+    CurrencyOptions,
+    DecimalSeparator,
+    ExtensoGender,
+    ExtensoLocale,
+    ExtensoMode,
+    ExtensoOptions,
+    ExtensoScale,
+    NumberOptions,
+} from './types'
 
 const NEGATIVE_SIGN = '-'
 
@@ -38,59 +47,29 @@ const NEGATIVE_SIGN = '-'
  * extenso(1234.56, { mode: Modes.CURRENCY, currency: { code: Currencies.BRL } }) // "mil duzentos e trinta e quatro reais e cinquenta e seis centavos"
  * extenso("R$ 1234.56", { mode: Modes.CURRENCY }) // "mil duzentos e trinta e quatro reais e cinquenta e seis centavos"
  */
-const extenso = (input: number | string | bigint, options: Options = {}): string => {
+const extenso = (input: number | string | bigint, options: ExtensoOptions = {}): string => {
     validateOptions(options)
 
     const inputIsNumber = typeof input === 'number'
 
-    // Detect currency before normalizing input
-    const detectedCurrency = typeof input === 'string' ? detectCurrency(input) : undefined
-    const customCurrency = options.currency && 'singular' in options.currency
-        ? options.currency as Currency
-        : undefined
-    const currencyCode = options.currency?.code || detectedCurrency || Currencies.BRL
-    const currency = customCurrency || currencyCode
-    const mode = options.mode || (detectedCurrency || options.currency?.code || customCurrency
-        ? Modes.CURRENCY
-        : Modes.NUMBER)
+    const { currency, mode } = resolveConversion(input, options)
 
-    // Now normalize and parse the input
     input = normalize(input)
     const parseSeparator = inputIsNumber ? DecimalSeparators.POINT : options?.decimalSeparator
     const decimalSeparator = parseSeparator === DecimalSeparators.COMMA ? ',' : '.'
     const hasDecimal = input.includes(decimalSeparator)
     const { integer, decimal } = parse(input, parseSeparator, mode === Modes.DIGIT)
-    let text: string
+    const isNonZero = /[1-9]/.test(integer) || /[1-9]/.test(decimal)
+    let text = convert({
+        integer,
+        decimal,
+        decimalSeparator,
+        hasDecimalSeparator: hasDecimal,
+    }, mode, currency, options)
 
-    switch (mode) {
-    case Modes.ABBREVIATED:
-        text = writeAbbreviated(integer, decimal, options?.scale)
-        break
-    case Modes.CURRENCY:
-        if (decimal.length > 2) {
-            throw new RangeError('Currency values must have zero, one, or two decimal places')
-        }
-        text = writeCurrency(integer, decimal, currency, options?.scale)
-        break
-    case Modes.DIGIT:
-        text = hasDecimal
-            ? writeDigit(`${integer}${decimalSeparator}${decimal}`)
-            : writeDigit(integer)
-        break
-    case Modes.NUMBER:
-        text = writeNumber(
-            integer,
-            decimal,
-            options?.scale,
-            options?.number?.gender,
-            options?.number?.ordinal,
-        )
-        break
-    }
+    text = translate(text, options.locale)
 
-    text = translate(text, options?.locale)
-
-    if (input.startsWith(NEGATIVE_SIGN)) {
+    if (input.startsWith(NEGATIVE_SIGN) && isNonZero) {
         text = `menos ${text}`
     }
 

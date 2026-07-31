@@ -1,5 +1,5 @@
 import test from 'ava'
-import Genders from '../../ts/enum/genders.enum'
+import Genders from '../genders.enum'
 
 test('Genders enum values', t => {
     const values = Object.values(Genders)

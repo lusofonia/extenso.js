@@ -1,8 +1,9 @@
 ﻿import Currencies from '../ts/enum/currencies.enum'
 import Currency from '../ts/interface/currency.interface'
 import Genders from '../ts/enum/genders.enum'
+import type { CurrencyCode } from '../types'
 
-const currencies: Record<Currencies, Currency> = {
+const currencies: Record<CurrencyCode, Currency> = {
     [Currencies.AOA]: {
         singular: 'kwanza',
         plural: 'kwanzas',

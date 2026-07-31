@@ -1,6 +1,7 @@
 import Scales from '../ts/enum/scales.enum'
+import type { ExtensoScale } from '../types'
 
-const ABBREVIATIONS: Record<Scales, string[]> = {
+const ABBREVIATIONS: Record<ExtensoScale, string[]> = {
     [Scales.SHORT]: [
         'mil',
         'mi',
@@ -73,7 +74,7 @@ const roundToTenths = (integer: string, decimal: string, exponent: number): bigi
 const writeAbbreviated = (
     integer: string,
     decimal = '0',
-    scale: Scales = Scales.SHORT,
+    scale: ExtensoScale = Scales.SHORT,
 ): string => {
     if (integer.length < 4) {
         return formatUnabbreviated(integer, decimal)

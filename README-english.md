@@ -91,7 +91,7 @@ const result: string = extenso(123, options)
 
 The package also exports `CurrencyOptions`, `NumberOptions`, `ExtensoMode`, `ExtensoLocale`, `ExtensoScale`, `ExtensoGender`, `CurrencyCode`, and `DecimalSeparator`.
 
-The package requires Node.js 18 or newer.
+The package requires Node.js 22.20 or newer.
 
 ## Syntax
 
@@ -234,7 +234,6 @@ extenso('1,000,000,000', { locale: 'pt' })
 //=> 'um bilião'
 ```
 
-## `options.currency`
 ## `options.removeAccents` [*boolean*]
 
 > Removes accents and other diacritical marks from the returned text.
@@ -257,9 +256,17 @@ extenso('3.14', { removeAccents: true })
 //=> 'tres inteiros e quatorze centesimos'
 ```
 
-## `options.currency.code` [*string*]
+## `options.currency` [*object*]
 
-> Defines the [ISO](https://pt.wikipedia.org/wiki/ISO_4217) currency code in which the number should be written.
+> Configures a built-in currency or a custom currency definition.
+
+Providing `currency`, either as a code or a custom definition, automatically
+enables `currency` mode unless another `mode` is explicitly selected. An empty
+object (`currency: {}`) uses the default BRL currency.
+
+### `options.currency.code` [*string*]
+
+> Defines the [ISO](https://en.wikipedia.org/wiki/ISO_4217) currency code in which the number should be written.
 
 So far, only 9 currencies are supported, chosen based on the economic and commercial importance of each and which are the most used in the member countries of the [CPLP (Community of Portuguese Language Countries)](https://www.cplp.org/), which are: Brazil, Angola, Cape Verde, Guinea-Bissau, Equatorial Guinea, Mozambique, Portugal, São Tomé and Príncipe, and Timor-Leste.
 
@@ -365,14 +372,27 @@ extenso('1000', { number: { ordinal: true } })
 
 Currency mode accepts zero, one, or two decimal places. One place is padded with a zero on the right (`1.1` means ten cents). More than two places are rejected without truncation or rounding. Codes and symbols may appear before or after the value; markers for different currencies in one input are ambiguous and cause an error. `currency.code` takes precedence over one detected currency.
 
+In `number` mode, decimal places containing only zeros do not produce a
+fraction (`1.00` is equivalent to `1`, and `-0.00` is equivalent to `0`).
+`digit` mode continues to preserve every supplied digit.
+
 ## Validation and errors
 
-`mode`, `locale`, `scale`, `decimalSeparator`, `number.gender`, `number.ordinal`, and `currency.code` are validated at runtime. The library also rejects empty input, a bare sign, invalid grouping, incomplete decimals, decimal ordinals, `NaN`, infinities, conflicting currencies, values beyond the selected scale, and strings longer than 1000 characters.
-`mode`, `locale`, `scale`, `decimalSeparator`, `removeAccents`, `number.gender`, and `currency.code` are validated at runtime. The library also rejects empty input, a bare sign, invalid grouping, incomplete decimals, `NaN`, infinities, conflicting currencies, values beyond the selected scale, and strings longer than 1000 characters.
+`mode`, `locale`, `scale`, `decimalSeparator`, `removeAccents`,
+`number.gender`, `number.ordinal`, `currency.code`, and every field in a custom
+currency definition are validated at runtime. The library also rejects
+`number` and `currency` options with invalid types, empty input, a bare sign,
+invalid grouping, incomplete decimals, decimal ordinals, `NaN`, infinities,
+conflicting currencies, values beyond the selected scale, and strings longer
+than 1000 characters.
 
-## Migrating to the next version
+## Migrating from version 2.x
 
-This preparation includes breaking changes: CommonJS now returns the function directly; numeric formats that were previously tolerated may throw; currency no longer accepts more than two decimal places; and unknown options no longer silently fall back to defaults. The next version has not been published, and its number will be decided by the maintainer.
+Version 3 contains breaking changes. CommonJS now returns the function directly
+(`const extenso = require('extenso')`), the package requires Node.js 22.20 or
+newer, and invalid inputs and options no longer receive permissive handling.
+Currency values accept at most two decimal places, without truncation or
+rounding. Review the usage examples and validation rules before upgrading.
 
 ## Default Language
 
@@ -399,4 +419,6 @@ Every contribution is welcome.
 
 ## License
 
-MIT &copy; Matheus Alves
+Created and maintained by [Matheus Alves](https://github.com/theuves).
+
+Licensed under the [MIT license](https://github.com/lusofonia/extenso.js/blob/master/LICENSE) © 2015-2026

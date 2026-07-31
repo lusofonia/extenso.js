@@ -1,5 +1,5 @@
 import test from 'ava'
-import detectCurrency from '../../utils/detect-currency'
+import detectCurrency from '../detect-currency'
 import Currencies from '../../ts/enum/currencies.enum'
 
 test('detectCurrency(): should detect currency codes', (t) => {

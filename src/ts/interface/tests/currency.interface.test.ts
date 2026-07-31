@@ -1,6 +1,6 @@
 import test from 'ava'
-import Currency from '../../ts/interface/currency.interface'
-import Genders from '../../ts/enum/genders.enum'
+import Currency from '../currency.interface'
+import Genders from '../../enum/genders.enum'
 
 test('Currency interface structure', t => {
     const currency: Currency = {

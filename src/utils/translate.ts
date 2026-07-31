@@ -1,6 +1,7 @@
 import Locales from '../ts/enum/locales.enum'
+import type { ExtensoLocale } from '../types'
 
-const translate = (text: string, locale: Locales = Locales.BR): string => {
+const translate = (text: string, locale: ExtensoLocale = Locales.BR): string => {
     switch (locale) {
     case Locales.PT:
         text = text
