@@ -29,7 +29,7 @@ const NEGATIVE_SIGN = '-'
  * Converts a number to its written form in Portuguese
  * @param input - The number to convert (can be string, number, or bigint)
  * @param options - Configuration options for the conversion
- * @param options.mode - The conversion mode (ABBREVIATED, CURRENCY, DIGIT, or NUMBER)
+ * @param options.mode - The conversion mode
  * @param options.decimalSeparator - The decimal separator to use (POINT or COMMA)
  * @param options.locale - The locale to use for the output (BR or PT)
  * @param options.scale - The number scale to use (SHORT or LONG)

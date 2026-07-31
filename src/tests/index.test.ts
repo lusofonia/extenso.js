@@ -16,6 +16,25 @@ test('extenso(): should handle ABBREVIATED mode', (t) => {
     t.is(extenso('-1550', { mode: Modes.ABBREVIATED }), 'menos 1,6 mil')
 })
 
+test('extenso(): should handle PERCENTAGE mode', (t) => {
+    t.is(extenso('0', { mode: Modes.PERCENTAGE }), 'zero por cento')
+    t.is(
+        extenso('12.5', { mode: Modes.PERCENTAGE }),
+        'doze inteiros e cinco décimos por cento',
+    )
+    t.is(
+        extenso('-16', { mode: Modes.PERCENTAGE, locale: 'pt' }),
+        'menos dezasseis por cento',
+    )
+    t.is(
+        extenso('2', {
+            mode: Modes.PERCENTAGE,
+            number: { gender: Genders.FEMALE },
+        }),
+        'duas por cento',
+    )
+})
+
 test('extenso(): should handle negative numbers', (t) => {
     t.is(extenso('-1234.56'), 'menos mil duzentos e trinta e quatro inteiros e cinquenta e seis centésimos')
     t.is(extenso(-1234.56), 'menos mil duzentos e trinta e quatro inteiros e cinquenta e seis centésimos')

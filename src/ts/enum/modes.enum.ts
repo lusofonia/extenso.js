@@ -3,6 +3,7 @@ enum Modes {
     CURRENCY = 'currency',
     DIGIT = 'digit',
     NUMBER = 'number',
+    PERCENTAGE = 'percentage',
 }
 
 export default Modes

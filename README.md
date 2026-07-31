@@ -43,6 +43,7 @@ Nossa ambição com o Extenso.js é tornar esta biblioteca uma referência para 
 - [x] Suporte à personalização de gênero gramatical.
 - [x] Suporte à formatação flexível (vírgula ou ponto como separador decimal).
 - [x] Suporte à escrita abreviada de números.
+- [x] Suporte à escrita de percentuais.
 - [x] Suporte à escrita sem acentos.
 - [x] Zero dependências.
 
@@ -133,6 +134,7 @@ Opções disponíveis:
 - `currency` - Escrever o número como valor monetário.
 - `digit` - Escrever cada dígito individualmente por extenso.
 - `abbreviated` - Escrever o número em formato abreviado.
+- `percentage` - Escrever o número como percentual.
 
 Exemplos:
 
@@ -154,6 +156,9 @@ extenso('1500', { mode: 'abbreviated' })
 
 extenso('1500000', { mode: 'abbreviated' })
 //=> '1,5 mi'
+
+extenso('12.5', { mode: 'percentage' })
+//=> 'doze inteiros e cinco décimos por cento'
 ```
 
 ## `options.scale` [*string*]

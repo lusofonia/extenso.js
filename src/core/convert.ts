@@ -2,6 +2,7 @@ import writeAbbreviated from '../mode/write-abbreviated'
 import writeCurrency from '../mode/write-currency'
 import writeDigit from '../mode/write-digit'
 import writeNumber from '../mode/write-number'
+import writePercentage from '../mode/write-percentage'
 import type {
     CurrencyCode,
     CurrencyDefinition,
@@ -44,6 +45,13 @@ const convert = (
             options.scale,
             options.number?.gender,
             options.number?.ordinal,
+        )
+    case 'percentage':
+        return writePercentage(
+            integer,
+            decimal,
+            options.scale,
+            options.number?.gender,
         )
     }
 }
