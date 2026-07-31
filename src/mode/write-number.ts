@@ -35,7 +35,7 @@ const writeNumber = (
         return 'zero'
     }
     if (integer === '0') {
-        return writeDecimal(decimal)
+        return writeDecimal(decimal, scale)
     }
 
     let text: string
@@ -43,7 +43,7 @@ const writeNumber = (
         text = writeInteger(integer, scale, gender)
     } else {
         const whole = gender === Genders.FEMALE ? 'inteira' : 'inteiro'
-        text = `${writeInteger(integer, scale, gender)} ${pluralize(whole, Number(integer))} e ${writeDecimal(decimal)}`
+        text = `${writeInteger(integer, scale, gender)} ${pluralize(whole, Number(integer))} e ${writeDecimal(decimal, scale)}`
     }
 
     return text

@@ -4,12 +4,17 @@
   "description": "Uma biblioteca avançada para escrever números por extenso (em português).",
   "main": "./dist/extenso.cjs",
   "module": "./dist/extenso.mjs",
-  "types": "./dist/types/index.d.mts",
+  "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/types/index.d.mts",
-      "import": "./dist/extenso.mjs",
-      "require": "./dist/extenso.cjs"
+      "import": {
+        "types": "./dist/types/index.d.mts",
+        "default": "./dist/extenso.mjs"
+      },
+      "require": {
+        "types": "./dist/types/index.d.cts",
+        "default": "./dist/extenso.cjs"
+      }
     }
   },
   "sideEffects": false,

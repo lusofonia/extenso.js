@@ -69,8 +69,8 @@ const currencies: Record<CurrencyCode, Currency> = {
         plural: 'dobras',
         gender: Genders.FEMALE,
         subunit: {
-            singular: 'centavo',
-            plural: 'centavos',
+            singular: 'cêntimo',
+            plural: 'cêntimos',
             gender: Genders.MALE,
         },
     },

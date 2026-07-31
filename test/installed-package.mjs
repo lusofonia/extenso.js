@@ -89,6 +89,13 @@ void abbreviatedResult
 void accentlessResult
 void customResult
 `)
+    await writeFile(join(temporaryDirectory, 'consumer.cts'), `
+import extenso = require('extenso')
+import type { ExtensoOptions } from 'extenso'
+const options: ExtensoOptions = { mode: 'number' }
+const result: string = extenso(123, options)
+void result
+`)
     await writeFile(join(temporaryDirectory, 'tsconfig.json'), JSON.stringify({
         compilerOptions: {
             module: 'NodeNext',
@@ -97,7 +104,7 @@ void customResult
             target: 'ES2022',
             noEmit: true,
         },
-        files: ['consumer.ts'],
+        files: ['consumer.ts', 'consumer.cts'],
     }))
     const typeScriptBinary = join(projectDirectory, 'node_modules', 'typescript', 'bin', 'tsc')
     execFileSync(process.execPath, [typeScriptBinary, '--project', 'tsconfig.json'], {

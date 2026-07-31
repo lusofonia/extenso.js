@@ -162,7 +162,9 @@ extenso('1500000', { mode: 'abbreviated' })
 
 The short and long scales are two systems for writing numbers. The short scale is used in Brazil, while the long scale is used in the rest of the Portuguese-speaking countries.
 
-The writing diverges only in numbers equal to or greater than a thousand million (≥10⁹), numbers below that follow with identical writing in both scales.
+The writing diverges for numbers equal to or greater than a thousand million
+(≥10⁹) and for the corresponding decimal denominators (≤10⁻⁹). Fractions
+follow the selected scale.
 
 *More information [here](https://pt.wikipedia.org/wiki/Escalas_curta_e_longa) [Wikipedia].*
 
@@ -180,6 +182,12 @@ extenso('2,000,000,001', { scale: 'short' })
 
 extenso('2,000,000,001', { scale: 'long' })
 //=> 'dois mil milhões e um'
+
+extenso('0.000000000001', { scale: 'short' })
+//=> 'um trilionésimo'
+
+extenso('0.000000000001', { scale: 'long' })
+//=> 'um bilionésimo'
 ```
 
 ## `options.decimalSeparator` [*string*]
@@ -380,6 +388,13 @@ Currency mode accepts zero, one, or two decimal places. One place is padded
 with a zero on the right: `1.1` represents one unit and ten subunits — for BRL,
 one real and ten cents. More than two places are rejected without truncation or
 rounding.
+
+The subunit of the São Tomé and Príncipe dobra (`STN`) is the cêntimo:
+
+```js
+extenso('0.01', { currency: { code: 'STN' } })
+//=> 'um cêntimo'
+```
 
 Codes and symbols may appear before or after the value. Markers for different
 currencies in one input are ambiguous and cause an error. `currency.code` takes

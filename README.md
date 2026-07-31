@@ -162,7 +162,9 @@ extenso('1500000', { mode: 'abbreviated' })
 
 As escalas curta e longa são dois sistemas de escrita dos números. A escala curta é a utilizada no Brasil, enquanto a escala longa é utilizada no restante dos países de língua portuguesa.
 
-A escrita diverge somente em números iguais ou superiores a um milhar de milhões (≥10⁹), números inferiores a isso seguem com a escrita idêntica em ambas as escalas.
+A escrita diverge em números iguais ou superiores a um milhar de milhões
+(≥10⁹) e nos denominadores decimais correspondentes (≤10⁻⁹). As frações
+respeitam a escala selecionada.
 
 *Mais informações [aqui](https://pt.wikipedia.org/wiki/Escalas_curta_e_longa) [Wikipédia].*
 
@@ -180,6 +182,12 @@ extenso('2,000,000,001', { scale: 'short' })
 
 extenso('2,000,000,001', { scale: 'long' })
 //=> 'dois mil milhões e um'
+
+extenso('0.000000000001', { scale: 'short' })
+//=> 'um trilionésimo'
+
+extenso('0.000000000001', { scale: 'long' })
+//=> 'um bilionésimo'
 ```
 
 ## `options.decimalSeparator` [*string*]
@@ -379,6 +387,13 @@ No modo `currency`, são aceitas zero, uma ou duas casas decimais. Uma casa é
 completada com zero à direita: `1.1` representa uma unidade e dez subunidades
 — em BRL, um real e dez centavos. Mais de duas casas são rejeitadas sem
 truncamento ou arredondamento.
+
+A subunidade da dobra de São Tomé e Príncipe (`STN`) é o cêntimo:
+
+```js
+extenso('0.01', { currency: { code: 'STN' } })
+//=> 'um cêntimo'
+```
 
 Códigos e símbolos podem aparecer antes ou depois do valor. Marcadores de
 moedas diferentes na mesma entrada são considerados ambíguos e geram erro.

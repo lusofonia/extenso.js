@@ -1,6 +1,8 @@
 import pluralize from '../utils/pluralize'
 import writeInteger from './write-integer'
 import listDecimals from '../lists/list-decimals'
+import Scales from '../ts/enum/scales.enum'
+import type { ExtensoScale } from '../types'
 
 /**
  * Writes a decimal number in words
@@ -8,8 +10,8 @@ import listDecimals from '../lists/list-decimals'
  * @returns The decimal part written in words
  * @throws {Error} If the number exceeds the limit
  */
-const writeDecimal = (input: string): string => {
-    const text = writeInteger(input)
+const writeDecimal = (input: string, scale: ExtensoScale = Scales.SHORT): string => {
+    const text = writeInteger(input, scale)
     const count = Number(input)
 
     if (input.length === 1) {
@@ -19,7 +21,7 @@ const writeDecimal = (input: string): string => {
         return `${text} ${pluralize('centésimo', count)}`
     }
 
-    const name = listDecimals[Math.floor(input.length / 3) - 1]
+    const name = listDecimals[scale][Math.floor(input.length / 3) - 1]
 
     if (name === undefined) {
         throw new Error(`Number exceeds limit`)

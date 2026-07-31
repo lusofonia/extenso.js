@@ -43,7 +43,7 @@ const NEGATIVE_SIGN = '-'
  * @throws {Error} If the number exceeds scale limits
  * @throws {Error} If an invalid currency code is provided
  * @example
- * extenso(1234.56) // "mil duzentos e trinta e quatro vírgula cinquenta e seis"
+ * extenso(1234.56) // "mil duzentos e trinta e quatro inteiros e cinquenta e seis centésimos"
  * extenso(1234.56, { mode: Modes.CURRENCY, currency: { code: Currencies.BRL } }) // "mil duzentos e trinta e quatro reais e cinquenta e seis centavos"
  * extenso("R$ 1234.56", { mode: Modes.CURRENCY }) // "mil duzentos e trinta e quatro reais e cinquenta e seis centavos"
  */

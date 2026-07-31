@@ -15,7 +15,7 @@ test('every built-in currency supports codes, symbols, units, and subunits', (t)
         [Currencies.XOF, 'CFA', 'um franco e um centavo', 'dois francos e dois centavos'],
         [Currencies.MZN, 'MT', 'um metical e um centavo', 'dois meticais e dois centavos'],
         [Currencies.EUR, '€', 'um euro e um cêntimo', 'dois euros e dois cêntimos'],
-        [Currencies.STN, 'Db', 'uma dobra e um centavo', 'duas dobras e dois centavos'],
+        [Currencies.STN, 'Db', 'uma dobra e um cêntimo', 'duas dobras e dois cêntimos'],
         [Currencies.USD, '$', 'um dólar e um centavo', 'dois dólares e dois centavos'],
         [Currencies.MOP, 'MOP$', 'uma pataca e um avo', 'duas patacas e dois avos'],
     ]
@@ -121,6 +121,29 @@ test('scale boundaries are consistent across public modes', (t) => {
             message: 'Number exceeds long scale limit',
         })
     }
+})
+
+test('fractional scale names and limits follow the selected scale', (t) => {
+    t.is(extenso('0.000000001'), 'um bilionésimo')
+    t.is(
+        extenso('0.000000001', { scale: Scales.LONG }),
+        'um milésimo milionésimo',
+    )
+    t.is(
+        extenso('1.000000000001', { scale: Scales.LONG }),
+        'um inteiro e um bilionésimo',
+    )
+    t.is(
+        extenso(`0.${'0'.repeat(71)}1`, { scale: Scales.LONG }),
+        'um duodecilionésimo',
+    )
+    t.is(
+        extenso(`0.${'0'.repeat(73)}1`, { scale: Scales.LONG }),
+        'um centésimo de duodecilionésimo',
+    )
+    t.throws(() => extenso(`0.${'0'.repeat(74)}1`, { scale: Scales.LONG }), {
+        message: 'Number exceeds limit',
+    })
 })
 
 test('equivalent input types and scientific notation work across modes', (t) => {
