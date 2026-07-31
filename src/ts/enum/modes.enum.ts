@@ -3,6 +3,7 @@ enum Modes {
     CURRENCY = 'currency',
     DIGIT = 'digit',
     FRACTION = 'fraction',
+    MEASUREMENT = 'measurement',
     NUMBER = 'number',
     PERCENTAGE = 'percentage',
 }

@@ -79,6 +79,10 @@ const customCurrency: ExtensoOptions = {
         },
     },
 }
+const measurementOptions: ExtensoOptions = {
+    mode: 'measurement',
+    unit: { singular: 'metro', plural: 'metros', gender: 'male' },
+}
 const abbreviatedOptions: ExtensoOptions = { mode: 'abbreviated' }
 const accentlessOptions: ExtensoOptions = { mode: 'number', removeAccents: true }
 const ordinalResult: string = extenso(11, ordinalOptions)
@@ -86,11 +90,13 @@ const numberResult: string = extenso(123, numberOptions)
 const abbreviatedResult: string = extenso(1500, abbreviatedOptions)
 const accentlessResult: string = extenso(123, accentlessOptions)
 const customResult: string = extenso('2.01', customCurrency)
+const measurementResult: string = extenso('2', measurementOptions)
 void ordinalResult
 void numberResult
 void abbreviatedResult
 void accentlessResult
 void customResult
+void measurementResult
 `)
     await writeFile(join(temporaryDirectory, 'consumer.cts'), `
 import extenso = require('extenso')

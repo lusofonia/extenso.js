@@ -2,6 +2,7 @@ import writeAbbreviated from '../mode/write-abbreviated'
 import writeCurrency from '../mode/write-currency'
 import writeDigit from '../mode/write-digit'
 import writeFraction from '../mode/write-fraction'
+import writeMeasurement from '../mode/write-measurement'
 import writeNumber from '../mode/write-number'
 import writePercentage from '../mode/write-percentage'
 import quantizeCurrency from '../utils/quantize-currency'
@@ -71,6 +72,8 @@ const convert = (
         return hasDecimalSeparator
             ? writeDigit(`${integer}${decimalSeparator}${decimal}`)
             : writeDigit(integer)
+    case 'measurement':
+        return writeMeasurement(integer, decimal, options.unit, options.scale)
     case 'number':
         return writeNumber(
             integer,

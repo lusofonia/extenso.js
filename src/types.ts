@@ -52,6 +52,12 @@ export interface NumberOptions {
     ordinal?: boolean
 }
 
+export interface MeasurementUnit {
+    singular: string
+    plural: string
+    gender: ExtensoGender
+}
+
 export interface ExtensoOptions {
     mode?: ExtensoMode
     locale?: ExtensoLocale
@@ -60,4 +66,5 @@ export interface ExtensoOptions {
     removeAccents?: boolean
     currency?: CurrencyOptions
     number?: NumberOptions
+    unit?: MeasurementUnit
 }

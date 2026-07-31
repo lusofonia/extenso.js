@@ -216,6 +216,21 @@ test('all public options are validated at runtime', (t) => {
         { currency: 'BRL' },
         { number: null },
         { currency: null },
+        { mode: Modes.MEASUREMENT },
+        { mode: Modes.MEASUREMENT, unit: 'quilograma' },
+        { mode: Modes.MEASUREMENT, unit: { singular: 'quilograma' } },
+        {
+            mode: Modes.MEASUREMENT,
+            unit: { singular: '', plural: 'quilogramas', gender: Genders.MALE },
+        },
+        {
+            mode: Modes.MEASUREMENT,
+            unit: { singular: 'quilograma', plural: '', gender: Genders.MALE },
+        },
+        {
+            mode: Modes.MEASUREMENT,
+            unit: { singular: 'quilograma', plural: 'quilogramas', gender: 'unknown' },
+        },
         null,
     ]
 

@@ -25,6 +25,11 @@ test('Options interface structure', t => {
             gender: Genders.MALE,
             ordinal: true,
         },
+        unit: {
+            singular: 'quilograma',
+            plural: 'quilogramas',
+            gender: Genders.MALE,
+        },
     }
 
     t.is(options.mode, Modes.CURRENCY)
@@ -38,6 +43,7 @@ test('Options interface structure', t => {
     t.true(options.currency?.showZeroUnit)
     t.is(options.number?.gender, Genders.MALE)
     t.true(options.number?.ordinal)
+    t.is(options.unit?.singular, 'quilograma')
 })
 
 test('Options interface accepts a custom currency', t => {

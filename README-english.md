@@ -45,6 +45,7 @@ Our ambition with Extenso.js is to make this library a reference for developers 
 - [x] Support for abbreviated number formatting.
 - [x] Support for writing percentages.
 - [x] Support for writing common fractions.
+- [x] Support for custom measurement units.
 - [x] Support for writing without accents.
 - [x] Zero dependencies.
 
@@ -93,7 +94,7 @@ const result: string = extenso(123, options)
 
 The package also exports `BuiltInCurrencyOptions`, `CurrencyDefinition`,
 `CurrencyFormattingOptions`, `CurrencyOptions`, `CurrencyRounding`,
-`NumberOptions`, `ExtensoMode`, `ExtensoLocale`, `ExtensoScale`,
+`MeasurementUnit`, `NumberOptions`, `ExtensoMode`, `ExtensoLocale`, `ExtensoScale`,
 `ExtensoGender`, `CurrencyCode`, and `DecimalSeparator`.
 
 The package requires Node.js 22.20 or newer.
@@ -126,6 +127,7 @@ Strings preserve every supplied digit. The `-` sign is only valid at the beginni
 - [`currency.showZeroUnit`](#optionscurrencyshowzerounit-boolean) [*boolean*]
 - [`currency.showZeroSubunit`](#optionscurrencyshowzerosubunit-boolean) [*boolean*]
 - [`currency.fractionDigits`](#optionscurrencyfractiondigits-number) [*number*]
+- [`unit`](#optionsunit-object) [*object*]
 - [`number.gender`](#optionsnumbergender-string) [*string*]
 - [`number.ordinal`](#optionsnumberordinal-boolean) [*boolean*]
 - [`decimalSeparator`](#optionsdecimalseparator-string) [*string*]
@@ -141,6 +143,7 @@ Available options:
 - `digit` - Spell each digit individually.
 - `abbreviated` - Write the number in abbreviated form.
 - `fraction` - Write a fraction in `numerator/denominator` format.
+- `measurement` - Write a quantity with a measurement unit.
 - `percentage` - Write the number as a percentage.
 
 Examples:
@@ -169,12 +172,42 @@ extenso('12.5', { mode: 'percentage' })
 
 extenso('3/4', { mode: 'fraction' })
 //=> 'três quartos'
+
+extenso('2.5', {
+  mode: 'measurement',
+  unit: {
+    singular: 'quilograma',
+    plural: 'quilogramas',
+    gender: 'male'
+  }
+})
+//=> 'dois inteiros e cinco décimos quilogramas'
 ```
 
 `fraction` mode accepts integer numerators and positive integer denominators.
 The fraction is written exactly as supplied, without automatic reduction.
 Denominators from 2 through 10 use their usual names; powers of ten use forms
 such as `centésimo` and `milésimo`; all others use `avos`.
+
+## `options.unit` [*object*]
+
+> Defines the unit used by `measurement` mode.
+
+Provide its singular and plural names and grammatical gender (`male` or
+`female`). The unit is required in `measurement` mode. Decimal values use the
+plural, and exact multiples of one million receive the preposition `de`.
+
+```js
+extenso('1000000', {
+  mode: 'measurement',
+  unit: {
+    singular: 'tonelada',
+    plural: 'toneladas',
+    gender: 'female'
+  }
+})
+//=> 'um milhão de toneladas'
+```
 
 ## `options.scale` [*string*]
 

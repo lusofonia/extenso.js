@@ -49,6 +49,24 @@ test('extenso(): should handle FRACTION mode', (t) => {
     )
 })
 
+test('extenso(): should handle MEASUREMENT mode', (t) => {
+    const unit = {
+        singular: 'quilograma',
+        plural: 'quilogramas',
+        gender: Genders.MALE,
+    }
+
+    t.is(extenso('1', { mode: Modes.MEASUREMENT, unit }), 'um quilograma')
+    t.is(extenso('2.5', {
+        mode: Modes.MEASUREMENT,
+        unit,
+    }), 'dois inteiros e cinco décimos quilogramas')
+    t.is(extenso('-1000000', {
+        mode: Modes.MEASUREMENT,
+        unit,
+    }), 'menos um milhão de quilogramas')
+})
+
 test('extenso(): should reject invalid fractions', (t) => {
     for (const input of ['3', '3/', '/4', '3/4/5']) {
         t.throws(() => extenso(input, { mode: Modes.FRACTION }), {

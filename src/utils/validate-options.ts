@@ -89,6 +89,17 @@ const validateOptions: (options: unknown) => asserts options is Options = (optio
     if (options.number !== undefined && !isRecord(options.number)) {
         throw new TypeError('Invalid number options: expected an object')
     }
+    if (options.unit !== undefined && !isRecord(options.unit)) {
+        throw new TypeError('Invalid unit options: expected an object')
+    }
+    if (options.mode === Modes.MEASUREMENT && options.unit === undefined) {
+        throw new TypeError('Measurement mode requires unit options')
+    }
+    if (options.unit) {
+        assertNonEmptyString('unit.singular', options.unit.singular)
+        assertNonEmptyString('unit.plural', options.unit.plural)
+        assertRequiredEnumValue('unit.gender', options.unit.gender, Genders)
+    }
 
     const currency = options.currency
     assertEnumValue('currency.rounding', currency?.rounding, CurrencyRoundings)

@@ -23,6 +23,7 @@ export type {
     ExtensoMode,
     ExtensoOptions,
     ExtensoScale,
+    MeasurementUnit,
     NumberOptions,
 } from './types'
 
@@ -38,6 +39,7 @@ const NEGATIVE_SIGN = '-'
  * @param options.scale - The number scale to use (SHORT or LONG)
  * @param options.removeAccents - Whether to remove accents from the output
  * @param options.currency - Currency configuration when mode is CURRENCY
+ * @param options.unit - Unit definition when mode is MEASUREMENT
  * @param options.number - Number configuration when mode is NUMBER
  * @param options.number.ordinal - Whether to write an integer as an ordinal
  * @returns The written form of the number in Portuguese
