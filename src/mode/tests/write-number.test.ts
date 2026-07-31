@@ -54,3 +54,16 @@ test('writeNumber(): should handle integer and decimal values', (t) => {
         'duas inteiras e um décimo',
     )
 })
+
+test('writeNumber(): should handle ordinal values', (t) => {
+    t.is(writeNumber('1', '0', Scales.SHORT, Genders.MALE, true), 'primeiro')
+    t.is(writeNumber('11', '0', Scales.SHORT, Genders.MALE, true), 'décimo primeiro')
+    t.is(
+        writeNumber('42', '0', Scales.SHORT, Genders.FEMALE, true),
+        'quadragésima segunda',
+    )
+    t.throws(
+        () => writeNumber('1', '5', Scales.SHORT, Genders.MALE, true),
+        { instanceOf: RangeError, message: 'Ordinal numbers must be integers' },
+    )
+})

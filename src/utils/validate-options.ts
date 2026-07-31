@@ -80,6 +80,9 @@ const validateOptions = (options: Options): void => {
         assertEnumValue('currency.code', currency?.code, Currencies)
     }
     assertEnumValue('number.gender', options.number?.gender, Genders)
+    if (options.number?.ordinal !== undefined && typeof options.number.ordinal !== 'boolean') {
+        throw new TypeError(`Invalid number.ordinal: ${String(options.number.ordinal)}`)
+    }
 }
 
 export default validateOptions

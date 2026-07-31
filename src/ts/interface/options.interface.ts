@@ -32,6 +32,7 @@ interface Options {
     }
     number?: {
         gender?: Genders
+        ordinal?: boolean
     }
 }
 

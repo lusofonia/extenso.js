@@ -19,6 +19,7 @@ test('Options interface structure', t => {
         },
         number: {
             gender: Genders.MALE,
+            ordinal: true,
         },
     }
 
@@ -29,6 +30,7 @@ test('Options interface structure', t => {
     t.true(options.removeAccents)
     t.is(options.currency?.code, Currencies.USD)
     t.is(options.number?.gender, Genders.MALE)
+    t.true(options.number?.ordinal)
 })
 
 test('Options interface accepts a custom currency', t => {

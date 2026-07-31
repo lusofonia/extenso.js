@@ -27,6 +27,7 @@ const NEGATIVE_SIGN = '-'
  * @param options.removeAccents - Whether to remove accents from the output
  * @param options.currency - Currency configuration when mode is CURRENCY
  * @param options.number - Number configuration when mode is NUMBER
+ * @param options.number.ordinal - Whether to write an integer as an ordinal
  * @returns The written form of the number in Portuguese
  * @throws {TypeError} If input is not a string, number, or bigint
  * @throws {Error} If the number format is invalid
@@ -77,7 +78,13 @@ const extenso = (input: number | string | bigint, options: Options = {}): string
             : writeDigit(integer)
         break
     case Modes.NUMBER:
-        text = writeNumber(integer, decimal, options?.scale, options?.number?.gender)
+        text = writeNumber(
+            integer,
+            decimal,
+            options?.scale,
+            options?.number?.gender,
+            options?.number?.ordinal,
+        )
         break
     }
 

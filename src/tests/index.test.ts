@@ -25,6 +25,28 @@ test('extenso(): should handle undefined number gender', (t) => {
     t.is(extenso('1234.56', { mode: Modes.NUMBER, number: {} }), 'mil duzentos e trinta e quatro inteiros e cinquenta e seis centésimos')
 })
 
+test('extenso(): should handle ordinal numbers', (t) => {
+    t.is(extenso(1, { number: { ordinal: true } }), 'primeiro')
+    t.is(extenso(11, { number: { ordinal: true } }), 'décimo primeiro')
+    t.is(
+        extenso(42, { number: { ordinal: true, gender: Genders.FEMALE } }),
+        'quadragésima segunda',
+    )
+    t.is(extenso(1000, { number: { ordinal: true } }), 'milésimo')
+})
+
+test('extenso(): should reject invalid ordinal options and decimal ordinals', (t) => {
+    // @ts-expect-error - Testing invalid ordinal option
+    t.throws(() => extenso(1, { number: { ordinal: 'yes' } }), {
+        instanceOf: TypeError,
+        message: 'Invalid number.ordinal: yes',
+    })
+    t.throws(() => extenso(1.5, { number: { ordinal: true } }), {
+        instanceOf: RangeError,
+        message: 'Ordinal numbers must be integers',
+    })
+})
+
 test('extenso(): should detect currency from code in input', (t) => {
     t.is(extenso('1234.56 BRL', { mode: Modes.CURRENCY }), 'mil duzentos e trinta e quatro reais e cinquenta e seis centavos')
     t.is(extenso('1234.56 EUR', { mode: Modes.CURRENCY }), 'mil duzentos e trinta e quatro euros e cinquenta e seis cêntimos')

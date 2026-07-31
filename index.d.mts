@@ -39,6 +39,7 @@ export type CurrencyOptions =
 
 export interface NumberOptions {
     gender?: ExtensoGender
+    ordinal?: boolean
 }
 
 export interface ExtensoOptions {

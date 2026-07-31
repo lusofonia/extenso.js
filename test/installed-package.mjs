@@ -36,6 +36,7 @@ const assert = require('node:assert/strict')
 const extenso = require('extenso')
 assert.equal(typeof extenso, 'function')
 assert.equal(extenso(123), 'cento e vinte e três')
+assert.equal(extenso(11, { number: { ordinal: true } }), 'décimo primeiro')
 assert.equal(extenso(1500, { mode: 'abbreviated' }), '1,5 mil')
 assert.equal(extenso(123, { removeAccents: true }), 'cento e vinte e tres')
 `)
@@ -61,6 +62,7 @@ assert.equal(extenso(123, { removeAccents: true }), 'cento e vinte e tres')
 
     await writeFile(join(temporaryDirectory, 'consumer.ts'), `
 import extenso, { type ExtensoOptions } from 'extenso'
+const options: ExtensoOptions = { mode: 'number', number: { ordinal: true } }
 const options: ExtensoOptions = { mode: 'number' }
 const customCurrency: ExtensoOptions = {
     currency: {
