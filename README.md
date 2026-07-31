@@ -47,6 +47,7 @@ Nossa ambição com o Extenso.js é tornar esta biblioteca uma referência para 
 - [x] Suporte à escrita de frações comuns.
 - [x] Suporte a unidades de medida personalizadas.
 - [x] Suporte à escrita sem acentos.
+- [x] Formatação do texto em minúsculas, maiúsculas ou título.
 - [x] Zero dependências.
 
 _**NOTA**: Observe que 10³⁹ é o limite para a escala curta enquanto que 10⁷² é o limite para a escala longa._
@@ -95,7 +96,7 @@ const result: string = extenso(123, options)
 Também são exportados os tipos `BuiltInCurrencyOptions`, `CurrencyDefinition`,
 `CurrencyFormattingOptions`, `CurrencyOptions`, `CurrencyRounding`,
 `MeasurementUnit`, `NumberOptions`, `ExtensoMode`, `ExtensoLocale`, `ExtensoScale`,
-`ExtensoGender`, `CurrencyCode` e `DecimalSeparator`.
+`ExtensoGender`, `CurrencyCode`, `DecimalSeparator` e `TextCase`.
 
 O pacote requer Node.js 22.20 ou mais recente.
 
@@ -122,6 +123,7 @@ Strings preservam todos os dígitos fornecidos. O sinal `-` só pode aparecer no
 - [`locale`](#optionslocale-string) [*string*]
 - [`currency`](#optionscurrency-object) [*object*]
 - [`removeAccents`](#optionsremoveaccents-boolean) [*boolean*]
+- [`textCase`](#optionstextcase-string) [*string*]
 - [`currency.code`](#optionscurrencycode-string) [*string*]
 - [`currency.rounding`](#optionscurrencyrounding-string) [*string*]
 - [`currency.showZeroUnit`](#optionscurrencyshowzerounit-boolean) [*boolean*]
@@ -333,6 +335,25 @@ extenso('3.14', { removeAccents: true })
 //=> 'tres inteiros e quatorze centesimos'
 ```
 
+## `options.textCase` [*string*]
+
+> Aplica capitalização ao texto final.
+
+- `lower` - Converte todo o texto para minúsculas.
+- `upper` - Converte todo o texto para maiúsculas.
+- `title` - Capitaliza as palavras principais e preserva conectivos como `e`,
+  `de` e `por` em minúsculas.
+
+Quando a opção não é informada, a capitalização original é preservada.
+
+```js
+extenso('123', { textCase: 'upper' })
+//=> 'CENTO E VINTE E TRÊS'
+
+extenso('123', { textCase: 'title' })
+//=> 'Cento e Vinte e Três'
+```
+
 ## `options.currency` [*object*]
 
 > Configura uma moeda incorporada ou uma definição de moeda personalizada.
@@ -532,7 +553,7 @@ continua preservando todos os dígitos fornecidos.
 
 ## Validação e erros
 
-`mode`, `locale`, `scale`, `decimalSeparator`, `removeAccents`,
+`mode`, `locale`, `scale`, `decimalSeparator`, `removeAccents`, `textCase`,
 `number.gender`, `number.ordinal`, `currency.code`, as opções de formatação
 monetária e todos os campos de uma moeda personalizada são validados em runtime.
 A biblioteca também rejeita

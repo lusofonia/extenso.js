@@ -5,6 +5,7 @@ import Genders from '../ts/enum/genders.enum'
 import Locales from '../ts/enum/locales.enum'
 import Modes from '../ts/enum/modes.enum'
 import Scales from '../ts/enum/scales.enum'
+import TextCases from '../ts/enum/text-cases.enum'
 import Options from '../ts/interface/options.interface'
 
 const isRecord = (value: unknown): value is Record<string, unknown> => {
@@ -77,6 +78,7 @@ const validateOptions: (options: unknown) => asserts options is Options = (optio
     assertEnumValue('mode', options.mode, Modes)
     assertEnumValue('locale', options.locale, Locales)
     assertEnumValue('scale', options.scale, Scales)
+    assertEnumValue('textCase', options.textCase, TextCases)
     assertEnumValue('decimalSeparator', options.decimalSeparator, DecimalSeparators)
 
     if (options.removeAccents !== undefined && typeof options.removeAccents !== 'boolean') {

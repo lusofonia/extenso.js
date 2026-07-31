@@ -72,6 +72,7 @@ test('all public options are validated at runtime', (t) => {
         { mode: 'unknown' },
         { locale: 'unknown' },
         { scale: 'unknown' },
+        { textCase: 'unknown' },
         { decimalSeparator: 'unknown' },
         { removeAccents: 'yes' },
         { number: { gender: 'unknown' } },

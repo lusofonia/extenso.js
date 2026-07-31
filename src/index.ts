@@ -9,6 +9,7 @@ import removeAccents from './utils/remove-accents'
 import convert from './core/convert'
 import resolveConversion from './core/resolve-conversion'
 import parseFraction from './utils/parse-fraction'
+import formatTextCase from './utils/format-text-case'
 
 export type {
     BuiltInCurrencyOptions,
@@ -25,6 +26,7 @@ export type {
     ExtensoScale,
     MeasurementUnit,
     NumberOptions,
+    TextCase,
 } from './types'
 
 const NEGATIVE_SIGN = '-'
@@ -38,6 +40,7 @@ const NEGATIVE_SIGN = '-'
  * @param options.locale - The locale to use for the output (BR or PT)
  * @param options.scale - The number scale to use (SHORT or LONG)
  * @param options.removeAccents - Whether to remove accents from the output
+ * @param options.textCase - Capitalization applied to the final text
  * @param options.currency - Currency configuration when mode is CURRENCY
  * @param options.unit - Unit definition when mode is MEASUREMENT
  * @param options.number - Number configuration when mode is NUMBER
@@ -94,6 +97,9 @@ const extenso = (input: number | string | bigint, options: ExtensoOptions = {}):
 
     if (options.removeAccents) {
         text = removeAccents(text)
+    }
+    if (options.textCase) {
+        text = formatTextCase(text, options.textCase)
     }
 
     return text

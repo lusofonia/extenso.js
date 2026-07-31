@@ -7,12 +7,14 @@ import Genders from '../../enum/genders.enum'
 import Locales from '../../enum/locales.enum'
 import Modes from '../../enum/modes.enum'
 import Scales from '../../enum/scales.enum'
+import TextCases from '../../enum/text-cases.enum'
 
 test('Options interface structure', t => {
     const options: Options = {
         mode: Modes.CURRENCY,
         locale: Locales.BR,
         scale: Scales.LONG,
+        textCase: TextCases.TITLE,
         decimalSeparator: DecimalSeparators.POINT,
         removeAccents: true,
         currency: {
@@ -35,6 +37,7 @@ test('Options interface structure', t => {
     t.is(options.mode, Modes.CURRENCY)
     t.is(options.locale, Locales.BR)
     t.is(options.scale, Scales.LONG)
+    t.is(options.textCase, TextCases.TITLE)
     t.is(options.decimalSeparator, DecimalSeparators.POINT)
     t.true(options.removeAccents)
     t.is(options.currency?.code, Currencies.USD)

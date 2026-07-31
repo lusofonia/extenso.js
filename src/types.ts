@@ -5,6 +5,7 @@ import Genders from './ts/enum/genders.enum'
 import Locales from './ts/enum/locales.enum'
 import Modes from './ts/enum/modes.enum'
 import Scales from './ts/enum/scales.enum'
+import TextCases from './ts/enum/text-cases.enum'
 
 export type ExtensoMode = `${Modes}`
 export type ExtensoLocale = `${Locales}`
@@ -13,6 +14,7 @@ export type ExtensoGender = `${Genders}`
 export type DecimalSeparator = `${DecimalSeparators}`
 export type CurrencyCode = `${Currencies}`
 export type CurrencyRounding = `${CurrencyRoundings}`
+export type TextCase = `${TextCases}`
 
 export interface CurrencyFormattingOptions {
     rounding?: CurrencyRounding
@@ -62,6 +64,7 @@ export interface ExtensoOptions {
     mode?: ExtensoMode
     locale?: ExtensoLocale
     scale?: ExtensoScale
+    textCase?: TextCase
     decimalSeparator?: DecimalSeparator
     removeAccents?: boolean
     currency?: CurrencyOptions

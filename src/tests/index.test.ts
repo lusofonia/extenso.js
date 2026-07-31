@@ -96,6 +96,21 @@ test('extenso(): should handle every supported Portuguese locale', (t) => {
     }
 })
 
+test('extenso(): should format the generated text case', (t) => {
+    t.is(extenso('123', { textCase: 'lower' }), 'cento e vinte e três')
+    t.is(extenso('123', { textCase: 'upper' }), 'CENTO E VINTE E TRÊS')
+    t.is(extenso('123', { textCase: 'title' }), 'Cento e Vinte e Três')
+    t.is(extenso('16', {
+        locale: 'pt',
+        removeAccents: true,
+        textCase: 'upper',
+    }), 'DEZASSEIS')
+    t.is(extenso('12.5', {
+        mode: Modes.PERCENTAGE,
+        textCase: 'title',
+    }), 'Doze Inteiros e Cinco Décimos por Cento')
+})
+
 test('extenso(): should handle undefined number gender', (t) => {
     t.is(extenso('1234.56', { mode: Modes.NUMBER, number: {} }), 'mil duzentos e trinta e quatro inteiros e cinquenta e seis centésimos')
 })

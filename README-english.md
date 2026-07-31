@@ -47,6 +47,7 @@ Our ambition with Extenso.js is to make this library a reference for developers 
 - [x] Support for writing common fractions.
 - [x] Support for custom measurement units.
 - [x] Support for writing without accents.
+- [x] Lowercase, uppercase, and title text formatting.
 - [x] Zero dependencies.
 
 _**NOTE**: Note that 10³⁹ is the limit for the short scale while 10⁷² is the limit for the long scale._
@@ -95,7 +96,7 @@ const result: string = extenso(123, options)
 The package also exports `BuiltInCurrencyOptions`, `CurrencyDefinition`,
 `CurrencyFormattingOptions`, `CurrencyOptions`, `CurrencyRounding`,
 `MeasurementUnit`, `NumberOptions`, `ExtensoMode`, `ExtensoLocale`, `ExtensoScale`,
-`ExtensoGender`, `CurrencyCode`, and `DecimalSeparator`.
+`ExtensoGender`, `CurrencyCode`, `DecimalSeparator`, and `TextCase`.
 
 The package requires Node.js 22.20 or newer.
 
@@ -122,6 +123,7 @@ Strings preserve every supplied digit. The `-` sign is only valid at the beginni
 - [`locale`](#optionslocale-string) [*string*]
 - [`currency`](#optionscurrency-object) [*object*]
 - [`removeAccents`](#optionsremoveaccents-boolean) [*boolean*]
+- [`textCase`](#optionstextcase-string) [*string*]
 - [`currency.code`](#optionscurrencycode-string) [*string*]
 - [`currency.rounding`](#optionscurrencyrounding-string) [*string*]
 - [`currency.showZeroUnit`](#optionscurrencyshowzerounit-boolean) [*boolean*]
@@ -333,6 +335,25 @@ extenso('3.14', { removeAccents: true })
 //=> 'tres inteiros e quatorze centesimos'
 ```
 
+## `options.textCase` [*string*]
+
+> Applies capitalization to the final text.
+
+- `lower` - Converts all text to lowercase.
+- `upper` - Converts all text to uppercase.
+- `title` - Capitalizes principal words while keeping connectors such as `e`,
+  `de`, and `por` lowercase.
+
+When this option is omitted, the original capitalization is preserved.
+
+```js
+extenso('123', { textCase: 'upper' })
+//=> 'CENTO E VINTE E TRÊS'
+
+extenso('123', { textCase: 'title' })
+//=> 'Cento e Vinte e Três'
+```
+
 ## `options.currency` [*object*]
 
 > Configures a built-in currency or a custom currency definition.
@@ -533,7 +554,7 @@ fraction (`1.00` is equivalent to `1`, and `-0.00` is equivalent to `0`).
 
 ## Validation and errors
 
-`mode`, `locale`, `scale`, `decimalSeparator`, `removeAccents`,
+`mode`, `locale`, `scale`, `decimalSeparator`, `removeAccents`, `textCase`,
 `number.gender`, `number.ordinal`, `currency.code`, currency formatting options,
 and every field in a custom currency definition are validated at runtime. The
 library also rejects
