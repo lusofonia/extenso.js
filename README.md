@@ -2,7 +2,7 @@
 
 [_If you don't speak Portuguese, check out the English version of this README here._](https://github.com/lusofonia/extenso.js/blob/master/README-english.md)
 
-[_Caso queira de uma consultoria particular entre em contato comigo aqui._](https://esyyuh0nxyf.typeform.com/to/AbbttY1R)
+[_Caso queira uma consultoria particular, entre em contato comigo aqui._](https://esyyuh0nxyf.typeform.com/to/AbbttY1R)
 
 </div>
 
@@ -89,7 +89,9 @@ const options: ExtensoOptions = { mode: 'number' }
 const result: string = extenso(123, options)
 ```
 
-Também são exportados os tipos `CurrencyOptions`, `NumberOptions`, `ExtensoMode`, `ExtensoLocale`, `ExtensoScale`, `ExtensoGender`, `CurrencyCode` e `DecimalSeparator`.
+Também são exportados os tipos `BuiltInCurrencyOptions`, `CurrencyDefinition`,
+`CurrencyOptions`, `NumberOptions`, `ExtensoMode`, `ExtensoLocale`,
+`ExtensoScale`, `ExtensoGender`, `CurrencyCode` e `DecimalSeparator`.
 
 O pacote requer Node.js 22.20 ou mais recente.
 
@@ -114,7 +116,7 @@ Strings preservam todos os dígitos fornecidos. O sinal `-` só pode aparecer no
 - [`mode`](#optionsmode-string) [*string*]
 - [`scale`](#optionsscale-string) [*string*]
 - [`locale`](#optionslocale-string) [*string*]
-- [`currency`](#optionscurrency) [*object*]
+- [`currency`](#optionscurrency-object) [*object*]
 - [`removeAccents`](#optionsremoveaccents-boolean) [*boolean*]
 - [`currency.code`](#optionscurrencycode-string) [*string*]
 - [`number.gender`](#optionsnumbergender-string) [*string*]
@@ -129,7 +131,7 @@ Opções disponíveis:
 
 - `number` [*default*] - Escrever somente o número por extenso.
 - `currency` - Escrever o número como valor monetário.
-- `digit` - Escrever o número por extenso em dígitos.
+- `digit` - Escrever cada dígito individualmente por extenso.
 - `abbreviated` - Escrever o número em formato abreviado.
 
 Exemplos:
@@ -268,7 +270,10 @@ explicitamente. Um objeto vazio (`currency: {}`) usa a moeda padrão BRL.
 
 > Define o código [ISO](https://pt.wikipedia.org/wiki/ISO_4217) da moeda em que o número deverá ser escrito.
 
-Até o momento são suportadas apenas 9 moedas escolhidas com base na importância econômica e comercial de cada uma delas e que são as mais utilizadas nos países membros da [CPLP (Comunidade dos Países de Língua Portuguesa)](https://www.cplp.org/), os quais são: Brasil, Angola, Cabo Verde, Guiné-Bissau, Guiné Equatorial, Moçambique, Portugal, São Tomé e Príncipe e Timor-Leste.
+São suportadas 9 moedas usadas em países e territórios lusófonos ou relevantes
+para suas relações econômicas. A seleção contempla membros da
+[CPLP (Comunidade dos Países de Língua Portuguesa)](https://www.cplp.org/) e
+Macau, onde o português também é língua oficial.
 
 As moedas suportadas são:
 
@@ -370,7 +375,14 @@ extenso('1000', { number: { ordinal: true } })
 
 ## Valores monetários
 
-No modo `currency`, são aceitas zero, uma ou duas casas decimais. Uma casa é completada com zero à direita (`1.1` equivale a dez centavos). Mais de duas casas são rejeitadas sem truncamento ou arredondamento. Códigos e símbolos podem aparecer antes ou depois do valor; marcadores de moedas diferentes na mesma entrada são considerados ambíguos e geram erro. `currency.code` tem prioridade sobre uma única moeda detectada.
+No modo `currency`, são aceitas zero, uma ou duas casas decimais. Uma casa é
+completada com zero à direita: `1.1` representa uma unidade e dez subunidades
+— em BRL, um real e dez centavos. Mais de duas casas são rejeitadas sem
+truncamento ou arredondamento.
+
+Códigos e símbolos podem aparecer antes ou depois do valor. Marcadores de
+moedas diferentes na mesma entrada são considerados ambíguos e geram erro.
+`currency.code` tem prioridade sobre uma única moeda detectada.
 
 No modo `number`, casas decimais formadas somente por zeros não criam uma
 fração (`1.00` equivale a `1` e `-0.00` equivale a `0`). O modo `digit`

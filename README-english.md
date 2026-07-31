@@ -89,7 +89,9 @@ const options: ExtensoOptions = { mode: 'number' }
 const result: string = extenso(123, options)
 ```
 
-The package also exports `CurrencyOptions`, `NumberOptions`, `ExtensoMode`, `ExtensoLocale`, `ExtensoScale`, `ExtensoGender`, `CurrencyCode`, and `DecimalSeparator`.
+The package also exports `BuiltInCurrencyOptions`, `CurrencyDefinition`,
+`CurrencyOptions`, `NumberOptions`, `ExtensoMode`, `ExtensoLocale`,
+`ExtensoScale`, `ExtensoGender`, `CurrencyCode`, and `DecimalSeparator`.
 
 The package requires Node.js 22.20 or newer.
 
@@ -114,7 +116,7 @@ Strings preserve every supplied digit. The `-` sign is only valid at the beginni
 - [`mode`](#optionsmode-string) [*string*]
 - [`scale`](#optionsscale-string) [*string*]
 - [`locale`](#optionslocale-string) [*string*]
-- [`currency`](#optionscurrency) [*object*]
+- [`currency`](#optionscurrency-object) [*object*]
 - [`removeAccents`](#optionsremoveaccents-boolean) [*boolean*]
 - [`currency.code`](#optionscurrencycode-string) [*string*]
 - [`number.gender`](#optionsnumbergender-string) [*string*]
@@ -129,7 +131,7 @@ Available options:
 
 - `number` [*default*] - Write only the number in full.
 - `currency` - Write the number as a monetary value.
-- `digit` - Write the number in full in digits.
+- `digit` - Spell each digit individually.
 - `abbreviated` - Write the number in abbreviated form.
 
 Examples:
@@ -268,7 +270,11 @@ object (`currency: {}`) uses the default BRL currency.
 
 > Defines the [ISO](https://en.wikipedia.org/wiki/ISO_4217) currency code in which the number should be written.
 
-So far, only 9 currencies are supported, chosen based on the economic and commercial importance of each and which are the most used in the member countries of the [CPLP (Community of Portuguese Language Countries)](https://www.cplp.org/), which are: Brazil, Angola, Cape Verde, Guinea-Bissau, Equatorial Guinea, Mozambique, Portugal, São Tomé and Príncipe, and Timor-Leste.
+Nine currencies used in Portuguese-speaking countries and territories, or
+relevant to their economic relations, are supported. The selection covers
+members of the
+[CPLP (Community of Portuguese Language Countries)](https://www.cplp.org/)
+and Macau, where Portuguese is also an official language.
 
 The supported currencies are:
 
@@ -370,7 +376,14 @@ extenso('1000', { number: { ordinal: true } })
 
 ## Currency values
 
-Currency mode accepts zero, one, or two decimal places. One place is padded with a zero on the right (`1.1` means ten cents). More than two places are rejected without truncation or rounding. Codes and symbols may appear before or after the value; markers for different currencies in one input are ambiguous and cause an error. `currency.code` takes precedence over one detected currency.
+Currency mode accepts zero, one, or two decimal places. One place is padded
+with a zero on the right: `1.1` represents one unit and ten subunits — for BRL,
+one real and ten cents. More than two places are rejected without truncation or
+rounding.
+
+Codes and symbols may appear before or after the value. Markers for different
+currencies in one input are ambiguous and cause an error. `currency.code` takes
+precedence over one detected currency.
 
 In `number` mode, decimal places containing only zeros do not produce a
 fraction (`1.00` is equivalent to `1`, and `-0.00` is equivalent to `0`).
