@@ -45,7 +45,7 @@ export const writeSubunit = (subunit: string, currency: Currency) => {
  * Writes a complete currency amount in words
  * @param unit - The unit part of the amount
  * @param subunit - The subunit part of the amount
- * @param code - The currency code
+ * @param currencyOrCode - A supported currency code or a custom currency definition
  * @param scale - The scale to use (SHORT or LONG)
  * @returns The complete amount written in words with currency name
  * @throws {Error} If an invalid currency code is provided
@@ -53,7 +53,7 @@ export const writeSubunit = (subunit: string, currency: Currency) => {
 const writeCurrency = (
     unit: string,
     subunit = '0',
-    code: Currencies = Currencies.BRL,
+    currencyOrCode: Currencies | Currency = Currencies.BRL,
     scale: Scales = Scales.SHORT,
 ): string => {
     if (!/^\d+$/.test(unit) || !/^\d{1,2}$/.test(subunit)) {
@@ -61,11 +61,15 @@ const writeCurrency = (
     }
     subunit = subunit.padEnd(2, '0')
 
-    if (!Object.keys(listCurrencies).includes(code)) {
-        throw new Error('Invalid currency')
+    let currency: Currency
+    if (typeof currencyOrCode === 'string') {
+        if (!Object.keys(listCurrencies).includes(currencyOrCode)) {
+            throw new Error('Invalid currency')
+        }
+        currency = listCurrencies[currencyOrCode]
+    } else {
+        currency = currencyOrCode
     }
-
-    const currency = listCurrencies[code]
     const hasUnit = BigInt(unit) > 0n
     const hasSubunit = BigInt(subunit) > 0n
 

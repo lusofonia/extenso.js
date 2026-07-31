@@ -9,6 +9,13 @@ test('extenso(): should handle default mode (NUMBER)', (t) => {
     t.is(extenso('1234.56'), 'mil duzentos e trinta e quatro inteiros e cinquenta e seis centésimos')
 })
 
+test('extenso(): should handle ABBREVIATED mode', (t) => {
+    t.is(extenso('1500', { mode: Modes.ABBREVIATED }), '1,5 mil')
+    t.is(extenso(1500000, { mode: Modes.ABBREVIATED }), '1,5 mi')
+    t.is(extenso(1500000000n, { mode: Modes.ABBREVIATED }), '1,5 bi')
+    t.is(extenso('-1550', { mode: Modes.ABBREVIATED }), 'menos 1,6 mil')
+})
+
 test('extenso(): should handle negative numbers', (t) => {
     t.is(extenso('-1234.56'), 'menos mil duzentos e trinta e quatro inteiros e cinquenta e seis centésimos')
     t.is(extenso(-1234.56), 'menos mil duzentos e trinta e quatro inteiros e cinquenta e seis centésimos')
@@ -101,6 +108,32 @@ test('extenso(): should handle negative currency values', (t) => {
 test('extenso(): should prioritize currency code from options over detection', (t) => {
     t.is(extenso('R$ 1234.56', { mode: Modes.CURRENCY, currency: { code: Currencies.EUR } }), 'mil duzentos e trinta e quatro euros e cinquenta e seis cêntimos')
     t.is(extenso('1234.56 BRL', { mode: Modes.CURRENCY, currency: { code: Currencies.USD } }), 'mil duzentos e trinta e quatro dólares e cinquenta e seis centavos')
+})
+
+test('extenso(): should support a custom currency definition', (t) => {
+    const customCurrency = {
+        singular: 'crédito',
+        plural: 'créditos',
+        gender: Genders.MALE,
+        subunit: {
+            singular: 'ficha',
+            plural: 'fichas',
+            gender: Genders.FEMALE,
+        },
+    }
+
+    t.is(
+        extenso('1.01', { currency: customCurrency }),
+        'um crédito e uma ficha',
+    )
+    t.is(
+        extenso('2.02', { mode: Modes.CURRENCY, currency: customCurrency }),
+        'dois créditos e duas fichas',
+    )
+    t.is(
+        extenso('1000000', { currency: customCurrency }),
+        'um milhão de créditos',
+    )
 })
 
 test('extenso(): should automatically set mode to CURRENCY when currency is detected', (t) => {

@@ -6,10 +6,13 @@ import translate from './utils/translate'
 import writeCurrency from './mode/write-currency'
 import writeDigit from './mode/write-digit'
 import writeNumber from './mode/write-number'
+import writeAbbreviated from './mode/write-abbreviated'
 import detectCurrency from './utils/detect-currency'
 import Currencies from './ts/enum/currencies.enum'
 import DecimalSeparators from './ts/enum/decimal-separators.enum'
 import validateOptions from './utils/validate-options'
+import Currency from './ts/interface/currency.interface'
+import removeAccents from './utils/remove-accents'
 
 const NEGATIVE_SIGN = '-'
 
@@ -17,10 +20,11 @@ const NEGATIVE_SIGN = '-'
  * Converts a number to its written form in Portuguese
  * @param input - The number to convert (can be string, number, or bigint)
  * @param options - Configuration options for the conversion
- * @param options.mode - The conversion mode (CURRENCY, DIGIT, or NUMBER)
+ * @param options.mode - The conversion mode (ABBREVIATED, CURRENCY, DIGIT, or NUMBER)
  * @param options.decimalSeparator - The decimal separator to use (POINT or COMMA)
  * @param options.locale - The locale to use for the output (BR or PT)
  * @param options.scale - The number scale to use (SHORT or LONG)
+ * @param options.removeAccents - Whether to remove accents from the output
  * @param options.currency - Currency configuration when mode is CURRENCY
  * @param options.number - Number configuration when mode is NUMBER
  * @param options.number.ordinal - Whether to write an integer as an ordinal
@@ -41,8 +45,14 @@ const extenso = (input: number | string | bigint, options: Options = {}): string
 
     // Detect currency before normalizing input
     const detectedCurrency = typeof input === 'string' ? detectCurrency(input) : undefined
-    const currencyCode = options?.currency?.code || detectedCurrency || Currencies.BRL
-    const mode = options?.mode || (detectedCurrency || options?.currency?.code ? Modes.CURRENCY : Modes.NUMBER)
+    const customCurrency = options.currency && 'singular' in options.currency
+        ? options.currency as Currency
+        : undefined
+    const currencyCode = options.currency?.code || detectedCurrency || Currencies.BRL
+    const currency = customCurrency || currencyCode
+    const mode = options.mode || (detectedCurrency || options.currency?.code || customCurrency
+        ? Modes.CURRENCY
+        : Modes.NUMBER)
 
     // Now normalize and parse the input
     input = normalize(input)
@@ -53,11 +63,14 @@ const extenso = (input: number | string | bigint, options: Options = {}): string
     let text: string
 
     switch (mode) {
+    case Modes.ABBREVIATED:
+        text = writeAbbreviated(integer, decimal, options?.scale)
+        break
     case Modes.CURRENCY:
         if (decimal.length > 2) {
             throw new RangeError('Currency values must have zero, one, or two decimal places')
         }
-        text = writeCurrency(integer, decimal, currencyCode, options?.scale)
+        text = writeCurrency(integer, decimal, currency, options?.scale)
         break
     case Modes.DIGIT:
         text = hasDecimal
@@ -79,6 +92,10 @@ const extenso = (input: number | string | bigint, options: Options = {}): string
 
     if (input.startsWith(NEGATIVE_SIGN)) {
         text = `menos ${text}`
+    }
+
+    if (options.removeAccents) {
+        text = removeAccents(text)
     }
 
     return text

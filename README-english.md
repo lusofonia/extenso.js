@@ -1,6 +1,6 @@
 <div align="center">
 
-[_If you don't speak English, check out the Portuguese version of this README here._](https://github.com/lusofonia/extenso.js/blob/master/README-english.md)
+[_If you don't speak English, check out the Portuguese version of this README here._](https://github.com/lusofonia/extenso.js/blob/master/README.md)
 
 [_If you want a private consultation, contact me here._](https://esyyuh0nxyf.typeform.com/to/fG1XDrpT)
 
@@ -42,6 +42,8 @@ Our ambition with Extenso.js is to make this library a reference for developers 
 - [x] Support for short and long number scales.
 - [x] Support for grammatical gender customization.
 - [x] Support for flexible formatting (comma or dot as decimal separator).
+- [x] Support for abbreviated number formatting.
+- [x] Support for writing without accents.
 - [x] Zero dependencies.
 
 _**NOTE**: Note that 10³⁹ is the limit for the short scale while 10⁷² is the limit for the long scale._
@@ -112,6 +114,8 @@ Strings preserve every supplied digit. The `-` sign is only valid at the beginni
 - [`mode`](#optionsmode-string) [*string*]
 - [`scale`](#optionsscale-string) [*string*]
 - [`locale`](#optionslocale-string) [*string*]
+- [`currency`](#optionscurrency) [*object*]
+- [`removeAccents`](#optionsremoveaccents-boolean) [*boolean*]
 - [`currency.code`](#optionscurrencycode-string) [*string*]
 - [`number.gender`](#optionsnumbergender-string) [*string*]
 - [`number.ordinal`](#optionsnumberordinal-boolean) [*boolean*]
@@ -126,6 +130,7 @@ Available options:
 - `number` [*default*] - Write only the number in full.
 - `currency` - Write the number as a monetary value.
 - `digit` - Write the number in full in digits.
+- `abbreviated` - Write the number in abbreviated form.
 
 Examples:
 
@@ -141,6 +146,12 @@ extenso('123', { mode: 'currency' })
 
 extenso('123', { mode: 'digit' })
 //=> 'um dois três'
+
+extenso('1500', { mode: 'abbreviated' })
+//=> '1,5 mil'
+
+extenso('1500000', { mode: 'abbreviated' })
+//=> '1,5 mi'
 ```
 
 ## `options.scale` [*string*]
@@ -223,13 +234,34 @@ extenso('1,000,000,000', { locale: 'pt' })
 //=> 'um bilião'
 ```
 
+## `options.currency`
+## `options.removeAccents` [*boolean*]
+
+> Removes accents and other diacritical marks from the returned text.
+
+- `false` [*default*] - Preserves normal accentuation.
+- `true` - Returns the number in words without accents.
+
+This option works in every writing mode and can be combined with any locale.
+
+Examples:
+
+```js
+extenso('123')
+//=> 'cento e vinte e três'
+
+extenso('123', { removeAccents: true })
+//=> 'cento e vinte e tres'
+
+extenso('3.14', { removeAccents: true })
+//=> 'tres inteiros e quatorze centesimos'
+```
+
 ## `options.currency.code` [*string*]
 
 > Defines the [ISO](https://pt.wikipedia.org/wiki/ISO_4217) currency code in which the number should be written.
 
 So far, only 9 currencies are supported, chosen based on the economic and commercial importance of each and which are the most used in the member countries of the [CPLP (Community of Portuguese Language Countries)](https://www.cplp.org/), which are: Brazil, Angola, Cape Verde, Guinea-Bissau, Equatorial Guinea, Mozambique, Portugal, São Tomé and Príncipe, and Timor-Leste.
-
-_Custom currency definition will be supported soon. You can contribute by sending a [*pull request*](https://github.com/lusofonia/extenso.js/pulls) with the addition of a new currency or with the correction of an error in an existing currency._
 
 The supported currencies are:
 
@@ -257,7 +289,26 @@ extenso('42', { mode: 'currency', currency: { code: 'EUR' } })
 
 extenso('42', { mode: 'currency', currency: { code: 'CVE' } })
 //=> 'quarenta e dois escudos'
+
+extenso('2.01', {
+  currency: {
+    singular: 'crédito',
+    plural: 'créditos',
+    gender: 'male',
+    subunit: {
+      singular: 'ficha',
+      plural: 'fichas',
+      gender: 'female'
+    }
+  }
+})
+//=> 'dois créditos e uma ficha'
 ```
+
+For a custom currency, provide the singular and plural names and the grammatical
+gender (`male` or `female`) of both the unit and subunit. `code` cannot be
+combined with a custom definition. Providing the definition automatically
+enables `currency` mode.
 
 ## `options.number.gender` [*string*]
 
@@ -317,6 +368,7 @@ Currency mode accepts zero, one, or two decimal places. One place is padded with
 ## Validation and errors
 
 `mode`, `locale`, `scale`, `decimalSeparator`, `number.gender`, `number.ordinal`, and `currency.code` are validated at runtime. The library also rejects empty input, a bare sign, invalid grouping, incomplete decimals, decimal ordinals, `NaN`, infinities, conflicting currencies, values beyond the selected scale, and strings longer than 1000 characters.
+`mode`, `locale`, `scale`, `decimalSeparator`, `removeAccents`, `number.gender`, and `currency.code` are validated at runtime. The library also rejects empty input, a bare sign, invalid grouping, incomplete decimals, `NaN`, infinities, conflicting currencies, values beyond the selected scale, and strings longer than 1000 characters.
 
 ## Migrating to the next version
 

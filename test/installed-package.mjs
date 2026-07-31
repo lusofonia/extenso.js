@@ -37,6 +37,8 @@ const extenso = require('extenso')
 assert.equal(typeof extenso, 'function')
 assert.equal(extenso(123), 'cento e vinte e três')
 assert.equal(extenso(11, { number: { ordinal: true } }), 'décimo primeiro')
+assert.equal(extenso(1500, { mode: 'abbreviated' }), '1,5 mil')
+assert.equal(extenso(123, { removeAccents: true }), 'cento e vinte e tres')
 `)
     execFileSync(process.execPath, ['consumer.cjs'], {
         cwd: temporaryDirectory,
@@ -49,6 +51,8 @@ import assert from 'node:assert/strict'
 import extenso from 'extenso'
 assert.equal(typeof extenso, 'function')
 assert.equal(extenso(123), 'cento e vinte e três')
+assert.equal(extenso(1500000, { mode: 'abbreviated' }), '1,5 mi')
+assert.equal(extenso(123, { removeAccents: true }), 'cento e vinte e tres')
 `)
     execFileSync(process.execPath, ['consumer.mjs'], {
         cwd: temporaryDirectory,
@@ -59,8 +63,26 @@ assert.equal(extenso(123), 'cento e vinte e três')
     await writeFile(join(temporaryDirectory, 'consumer.ts'), `
 import extenso, { type ExtensoOptions } from 'extenso'
 const options: ExtensoOptions = { mode: 'number', number: { ordinal: true } }
+const options: ExtensoOptions = { mode: 'number' }
+const customCurrency: ExtensoOptions = {
+    currency: {
+        singular: 'crédito',
+        plural: 'créditos',
+        gender: 'male',
+        subunit: {
+            singular: 'ficha',
+            plural: 'fichas',
+            gender: 'female',
+        },
+    },
+}
+const options: ExtensoOptions = { mode: 'abbreviated' }
+const result: string = extenso(1500, options)
+const options: ExtensoOptions = { mode: 'number', removeAccents: true }
 const result: string = extenso(123, options)
+const customResult: string = extenso('2.01', customCurrency)
 void result
+void customResult
 `)
     await writeFile(join(temporaryDirectory, 'tsconfig.json'), JSON.stringify({
         compilerOptions: {

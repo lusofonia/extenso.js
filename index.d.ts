@@ -1,4 +1,4 @@
-export type ExtensoMode = 'number' | 'currency' | 'digit'
+export type ExtensoMode = 'number' | 'currency' | 'digit' | 'abbreviated'
 export type ExtensoLocale = 'pt' | 'br'
 export type ExtensoScale = 'short' | 'long'
 export type ExtensoGender = 'male' | 'female'
@@ -14,9 +14,28 @@ export type CurrencyCode =
     | 'USD'
     | 'MOP'
 
-export interface CurrencyOptions {
+export interface BuiltInCurrencyOptions {
     code?: CurrencyCode
+    singular?: never
+    plural?: never
+    gender?: never
+    subunit?: never
 }
+
+export interface CurrencyDefinition {
+    singular: string
+    plural: string
+    gender: ExtensoGender
+    subunit: {
+        singular: string
+        plural: string
+        gender: ExtensoGender
+    }
+}
+
+export type CurrencyOptions =
+    | BuiltInCurrencyOptions
+    | (CurrencyDefinition & { code?: never })
 
 export interface NumberOptions {
     gender?: ExtensoGender
@@ -28,6 +47,7 @@ export interface ExtensoOptions {
     locale?: ExtensoLocale
     scale?: ExtensoScale
     decimalSeparator?: DecimalSeparator
+    removeAccents?: boolean
     currency?: CurrencyOptions
     number?: NumberOptions
 }

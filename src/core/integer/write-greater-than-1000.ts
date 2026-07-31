@@ -20,9 +20,11 @@ const writeGreaterThan1000 = (
 
     return groups
         .map((part: number, index: number): string => {
-            const groupGender = index <= 1 ? gender : Genders.MALE
+            const name = listFrom1000[scale][index - 1]
+            const acceptsFeminineGender = index === 0 || name === ONE_THOUSAND
+            const groupGender = acceptsFeminineGender ? gender : Genders.MALE
             const text = writeLowerThan1000(part, groupGender)
-            let name = listFrom1000[scale][index - 1]
+            let scaleName = name
 
             if (part === 0) {
                 return ''
@@ -33,17 +35,17 @@ const writeGreaterThan1000 = (
                 }
                 return text
             }
-            if (name === undefined) {
+            if (scaleName === undefined) {
                 throw new Error(`Number exceeds ${scale} scale limit`)
             }
             if (part === 1) {
-                if (name === ONE_THOUSAND) {
-                    name = ''
+                if (scaleName === ONE_THOUSAND) {
+                    scaleName = ''
                 }
             } else {
-                name = name.replace('ão', 'ões')
+                scaleName = scaleName.replace('ão', 'ões')
             }
-            const groupText = `${name === '' ? '' : `${text} `}${name || ONE_THOUSAND}`
+            const groupText = `${scaleName === '' ? '' : `${text} `}${scaleName || ONE_THOUSAND}`
             const hasHigherGroup = groups.slice(index + 1).some((group) => group > 0)
             const hasOnlyZeroLowerGroups = groups.slice(0, index).every((group) => group === 0)
 
