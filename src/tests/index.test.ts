@@ -66,6 +66,18 @@ test('extenso(): should handle negative numbers', (t) => {
     t.is(extenso(-1234.56), 'menos mil duzentos e trinta e quatro inteiros e cinquenta e seis centésimos')
 })
 
+test('extenso(): should handle every supported Portuguese locale', (t) => {
+    t.is(extenso('16', { locale: 'br' }), 'dezesseis')
+
+    for (const locale of ['ao', 'cv', 'gw', 'mo', 'mz', 'pt', 'st'] as const) {
+        t.is(extenso('16', { locale }), 'dezasseis')
+        t.is(
+            extenso('2000000000', { locale, scale: 'long' }),
+            'dois mil milhões',
+        )
+    }
+})
+
 test('extenso(): should handle undefined number gender', (t) => {
     t.is(extenso('1234.56', { mode: Modes.NUMBER, number: {} }), 'mil duzentos e trinta e quatro inteiros e cinquenta e seis centésimos')
 })

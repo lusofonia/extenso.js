@@ -37,7 +37,7 @@ Our ambition with Extenso.js is to make this library a reference for developers 
 - [x] Support for numbers up to duodecillion (10³⁹ or 10⁷²).
 - [x] Support for negative and decimal numbers.
 - [x] Support for multiple currencies (BRL, EUR, USD, and more).
-- [x] Support for different Portuguese dialects (Brazil and Portugal).
+- [x] Locales for every Portuguese-speaking country and Macau.
 - [x] Support for BigInt for extremely large numbers.
 - [x] Support for short and long number scales.
 - [x] Support for grammatical gender customization.
@@ -240,10 +240,24 @@ extenso('3.14', { decimalSeparator: 'point' })
 
 The writing of some numbers may vary from country to country (and perhaps even from region to region); for example, the number 16 is written *dezesseis* in Brazil, while in Portugal it is written *dezasseis*. The configuration of these differences is done here.
 
-So far, the dialects `br` and `pt` are supported according to the known differences between Brazilian Portuguese and European Portuguese. If you need a different dialect, open an [*issue*](https://github.com/lusofonia/extenso.js/issues) and let's discuss how to adapt these characteristics to the project to make it as complete as possible.
+The `ao`, `br`, `cv`, `gw`, `mo`, `mz`, `pt`, and `st` locales are recognized.
+Except for Brazil, they currently use non-Brazilian number forms (`dezasseis`,
+`dezassete`, `dezanove`, `bilião`, and so on). More specific regional
+differences will be incorporated as verifiable linguistic references become
+available.
 
 - `br` [*default*] - To write in the Brazilian dialect.
-- `pt` - To write in the Portuguese dialect.
+- `ao` - Angola.
+- `cv` - Cape Verde.
+- `gw` - Guinea-Bissau.
+- `mo` - Macau.
+- `mz` - Mozambique.
+- `pt` - Portugal.
+- `st` - São Tomé and Príncipe.
+
+`locale` controls vocabulary, while `scale` controls the number scale. Use
+`scale: 'long'` with non-Brazilian locales when you want the long scale adopted
+in those countries and territories.
 
 Examples:
 

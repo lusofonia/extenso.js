@@ -24,3 +24,16 @@ test('translate(): should replace suffixes for PT locale', t => {
     t.is(translate('trilhão', Locales.PT), 'trilião')
     t.is(translate('trilhões', Locales.PT), 'triliões')
 })
+
+test('translate(): should use non-Brazilian forms for other locales', t => {
+    for (const locale of [
+        Locales.AO,
+        Locales.CV,
+        Locales.GW,
+        Locales.MO,
+        Locales.MZ,
+        Locales.ST,
+    ]) {
+        t.is(translate('dezesseis bilhões', locale), 'dezasseis biliões')
+    }
+})

@@ -37,7 +37,7 @@ Nossa ambição com o Extenso.js é tornar esta biblioteca uma referência para 
 - [x] Suporte a números de até duodecilhões (10³⁹ ou 10⁷²).
 - [x] Suporte a números negativos e decimais.
 - [x] Suporte a múltiplas moedas (BRL, EUR, USD e mais).
-- [x] Suporte a diferentes dialetos do português (Brasil e Portugal).
+- [x] Localidades para todos os países lusófonos e Macau.
 - [x] Suporte a BigInt para números extremamente grandes.
 - [x] Suporte à escala curta e longa de números.
 - [x] Suporte à personalização de gênero gramatical.
@@ -240,10 +240,24 @@ extenso('3.14', { decimalSeparator: 'point' })
 
 A escrita de alguns números pode variar de país para país (e talvez até de região para região); por exemplo, o número 16 é escrito *dezesseis* no Brasil, enquanto em Portugal é escrito *dezasseis*. A configuração dessas diferenças é feita aqui.
 
-Até o momento, são suportados os dialetos `br` e `pt` de acordo as diferenças conhecidas entre o português do Brasil e o português de Portugal. Caso você necessite de um dialeto diferente, abra uma [*issue*](https://github.com/lusofonia/extenso.js/issues) e vamos discutir como adaptar essas caracteristicas ao projeto para deixá-lo o mais completo possível.
+São reconhecidas as localidades `ao`, `br`, `cv`, `gw`, `mo`, `mz`, `pt` e
+`st`. Exceto pelo Brasil, elas usam atualmente as formas numéricas não
+brasileiras (`dezasseis`, `dezassete`, `dezanove`, `bilião` etc.). As diferenças
+regionais mais específicas serão incorporadas conforme houver referências
+linguísticas verificáveis.
 
 - `br` [*default*] - Para escrever no dialeto do Brasil.
-- `pt` - Para escrever no dialeto de Portugal.
+- `ao` - Angola.
+- `cv` - Cabo Verde.
+- `gw` - Guiné-Bissau.
+- `mo` - Macau.
+- `mz` - Moçambique.
+- `pt` - Portugal.
+- `st` - São Tomé e Príncipe.
+
+`locale` controla o vocabulário, enquanto `scale` controla a escala numérica.
+Use `scale: 'long'` com as localidades não brasileiras quando quiser a escala
+longa adotada nesses países e territórios.
 
 Exemplos:
 

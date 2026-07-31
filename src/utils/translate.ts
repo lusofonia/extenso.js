@@ -3,7 +3,13 @@ import type { ExtensoLocale } from '../types'
 
 const translate = (text: string, locale: ExtensoLocale = Locales.BR): string => {
     switch (locale) {
+    case Locales.AO:
+    case Locales.CV:
+    case Locales.GW:
+    case Locales.MO:
+    case Locales.MZ:
     case Locales.PT:
+    case Locales.ST:
         text = text
             .replace(/\bquatorze\b/g, 'catorze')
             .replace(/\bdezesseis\b/g, 'dezasseis')
