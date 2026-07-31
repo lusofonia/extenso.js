@@ -9,6 +9,13 @@ test('extenso(): should handle default mode (NUMBER)', (t) => {
     t.is(extenso('1234.56'), 'mil duzentos e trinta e quatro inteiros e cinquenta e seis centésimos')
 })
 
+test('extenso(): should handle ABBREVIATED mode', (t) => {
+    t.is(extenso('1500', { mode: Modes.ABBREVIATED }), '1,5 mil')
+    t.is(extenso(1500000, { mode: Modes.ABBREVIATED }), '1,5 mi')
+    t.is(extenso(1500000000n, { mode: Modes.ABBREVIATED }), '1,5 bi')
+    t.is(extenso('-1550', { mode: Modes.ABBREVIATED }), 'menos 1,6 mil')
+})
+
 test('extenso(): should handle negative numbers', (t) => {
     t.is(extenso('-1234.56'), 'menos mil duzentos e trinta e quatro inteiros e cinquenta e seis centésimos')
     t.is(extenso(-1234.56), 'menos mil duzentos e trinta e quatro inteiros e cinquenta e seis centésimos')

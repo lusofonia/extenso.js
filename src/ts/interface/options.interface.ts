@@ -26,6 +26,10 @@ interface Options {
     scale?: Scales
     decimalSeparator?: DecimalSeparators
     currency?: CurrencyOptions
+    removeAccents?: boolean
+    currency?: {
+        code?: Currencies
+    }
     number?: {
         gender?: Genders
     }

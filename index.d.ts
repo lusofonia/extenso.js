@@ -1,4 +1,4 @@
-export type ExtensoMode = 'number' | 'currency' | 'digit'
+export type ExtensoMode = 'number' | 'currency' | 'digit' | 'abbreviated'
 export type ExtensoLocale = 'pt' | 'br'
 export type ExtensoScale = 'short' | 'long'
 export type ExtensoGender = 'male' | 'female'
@@ -46,6 +46,7 @@ export interface ExtensoOptions {
     locale?: ExtensoLocale
     scale?: ExtensoScale
     decimalSeparator?: DecimalSeparator
+    removeAccents?: boolean
     currency?: CurrencyOptions
     number?: NumberOptions
 }

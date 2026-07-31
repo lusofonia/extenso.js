@@ -36,6 +36,8 @@ const assert = require('node:assert/strict')
 const extenso = require('extenso')
 assert.equal(typeof extenso, 'function')
 assert.equal(extenso(123), 'cento e vinte e três')
+assert.equal(extenso(1500, { mode: 'abbreviated' }), '1,5 mil')
+assert.equal(extenso(123, { removeAccents: true }), 'cento e vinte e tres')
 `)
     execFileSync(process.execPath, ['consumer.cjs'], {
         cwd: temporaryDirectory,
@@ -48,6 +50,8 @@ import assert from 'node:assert/strict'
 import extenso from 'extenso'
 assert.equal(typeof extenso, 'function')
 assert.equal(extenso(123), 'cento e vinte e três')
+assert.equal(extenso(1500000, { mode: 'abbreviated' }), '1,5 mi')
+assert.equal(extenso(123, { removeAccents: true }), 'cento e vinte e tres')
 `)
     execFileSync(process.execPath, ['consumer.mjs'], {
         cwd: temporaryDirectory,
@@ -70,6 +74,9 @@ const customCurrency: ExtensoOptions = {
         },
     },
 }
+const options: ExtensoOptions = { mode: 'abbreviated' }
+const result: string = extenso(1500, options)
+const options: ExtensoOptions = { mode: 'number', removeAccents: true }
 const result: string = extenso(123, options)
 const customResult: string = extenso('2.01', customCurrency)
 void result
