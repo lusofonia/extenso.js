@@ -35,6 +35,32 @@ test('extenso(): should handle PERCENTAGE mode', (t) => {
     )
 })
 
+test('extenso(): should handle FRACTION mode', (t) => {
+    t.is(extenso('1/2', { mode: Modes.FRACTION }), 'um meio')
+    t.is(extenso('3/4', { mode: Modes.FRACTION }), 'três quartos')
+    t.is(extenso('-2/100', { mode: Modes.FRACTION }), 'menos dois centésimos')
+    t.is(
+        extenso('1/1000000000', { mode: Modes.FRACTION, scale: 'long' }),
+        'um milésimo milionésimo',
+    )
+    t.is(
+        extenso('3/7', { mode: Modes.FRACTION, removeAccents: true }),
+        'tres setimos',
+    )
+})
+
+test('extenso(): should reject invalid fractions', (t) => {
+    for (const input of ['3', '3/', '/4', '3/4/5']) {
+        t.throws(() => extenso(input, { mode: Modes.FRACTION }), {
+            message: 'Invalid fraction format: expected numerator/denominator',
+        })
+    }
+    t.throws(() => extenso('3/0', { mode: Modes.FRACTION }), {
+        instanceOf: RangeError,
+        message: 'Fraction denominator cannot be zero',
+    })
+})
+
 test('extenso(): should handle negative numbers', (t) => {
     t.is(extenso('-1234.56'), 'menos mil duzentos e trinta e quatro inteiros e cinquenta e seis centésimos')
     t.is(extenso(-1234.56), 'menos mil duzentos e trinta e quatro inteiros e cinquenta e seis centésimos')

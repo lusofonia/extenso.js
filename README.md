@@ -44,6 +44,7 @@ Nossa ambição com o Extenso.js é tornar esta biblioteca uma referência para 
 - [x] Suporte à formatação flexível (vírgula ou ponto como separador decimal).
 - [x] Suporte à escrita abreviada de números.
 - [x] Suporte à escrita de percentuais.
+- [x] Suporte à escrita de frações comuns.
 - [x] Suporte à escrita sem acentos.
 - [x] Zero dependências.
 
@@ -134,6 +135,7 @@ Opções disponíveis:
 - `currency` - Escrever o número como valor monetário.
 - `digit` - Escrever cada dígito individualmente por extenso.
 - `abbreviated` - Escrever o número em formato abreviado.
+- `fraction` - Escrever uma fração no formato `numerador/denominador`.
 - `percentage` - Escrever o número como percentual.
 
 Exemplos:
@@ -159,7 +161,15 @@ extenso('1500000', { mode: 'abbreviated' })
 
 extenso('12.5', { mode: 'percentage' })
 //=> 'doze inteiros e cinco décimos por cento'
+
+extenso('3/4', { mode: 'fraction' })
+//=> 'três quartos'
 ```
+
+O modo `fraction` aceita numeradores inteiros e denominadores inteiros positivos.
+A fração é escrita exatamente como informada, sem simplificação automática.
+Denominadores de 2 a 10 usam seus nomes usuais; potências de dez usam formas
+como `centésimo` e `milésimo`; os demais são escritos com `avos`.
 
 ## `options.scale` [*string*]
 

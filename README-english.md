@@ -44,6 +44,7 @@ Our ambition with Extenso.js is to make this library a reference for developers 
 - [x] Support for flexible formatting (comma or dot as decimal separator).
 - [x] Support for abbreviated number formatting.
 - [x] Support for writing percentages.
+- [x] Support for writing common fractions.
 - [x] Support for writing without accents.
 - [x] Zero dependencies.
 
@@ -134,6 +135,7 @@ Available options:
 - `currency` - Write the number as a monetary value.
 - `digit` - Spell each digit individually.
 - `abbreviated` - Write the number in abbreviated form.
+- `fraction` - Write a fraction in `numerator/denominator` format.
 - `percentage` - Write the number as a percentage.
 
 Examples:
@@ -159,7 +161,15 @@ extenso('1500000', { mode: 'abbreviated' })
 
 extenso('12.5', { mode: 'percentage' })
 //=> 'doze inteiros e cinco décimos por cento'
+
+extenso('3/4', { mode: 'fraction' })
+//=> 'três quartos'
 ```
+
+`fraction` mode accepts integer numerators and positive integer denominators.
+The fraction is written exactly as supplied, without automatic reduction.
+Denominators from 2 through 10 use their usual names; powers of ten use forms
+such as `centésimo` and `milésimo`; all others use `avos`.
 
 ## `options.scale` [*string*]
 

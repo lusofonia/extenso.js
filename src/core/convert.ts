@@ -1,6 +1,7 @@
 import writeAbbreviated from '../mode/write-abbreviated'
 import writeCurrency from '../mode/write-currency'
 import writeDigit from '../mode/write-digit'
+import writeFraction from '../mode/write-fraction'
 import writeNumber from '../mode/write-number'
 import writePercentage from '../mode/write-percentage'
 import type {
@@ -11,22 +12,34 @@ import type {
 } from '../types'
 
 interface ParsedNumber {
+    kind: 'number'
     integer: string
     decimal: string
     decimalSeparator: ',' | '.'
     hasDecimalSeparator: boolean
 }
 
+interface ParsedFraction {
+    kind: 'fraction'
+    numerator: string
+    denominator: string
+}
+
 /** Converts a parsed, unsigned number according to the selected output mode. */
 const convert = (
-    parsed: ParsedNumber,
+    parsed: ParsedNumber | ParsedFraction,
     mode: ExtensoMode,
     currency: CurrencyCode | CurrencyDefinition,
     options: ExtensoOptions,
 ): string => {
-    const { integer, decimal, decimalSeparator, hasDecimalSeparator } = parsed
+    if (parsed.kind === 'fraction') {
+        return writeFraction(parsed.numerator, parsed.denominator, options.scale)
+    }
 
-    switch (mode) {
+    const { integer, decimal, decimalSeparator, hasDecimalSeparator } = parsed
+    const numberMode = mode as Exclude<ExtensoMode, 'fraction'>
+
+    switch (numberMode) {
     case 'abbreviated':
         return writeAbbreviated(integer, decimal, options.scale)
     case 'currency':

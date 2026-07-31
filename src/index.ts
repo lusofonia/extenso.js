@@ -8,6 +8,7 @@ import validateOptions from './utils/validate-options'
 import removeAccents from './utils/remove-accents'
 import convert from './core/convert'
 import resolveConversion from './core/resolve-conversion'
+import parseFraction from './utils/parse-fraction'
 
 export type {
     BuiltInCurrencyOptions,
@@ -55,17 +56,31 @@ const extenso = (input: number | string | bigint, options: ExtensoOptions = {}):
     const { currency, mode } = resolveConversion(input, options)
 
     input = normalize(input)
-    const parseSeparator = inputIsNumber ? DecimalSeparators.POINT : options?.decimalSeparator
-    const decimalSeparator = parseSeparator === DecimalSeparators.COMMA ? ',' : '.'
-    const hasDecimal = input.includes(decimalSeparator)
-    const { integer, decimal } = parse(input, parseSeparator, mode === Modes.DIGIT)
-    const isNonZero = /[1-9]/.test(integer) || /[1-9]/.test(decimal)
-    let text = convert({
-        integer,
-        decimal,
-        decimalSeparator,
-        hasDecimalSeparator: hasDecimal,
-    }, mode, currency, options)
+    let isNonZero: boolean
+    let text: string
+
+    if (mode === Modes.FRACTION) {
+        const { numerator, denominator } = parseFraction(input)
+        isNonZero = /[1-9]/.test(numerator)
+        text = convert({
+            kind: 'fraction',
+            numerator,
+            denominator,
+        }, mode, currency, options)
+    } else {
+        const parseSeparator = inputIsNumber ? DecimalSeparators.POINT : options?.decimalSeparator
+        const decimalSeparator = parseSeparator === DecimalSeparators.COMMA ? ',' : '.'
+        const hasDecimal = input.includes(decimalSeparator)
+        const { integer, decimal } = parse(input, parseSeparator, mode === Modes.DIGIT)
+        isNonZero = /[1-9]/.test(integer) || /[1-9]/.test(decimal)
+        text = convert({
+            kind: 'number',
+            integer,
+            decimal,
+            decimalSeparator,
+            hasDecimalSeparator: hasDecimal,
+        }, mode, currency, options)
+    }
 
     text = translate(text, options.locale)
 
