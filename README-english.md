@@ -1,8 +1,6 @@
 <div align="center">
 
-[_If you don't speak English, check out the Portuguese version of this README here._](https://github.com/lusofonia/extenso.js/blob/master/README.md)
-
-[_If you want a private consultation, contact me here._](https://esyyuh0nxyf.typeform.com/to/fG1XDrpT)
+[_If you want a private consultation, contact me here._](https://uvj8y.share.hsforms.com/2vgUOQ8efR6-RHgFoEeckrA)
 
 </div>
 
