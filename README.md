@@ -2,7 +2,7 @@
 
 [_If you don't speak Portuguese, check out the English version of this README here._](https://github.com/lusofonia/extenso.js/blob/master/README-english.md)
 
-[_Caso queira uma consultoria particular, entre em contato comigo aqui._](https://uvj8y.share.hsforms.com/2tMibps8FTiaglxbNWKVayQ)
+[_Caso queira uma consultoria particular, entre em contato comigo aqui._](https://www.fidalgoitsolutions.com.br/contato)
 
 </div>
 
