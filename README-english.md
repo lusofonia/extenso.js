@@ -148,6 +148,10 @@ Available options:
 - `measurement` - Write a quantity with a measurement unit.
 - `percentage` - Write the number as a percentage.
 
+The `abbreviated` mode rounds values of one thousand or more to one decimal place.
+When rounding would exceed the last available suffix, that suffix is retained:
+the largest value in either the short or long scale is written as `1000 duodec`.
+
 Examples:
 
 ```js
@@ -237,6 +241,9 @@ extenso('2,000,000,001', { scale: 'short' })
 
 extenso('2,000,000,001', { scale: 'long' })
 //=> 'dois mil milhões e um'
+
+extenso('1000000000', { scale: 'long', locale: 'pt' })
+//=> 'mil milhões'
 
 extenso('0.000000000001', { scale: 'short' })
 //=> 'um trilionésimo'
@@ -431,6 +438,8 @@ enables `currency` mode.
 
 The calculation is exact decimal arithmetic and never converts the value to
 floating point.
+If the resulting monetary value is zero, the negative sign is omitted:
+`extenso('-0.004', { currency: { rounding: 'half-up' } })` returns `zero reais`.
 
 ### `options.currency.showZeroUnit` [*boolean*]
 
@@ -589,8 +598,9 @@ than 1000 characters.
 Version 3 contains breaking changes. CommonJS now returns the function directly
 (`const extenso = require('extenso')`), the package requires Node.js 22.20 or
 newer, and invalid inputs and options no longer receive permissive handling.
-Currency values accept at most two decimal places, without truncation or
-rounding. Review the usage examples and validation rules before upgrading.
+Built-in currencies accept at most two decimal places by default;
+`currency.rounding` enables explicit truncation or rounding.
+Review the usage examples and validation rules before upgrading.
 
 ## Default Language
 

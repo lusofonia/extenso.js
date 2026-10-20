@@ -22,27 +22,27 @@ const listFrom1000: Record<ExtensoScale, string[]> = {
     [Scales.LONG]: [
         'mil',            // 10^3
         'milhão',         // 10^6
-        'mil milhão',     // 10^9
+        'mil milhões',    // 10^9
         'bilhão',         // 10^12
-        'mil bilhão',     // 10^15
+        'mil bilhões',    // 10^15
         'trilhão',        // 10^18
-        'mil trilhão',    // 10^21
+        'mil trilhões',   // 10^21
         'quatrilhão',     // 10^24
-        'mil quatrilhão', // 10^27
+        'mil quatrilhões', // 10^27
         'quintilhão',     // 10^30
-        'mil quintilhão', // 10^33
+        'mil quintilhões', // 10^33
         'sextilhão',      // 10^36
-        'mil sextilhão',  // 10^39
+        'mil sextilhões', // 10^39
         'septilhão',      // 10^42
-        'mil septilhão',  // 10^45
+        'mil septilhões', // 10^45
         'octilhão',       // 10^48
-        'mil octilhão',   // 10^51
+        'mil octilhões',  // 10^51
         'nonilhão',       // 10^54
-        'mil nonilhão',   // 10^57
+        'mil nonilhões',  // 10^57
         'decilhão',       // 10^60
-        'mil decilhão',   // 10^63
+        'mil decilhões',  // 10^63
         'undecilhão',     // 10^66
-        'mil undecilhão', // 10^69
+        'mil undecilhões', // 10^69
         'duodecilhão',    // 10^72
     ],
 }

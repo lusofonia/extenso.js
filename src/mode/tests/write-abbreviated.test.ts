@@ -30,6 +30,11 @@ test('writeAbbreviated(): should respect the selected scale', (t) => {
     t.is(writeAbbreviated('1500000000000', '0', Scales.LONG), '1,5 bi')
 })
 
+test('writeAbbreviated(): should retain the last suffix when rounding up', (t) => {
+    t.is(writeAbbreviated('9'.repeat(42)), '1000 duodec')
+    t.is(writeAbbreviated('9'.repeat(75), '99', Scales.LONG), '1000 duodec')
+})
+
 test('writeAbbreviated(): should reject values beyond the scale limit', (t) => {
     t.throws(() => writeAbbreviated(`1${'0'.repeat(42)}`), {
         message: 'Number exceeds short scale limit',

@@ -81,18 +81,20 @@ const writeAbbreviated = (
     }
 
     let magnitudeIndex = Math.floor((integer.length - 1) / 3) - 1
+    const abbreviations = ABBREVIATIONS[scale]
+
+    if (magnitudeIndex >= abbreviations.length) {
+        throw new Error(`Number exceeds ${scale} scale limit`)
+    }
+
     let roundedTenths = roundToTenths(integer, decimal, (magnitudeIndex + 1) * 3)
 
-    if (roundedTenths === 10000n) {
+    if (roundedTenths === 10000n && magnitudeIndex < abbreviations.length - 1) {
         magnitudeIndex += 1
         roundedTenths = 10n
     }
 
-    const abbreviation = ABBREVIATIONS[scale][magnitudeIndex]
-
-    if (abbreviation === undefined) {
-        throw new Error(`Number exceeds ${scale} scale limit`)
-    }
+    const abbreviation = abbreviations[magnitudeIndex]
 
     const whole = roundedTenths / 10n
     const tenths = roundedTenths % 10n

@@ -27,23 +27,33 @@ interface ParsedFraction {
     denominator: string
 }
 
+interface ConversionResult {
+    text: string
+    isNonZero: boolean
+}
+
 /** Converts a parsed, unsigned number according to the selected output mode. */
 const convert = (
     parsed: ParsedNumber | ParsedFraction,
     mode: ExtensoMode,
     currency: CurrencyCode | CurrencyDefinition,
     options: ExtensoOptions,
-): string => {
+): ConversionResult => {
     if (parsed.kind === 'fraction') {
-        return writeFraction(parsed.numerator, parsed.denominator, options.scale)
+        return {
+            text: writeFraction(parsed.numerator, parsed.denominator, options.scale),
+            isNonZero: /[1-9]/.test(parsed.numerator),
+        }
     }
 
     const { integer, decimal, decimalSeparator, hasDecimalSeparator } = parsed
     const numberMode = mode as Exclude<ExtensoMode, 'fraction'>
+    let text: string
 
     switch (numberMode) {
     case 'abbreviated':
-        return writeAbbreviated(integer, decimal, options.scale)
+        text = writeAbbreviated(integer, decimal, options.scale)
+        break
     case 'currency':
     {
         const fractionDigits = typeof currency === 'string'
@@ -56,40 +66,49 @@ const convert = (
             options.currency?.rounding,
         )
 
-        return writeCurrency(
-            quantized.unit,
-            quantized.subunit,
-            currency,
-            options.scale,
-            {
-                fractionDigits,
-                showZeroSubunit: options.currency?.showZeroSubunit,
-                showZeroUnit: options.currency?.showZeroUnit,
-            },
-        )
+        return {
+            text: writeCurrency(
+                quantized.unit,
+                quantized.subunit,
+                currency,
+                options.scale,
+                {
+                    fractionDigits,
+                    showZeroSubunit: options.currency?.showZeroSubunit,
+                    showZeroUnit: options.currency?.showZeroUnit,
+                },
+            ),
+            isNonZero: /[1-9]/.test(quantized.unit) || /[1-9]/.test(quantized.subunit),
+        }
     }
     case 'digit':
-        return hasDecimalSeparator
+        text = hasDecimalSeparator
             ? writeDigit(`${integer}${decimalSeparator}${decimal}`)
             : writeDigit(integer)
+        break
     case 'measurement':
-        return writeMeasurement(integer, decimal, options.unit, options.scale)
+        text = writeMeasurement(integer, decimal, options.unit, options.scale)
+        break
     case 'number':
-        return writeNumber(
+        text = writeNumber(
             integer,
             decimal,
             options.scale,
             options.number?.gender,
             options.number?.ordinal,
         )
+        break
     case 'percentage':
-        return writePercentage(
+        text = writePercentage(
             integer,
             decimal,
             options.scale,
             options.number?.gender,
         )
+        break
     }
+
+    return { text, isNonZero: /[1-9]/.test(integer) || /[1-9]/.test(decimal) }
 }
 
 export default convert

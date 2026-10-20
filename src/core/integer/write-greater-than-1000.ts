@@ -11,7 +11,7 @@ const needsConjunction = (part: number): boolean => {
 
 const inflectScale = (name: string, quantity: number): string => {
     if (quantity === 1) {
-        return name === ONE_THOUSAND ? '' : name
+        return name
     }
     return name.replace('ão', 'ões')
 }
@@ -40,7 +40,9 @@ const formatGroup = (
     }
 
     const inflectedScale = inflectScale(scaleName, part)
-    const groupText = `${inflectedScale ? `${text} ` : ''}${inflectedScale || ONE_THOUSAND}`
+    const omitOne = part === 1 &&
+        (scaleName === ONE_THOUSAND || scaleName.startsWith(`${ONE_THOUSAND} `))
+    const groupText = omitOne ? inflectedScale : `${text} ${inflectedScale}`
     const hasHigherGroup = groups.slice(index + 1).some((group) => group > 0)
     const hasOnlyZeroLowerGroups = groups.slice(0, index).every((group) => group === 0)
 

@@ -7,6 +7,43 @@ import Locales from '../ts/enum/locales.enum'
 import Modes from '../ts/enum/modes.enum'
 import Scales from '../ts/enum/scales.enum'
 
+test('long-scale thousands of named scales omit one and keep plural scale names', (t) => {
+    for (const locale of [Locales.BR, Locales.PT]) {
+        const options = { scale: Scales.LONG, locale }
+        const billion = locale === Locales.BR ? 'bilhões' : 'biliões'
+        t.is(extenso('1000000000', options), 'mil milhões')
+        t.is(extenso('-1000000000', options), 'menos mil milhões')
+        t.is(extenso('1000000001', options), 'mil milhões e um')
+        t.is(extenso('2000000000', options), 'dois mil milhões')
+        t.is(extenso('1000000000000000', options), `mil ${billion}`)
+        t.is(extenso('1000000000', {
+            ...options,
+            number: { gender: Genders.FEMALE },
+        }), 'mil milhões')
+        t.is(extenso('1000000000', {
+            ...options,
+            mode: Modes.CURRENCY,
+        }), 'mil milhões de reais')
+    }
+})
+
+test('abbreviated mode accepts scale maxima without promoting beyond the last suffix', (t) => {
+    for (const scale of [Scales.SHORT, Scales.LONG]) {
+        const { maximum, maximumDigits } = extenso.getScaleLimit(scale)
+        const options = { mode: Modes.ABBREVIATED, scale }
+        const belowRoundingBoundary = `99994${'0'.repeat(maximumDigits - 5)}`
+        const roundingBoundary = `99995${'0'.repeat(maximumDigits - 5)}`
+        t.is(extenso(belowRoundingBoundary, options), '999,9 duodec')
+        t.is(extenso(roundingBoundary, options), '1000 duodec')
+        t.is(extenso(maximum, options), '1000 duodec')
+        t.is(extenso(BigInt(maximum), options), '1000 duodec')
+        t.is(extenso(`-${maximum}`, options), 'menos 1000 duodec')
+        t.throws(() => extenso(`1${'0'.repeat(maximumDigits)}`, options), {
+            message: `Number exceeds ${scale} scale limit`,
+        })
+    }
+})
+
 test('every built-in currency supports codes, symbols, units, and subunits', (t) => {
     const currencies: [Currencies, string, string, string][] = [
         [Currencies.AOA, 'Kz', 'um kwanza e um cêntimo', 'dois kwanzas e dois cêntimos'],

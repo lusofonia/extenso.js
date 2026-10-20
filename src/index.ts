@@ -69,13 +69,11 @@ const extenso = Object.assign((
     const { currency, mode } = resolveConversion(input, options)
 
     input = normalize(input)
-    let isNonZero: boolean
-    let text: string
+    let converted: ReturnType<typeof convert>
 
     if (mode === Modes.FRACTION) {
         const { numerator, denominator } = parseFraction(input)
-        isNonZero = /[1-9]/.test(numerator)
-        text = convert({
+        converted = convert({
             kind: 'fraction',
             numerator,
             denominator,
@@ -85,8 +83,7 @@ const extenso = Object.assign((
         const decimalSeparator = parseSeparator === DecimalSeparators.COMMA ? ',' : '.'
         const hasDecimal = input.includes(decimalSeparator)
         const { integer, decimal } = parse(input, parseSeparator, mode === Modes.DIGIT)
-        isNonZero = /[1-9]/.test(integer) || /[1-9]/.test(decimal)
-        text = convert({
+        converted = convert({
             kind: 'number',
             integer,
             decimal,
@@ -95,9 +92,9 @@ const extenso = Object.assign((
         }, mode, currency, options)
     }
 
-    text = translate(text, options.locale)
+    let text = translate(converted.text, options.locale)
 
-    if (input.startsWith(NEGATIVE_SIGN) && isNonZero) {
+    if (input.startsWith(NEGATIVE_SIGN) && converted.isNonZero) {
         text = `menos ${text}`
     }
 

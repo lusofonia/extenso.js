@@ -89,9 +89,9 @@ test('writeCurrency(): should optionally include zero units and subunits', (t) =
 
 test('writeCurrency(): should handle BRL currency with long scale', (t) => {
     t.is(writeCurrency('1000000', '0', Currencies.BRL, Scales.LONG), 'um milhão de reais')
-    t.is(writeCurrency('1000000000', '0', Currencies.BRL, Scales.LONG), 'um mil milhão de reais')
+    t.is(writeCurrency('1000000000', '0', Currencies.BRL, Scales.LONG), 'mil milhões de reais')
     t.is(writeCurrency('1000000000000', '0', Currencies.BRL, Scales.LONG), 'um bilhão de reais')
-    t.is(writeCurrency('1000000000000000', '0', Currencies.BRL, Scales.LONG), 'um mil bilhão de reais')
+    t.is(writeCurrency('1000000000000000', '0', Currencies.BRL, Scales.LONG), 'mil bilhões de reais')
     t.is(writeCurrency('1000000000000000000', '0', Currencies.BRL, Scales.LONG), 'um trilhão de reais')
 })
 

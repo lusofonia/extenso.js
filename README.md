@@ -150,6 +150,10 @@ Opções disponíveis:
 - `measurement` - Escrever uma quantidade com unidade de medida.
 - `percentage` - Escrever o número como percentual.
 
+O modo `abbreviated` arredonda para uma casa decimal nos valores a partir de mil.
+Quando o arredondamento ultrapassa o último sufixo disponível, ele é mantido:
+o maior valor da escala curta ou longa é escrito como `1000 duodec`.
+
 Exemplos:
 
 ```js
@@ -239,6 +243,9 @@ extenso('2,000,000,001', { scale: 'short' })
 
 extenso('2,000,000,001', { scale: 'long' })
 //=> 'dois mil milhões e um'
+
+extenso('1000000000', { scale: 'long', locale: 'pt' })
+//=> 'mil milhões'
 
 extenso('0.000000000001', { scale: 'short' })
 //=> 'um trilionésimo'
@@ -431,6 +438,8 @@ automaticamente o modo `currency`.
 - `half-up` - Arredonda para o valor mais próximo; empates são afastados de zero.
 
 O cálculo é decimal exato e não converte o valor para ponto flutuante.
+Se o valor monetário resultante for zero, o sinal negativo é omitido:
+`extenso('-0.004', { currency: { rounding: 'half-up' } })` retorna `zero reais`.
 
 ### `options.currency.showZeroUnit` [*boolean*]
 
@@ -591,9 +600,9 @@ moedas conflitantes, valores acima da escala escolhida e strings com mais de
 A versão 3 contém mudanças incompatíveis. CommonJS passa a retornar a função
 diretamente (`const extenso = require('extenso')`), o pacote requer Node.js 22.20
 ou mais recente e entradas e opções inválidas deixam de usar comportamentos
-permissivos. Valores monetários aceitam no máximo duas casas decimais, sem
-truncamento ou arredondamento. Revise os exemplos de uso e as regras de
-validação antes de atualizar.
+permissivos. Moedas incorporadas aceitam no máximo duas casas decimais por
+padrão; `currency.rounding` permite truncamento ou arredondamento explícito.
+Revise os exemplos de uso e as regras de validação antes de atualizar.
 
 ## Idioma Padrão
 

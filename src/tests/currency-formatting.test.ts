@@ -4,6 +4,38 @@ import Currencies from '../ts/enum/currencies.enum'
 import CurrencyRoundings from '../ts/enum/currency-roundings.enum'
 import Genders from '../ts/enum/genders.enum'
 import Modes from '../ts/enum/modes.enum'
+import DecimalSeparators from '../ts/enum/decimal-separators.enum'
+
+test('currency signs reflect the quantized amount', (t) => {
+    for (const rounding of [CurrencyRoundings.TRUNCATE, CurrencyRoundings.HALF_UP]) {
+        const currency = { rounding }
+        t.is(extenso('-0.004', { currency }), 'zero reais')
+        t.is(extenso(-0.004, { currency }), 'zero reais')
+        t.is(extenso('-0,004', {
+            currency,
+            decimalSeparator: DecimalSeparators.COMMA,
+        }), 'zero reais')
+        t.is(extenso('-0.004', {
+            currency: { ...currency, showZeroUnit: true, showZeroSubunit: true },
+        }), 'zero reais e zero centavos')
+        t.is(extenso('-0.014', { currency }), 'menos um centavo')
+    }
+
+    t.is(extenso('-0.005', {
+        currency: { rounding: CurrencyRoundings.HALF_UP },
+    }), 'menos um centavo')
+
+    const currency = {
+        fractionDigits: 0,
+        rounding: CurrencyRoundings.HALF_UP,
+        singular: 'crédito',
+        plural: 'créditos',
+        gender: Genders.MALE,
+        subunit: { singular: 'ficha', plural: 'fichas', gender: Genders.FEMALE },
+    }
+    t.is(extenso('-0.4', { currency }), 'zero créditos')
+    t.is(extenso('-0.5', { currency }), 'menos um crédito')
+})
 
 test('currency mode preserves and validates decimal precision', (t) => {
     const currency = { mode: Modes.CURRENCY }
