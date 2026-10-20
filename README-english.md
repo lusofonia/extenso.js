@@ -625,6 +625,32 @@ If you found any errors or something that can be improved, there are different w
 
 Every contribution is welcome.
 
+### Development dependency security
+
+The library has no runtime dependencies. On October 20, 2026, compatible
+updates resolved the `@humanfs/node` and `brace-expansion` findings and
+updated `js-yaml` to `3.15.2` and AVA to `8.1.0`.
+Lint, TypeScript, all 147 tests with 100% coverage, and the installed-package
+tests passed after the update.
+
+`npm audit` still reports 9 development findings (5 high and 4 moderate),
+stemming from two dependencies with no published patched version:
+
+- [`braces` — GHSA-vfj7-8cjw-p6xm](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm),
+  through AVA → `globby` → `fast-glob`/`micromatch` → `braces`.
+  Excessively nested patterns can exhaust the stack. Use only trusted test
+  patterns and command-line filters.
+- [`sprintf-js` — GHSA-hp3w-g68c-fv3c](https://github.com/advisories/GHSA-hp3w-g68c-fv3c),
+  through AVA → `supertap` → `js-yaml` → `argparse` → `sprintf-js`.
+  Format strings with excessive precision can throw errors. `argparse` is used
+  by the `js-yaml` CLI; AVA's TAP reporter uses `safeDump` serialization.
+
+These residual risks were accepted to retain AVA. They do not affect the
+production dependency tree, whose audit reports no vulnerabilities.
+Revisit this assessment when upstream fixes become available. Do not force an
+AVA downgrade or substitute an incompatible `js-yaml` version:
+`supertap` depends on the version 3 `safeDump` API.
+
 ## License
 
 Created and maintained by [Matheus Alves](https://github.com/theuves).

@@ -627,6 +627,32 @@ Se encontrou algum erro ou algo que possa ser aprimorado, há diferentes formas 
 
 Toda contribuição é bem-vinda.
 
+### Segurança das dependências de desenvolvimento
+
+A biblioteca não tem dependências de runtime. Em 20 de outubro de 2026,
+as atualizações compatíveis corrigiram os alertas de `@humanfs/node` e
+`brace-expansion` e atualizaram `js-yaml` para `3.15.2` e AVA para `8.1.0`.
+Lint, TypeScript, os 147 testes com cobertura de 100% e os testes do pacote
+instalado passaram após a atualização.
+
+O `npm audit` ainda registra 9 alertas de desenvolvimento (5 altos e 4
+moderados), derivados de duas dependências sem versão corrigida publicada:
+
+- [`braces` — GHSA-vfj7-8cjw-p6xm](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm),
+  pela cadeia AVA → `globby` → `fast-glob`/`micromatch` → `braces`.
+  Padrões com aninhamento excessivo podem esgotar a pilha. Use somente padrões
+  de testes e filtros de linha de comando confiáveis.
+- [`sprintf-js` — GHSA-hp3w-g68c-fv3c](https://github.com/advisories/GHSA-hp3w-g68c-fv3c),
+  pela cadeia AVA → `supertap` → `js-yaml` → `argparse` → `sprintf-js`.
+  Formatos com precisão excessiva podem lançar erros. `argparse` é usado pela
+  CLI de `js-yaml`; o relatório TAP do AVA usa a serialização `safeDump`.
+
+Esses riscos residuais foram aceitos para manter o AVA. Não afetam a árvore
+de dependências de produção, cujo audit não registra vulnerabilidades.
+Atualize esta avaliação quando houver correções upstream. Não force um
+downgrade do AVA nem substitua `js-yaml` por uma versão incompatível:
+`supertap` depende da API `safeDump` da versão 3.
+
 ## Licença
 
 Criado e mantido por [Matheus Alves](https://github.com/theuves).
