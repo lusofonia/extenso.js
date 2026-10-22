@@ -44,3 +44,10 @@ test('writeDecimal(): should respect short and long scales', (t) => {
         message: 'Number exceeds limit',
     })
 })
+
+test('writeDecimal(): should pluralize compound long-scale denominators', (t) => {
+    t.is(writeDecimal('000000002', Scales.LONG), 'dois milésimos milionésimos')
+    t.is(writeDecimal('000000000000002', Scales.LONG), 'dois milésimos bilionésimos')
+    t.is(writeDecimal('0000000002', Scales.LONG), 'dois décimos de milésimo milionésimo')
+    t.is(writeDecimal('00000000002', Scales.LONG), 'dois centésimos de milésimo milionésimo')
+})

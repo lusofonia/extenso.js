@@ -37,3 +37,9 @@ test('translate(): should use non-Brazilian forms for other locales', t => {
         t.is(translate('dezesseis bilhões', locale), 'dezasseis biliões')
     }
 })
+
+test('translate(): should preserve words that only resemble scale names', t => {
+    const text = 'grilhão grilhões prébilhão bilhãozinho ébilhão bilhãoé a\u0301bilhão'
+    t.is(translate(text, Locales.PT), text)
+    t.is(translate('bilhão, bilhões; trilhão trilhões.', Locales.PT), 'bilião, biliões; trilião triliões.')
+})

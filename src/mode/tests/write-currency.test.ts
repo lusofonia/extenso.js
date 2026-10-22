@@ -1,5 +1,6 @@
 import test from 'ava'
-import writeCurrency from '../write-currency'
+import writeCurrency, { writeSubunit } from '../write-currency'
+import listCurrencies from '../../lists/list-currencies'
 import Currencies from '../../ts/enum/currencies.enum'
 import Scales from '../../ts/enum/scales.enum'
 import Genders from '../../ts/enum/genders.enum'
@@ -110,4 +111,12 @@ test('writeCurrency(): should handle invalid currency', (t) => {
         }),
         { message: 'Currency values must have at most 3 decimal places' },
     )
+})
+
+test('writeSubunit(): should use de for exact multiples of one million', (t) => {
+    const currency = listCurrencies[Currencies.BRL]
+    t.is(writeSubunit('1000000', currency), 'um milhão de centavos')
+    t.is(writeSubunit('2000000', currency), 'dois milhões de centavos')
+    t.is(writeSubunit('1000001', currency), 'um milhão e um centavos')
+    t.is(writeSubunit('1000000000', currency, Scales.LONG), 'mil milhões de centavos')
 })

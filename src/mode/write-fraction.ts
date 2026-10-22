@@ -1,6 +1,7 @@
 import Scales from '../ts/enum/scales.enum'
 import writeInteger from '../core/write-integer'
 import writeOrdinal from '../core/write-ordinal'
+import pluralize from '../utils/pluralize'
 import type { ExtensoScale } from '../types'
 
 const COMMON_DENOMINATORS = [
@@ -33,7 +34,7 @@ const denominatorName = (
         return `${writeInteger(denominator, scale)} avos`
     }
 
-    return singular ? name : `${name}s`
+    return pluralize(name, singular ? 1 : 2)
 }
 
 /** Writes an exact fraction without reducing the supplied numerator and denominator. */

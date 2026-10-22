@@ -3,7 +3,7 @@ import Currencies from '../ts/enum/currencies.enum'
 import listCurrencies from '../lists/list-currencies'
 import Scales from '../ts/enum/scales.enum'
 import writeInteger from '../core/write-integer'
-import type { CurrencyCode, ExtensoScale } from '../types'
+import type { CurrencyCode, ExtensoScale, MeasurementUnit } from '../types'
 
 const ONE_MILLION = 1000000n
 
@@ -20,7 +20,11 @@ interface CurrencyWriteOptions {
  * @param scale - The scale to use (SHORT or LONG)
  * @returns The unit part written in words with currency name
  */
-export const writeUnit = (unit: string, currency: Currency, scale: ExtensoScale = Scales.SHORT) => {
+export const writeUnit = (
+    unit: string,
+    currency: MeasurementUnit,
+    scale: ExtensoScale = Scales.SHORT,
+): string => {
     const text = writeInteger(unit, scale, currency.gender)
     const unitValue = BigInt(unit)
 
@@ -43,13 +47,8 @@ export const writeSubunit = (
     subunit: string,
     currency: Currency,
     scale: ExtensoScale = Scales.SHORT,
-) => {
-    const text = writeInteger(subunit, scale, currency.subunit.gender)
-
-    if (BigInt(subunit) === 1n) {
-        return `${text} ${currency.subunit.singular}`
-    }
-    return `${text} ${currency.subunit.plural}`
+): string => {
+    return writeUnit(subunit, currency.subunit, scale)
 }
 
 /**

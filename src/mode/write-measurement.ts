@@ -20,7 +20,8 @@ const writeMeasurement = (
     const hasDecimalValue = /[1-9]/.test(decimal)
 
     if (hasDecimalValue) {
-        return `${writeNumber(integer, decimal, scale, unit.gender)} ${unit.plural}`
+        // Fractional parts refer to a single unit: "dois décimos de metro".
+        return `${writeNumber(integer, decimal, scale, unit.gender)} de ${unit.singular}`
     }
 
     const text = writeInteger(integer, scale, unit.gender)

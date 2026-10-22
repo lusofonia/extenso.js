@@ -187,21 +187,29 @@ extenso('2.5', {
     gender: 'male'
   }
 })
-//=> 'dois inteiros e cinco décimos quilogramas'
+//=> 'dois inteiros e cinco décimos de quilograma'
 ```
 
 `fraction` mode accepts integer numerators and positive integer denominators.
 The fraction is written exactly as supplied, without automatic reduction.
 Denominators from 2 through 10 use their usual names; powers of ten use forms
 such as `centésimo` and `milésimo`; all others use `avos`.
+Compound denominators inflect every component in the plural:
+`extenso('2/10000', { mode: 'fraction' })` returns `dois décimos milésimos`.
+This also applies to long-scale decimals:
+`extenso('0.000000002', { scale: 'long' })` returns `dois milésimos milionésimos`.
 
 ## `options.unit` [*object*]
 
 > Defines the unit used by `measurement` mode.
 
 Provide its singular and plural names and grammatical gender (`male` or
-`female`). The unit is required in `measurement` mode. Decimal values use the
-plural, and exact multiples of one million receive the preposition `de`.
+`female`). The unit is required in `measurement` mode. Values with a nonzero
+fractional part use `de` followed by the singular unit: `0.2` meters is written
+as `dois décimos de metro`. The supplied unit is preserved, without automatic
+conversion to centimeters or other units. All-zero decimal places retain
+integer wording (`1.00` produces `um metro`). Exact multiples of one million
+receive the preposition `de` before the plural unit.
 
 ```js
 extenso('1000000', {
@@ -300,6 +308,10 @@ available.
 `locale` controls vocabulary, while `scale` controls the number scale. Use
 `scale: 'long'` with non-Brazilian locales when you want the long scale adopted
 in those countries and territories.
+
+Scale-name localization matches complete words from the scale list.
+Custom names with similar endings, such as `grilhão` and `grilhões`, retain
+their spelling in every locale.
 
 Examples:
 
@@ -468,6 +480,10 @@ extenso('0', {
 
 It accepts integers from 0 through 1000 and defaults to 2. Built-in currencies
 keep two decimal places. This option cannot be combined with `currency.code`.
+
+When the subunit quantity is an exact multiple of one million, it uses `de`,
+just like the main unit. For example, `0.1` with `fractionDigits: 7` and
+subunit names `ficha`/`fichas` is written as `um milhão de fichas`.
 
 ```js
 extenso('1.2345', {

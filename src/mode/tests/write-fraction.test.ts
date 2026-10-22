@@ -19,3 +19,10 @@ test('writeFraction(): should write powers of ten and other denominators', (t) =
         'um milésimo milionésimo',
     )
 })
+
+test('writeFraction(): should pluralize compound denominators', (t) => {
+    t.is(writeFraction('1', '10000'), 'um décimo milésimo')
+    t.is(writeFraction('2', '10000'), 'dois décimos milésimos')
+    t.is(writeFraction('0', '100000'), 'zero centésimos milésimos')
+    t.is(writeFraction('2', '1000000000', Scales.LONG), 'dois milésimos milionésimos')
+})

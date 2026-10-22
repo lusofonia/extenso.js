@@ -60,7 +60,7 @@ test('extenso(): should handle MEASUREMENT mode', (t) => {
     t.is(extenso('2.5', {
         mode: Modes.MEASUREMENT,
         unit,
-    }), 'dois inteiros e cinco décimos quilogramas')
+    }), 'dois inteiros e cinco décimos de quilograma')
     t.is(extenso('-1000000', {
         mode: Modes.MEASUREMENT,
         unit,

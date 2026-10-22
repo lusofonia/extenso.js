@@ -1,5 +1,16 @@
 import Locales from '../ts/enum/locales.enum'
+import Scales from '../ts/enum/scales.enum'
+import listFrom1000 from '../lists/list-from-1000'
 import type { ExtensoLocale } from '../types'
+
+// Only named scales change spelling; similar suffixes in custom units do not.
+const translatedScales = listFrom1000[Scales.SHORT].slice(2)
+    .map(name => name.replace('ão', '(?:ão|ões)'))
+    .join('|')
+const scalePattern = new RegExp(
+    `(?<![\\p{L}\\p{M}])(?:${translatedScales})(?![\\p{L}\\p{M}])`,
+    'gu',
+)
 
 const translate = (text: string, locale: ExtensoLocale = Locales.BR): string => {
     switch (locale) {
@@ -17,8 +28,8 @@ const translate = (text: string, locale: ExtensoLocale = Locales.BR): string => 
             .replace(/\bdezenove\b/g, 'dezanove')
 
         return text
-            .replace(/[^m]ilh(ão|ões)/g, (suffix: string): string => {
-                return suffix.replace(/h/g, 'i')
+            .replace(scalePattern, (name: string): string => {
+                return name.replace('h', 'i')
             })
     case Locales.BR:
     default:

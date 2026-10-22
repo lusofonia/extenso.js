@@ -12,3 +12,9 @@ test('pluralize(): should return plural form when count is not 1', t => {
     t.is(pluralize('banana', 2), 'bananas')
     t.is(pluralize('orange', 10), 'oranges')
 })
+
+test('pluralize(): should inflect every part of compound number names', t => {
+    t.is(pluralize('décimo milésimo', 1), 'décimo milésimo')
+    t.is(pluralize('décimo milésimo', 2), 'décimos milésimos')
+    t.is(pluralize('milésimo milionésimo', 0), 'milésimos milionésimos')
+})

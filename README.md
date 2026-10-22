@@ -189,21 +189,30 @@ extenso('2.5', {
     gender: 'male'
   }
 })
-//=> 'dois inteiros e cinco décimos quilogramas'
+//=> 'dois inteiros e cinco décimos de quilograma'
 ```
 
 O modo `fraction` aceita numeradores inteiros e denominadores inteiros positivos.
 A fração é escrita exatamente como informada, sem simplificação automática.
 Denominadores de 2 a 10 usam seus nomes usuais; potências de dez usam formas
 como `centésimo` e `milésimo`; os demais são escritos com `avos`.
+Denominadores compostos flexionam todos os componentes no plural:
+`extenso('2/10000', { mode: 'fraction' })` retorna `dois décimos milésimos`.
+Isso também vale para decimais na escala longa:
+`extenso('0.000000002', { scale: 'long' })` retorna `dois milésimos milionésimos`.
 
 ## `options.unit` [*object*]
 
 > Define a unidade usada pelo modo `measurement`.
 
 Informe os nomes no singular e plural e o gênero gramatical (`male` ou
-`female`). A unidade é obrigatória no modo `measurement`. Valores decimais usam
-o plural, e múltiplos exatos de um milhão recebem a preposição `de`.
+`female`). A unidade é obrigatória no modo `measurement`. Valores com parte
+fracionária não nula usam `de` seguido da unidade no singular: `0.2` metro é
+escrito como `dois décimos de metro`. A unidade informada é mantida, sem
+conversão automática para centímetros ou outras unidades. Casas decimais
+formadas somente por zeros mantêm a escrita inteira (`1.00` resulta em
+`um metro`). Múltiplos exatos de um milhão recebem a preposição `de` antes
+da unidade no plural.
 
 ```js
 extenso('1000000', {
@@ -302,6 +311,10 @@ linguísticas verificáveis.
 `locale` controla o vocabulário, enquanto `scale` controla a escala numérica.
 Use `scale: 'long'` com as localidades não brasileiras quando quiser a escala
 longa adotada nesses países e territórios.
+
+A adaptação dos nomes de escala reconhece palavras completas da lista de
+escalas. Nomes personalizados com terminações semelhantes, como `grilhão` e
+`grilhões`, mantêm sua grafia em todas as localidades.
 
 Exemplos:
 
@@ -468,6 +481,10 @@ extenso('0', {
 
 Aceita inteiros de 0 a 1000 e usa 2 por padrão. Moedas incorporadas mantêm duas
 casas decimais. Esta opção não pode ser combinada com `currency.code`.
+
+Quando a quantidade de subunidades é um múltiplo exato de um milhão, usa-se
+`de`, como na unidade principal. Por exemplo, `0.1` com `fractionDigits: 7`
+e subunidade `ficha`/`fichas` é escrito como `um milhão de fichas`.
 
 ```js
 extenso('1.2345', {
